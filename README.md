@@ -1,15 +1,15 @@
 # The Winning Shot
 
-The website, plus two small background functions that keep the scores current.
+The website, plus small background functions for live scores and Who Better? votes.
 
 ## What's in here
 
 | Path | What it does |
 |---|---|
 | `public/index.html` | The website. |
-| `netlify/functions/refresh-scores.mjs` | Runs every hour. Pulls NFL, NBA, MLB and Premier League games from API-Sports and saves them. |
-| `netlify/functions/scores.mjs` | Hands the saved scores to the page at `/api/scores`. |
-| `netlify/lib/sports.mjs` | The shared code: which leagues, how to read API-Sports data, how long to keep games (8 days). |
+| `netlify/functions/refresh-scores.mjs` | Runs every 10 minutes. Pulls NFL, NBA, MLB and Premier League games from ESPN's public scoreboard and saves them. |
+| `netlify/functions/scores.mjs` | Hands the scores to the page at `/api/scores`, refreshing them first if they're more than 30 seconds old during live games (5 minutes otherwise). |
+| `netlify/lib/sports.mjs` | The shared code: which leagues, how to read ESPN's scoreboard, how long to keep games (8 days). |
 | `netlify.toml`, `package.json` | Settings Netlify reads when it builds the site. |
 
 What updates on its own: the score ticker, the Biggest Wins panel (NFL, last 7 days) and the Results list.

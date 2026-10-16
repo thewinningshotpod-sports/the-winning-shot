@@ -1,4 +1,5 @@
-// Runs every hour on Netlify's schedule and saves fresh scores.
+// Runs every 10 minutes on Netlify's schedule so scores stay current even when nobody is on the site.
+// While people are visiting, /api/scores refreshes more often on its own.
 import { refresh } from "../lib/sports.mjs";
 
 export default async () => {
@@ -6,4 +7,4 @@ export default async () => {
   console.log(`Saved ${data.games.length} games. Errors: ${data.errors.length}`);
 };
 
-export const config = { schedule: "@hourly" };
+export const config = { schedule: "*/10 * * * *" };

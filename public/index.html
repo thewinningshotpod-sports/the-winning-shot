@@ -401,7 +401,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
 
 <footer>
   <div class="wrap">
-    <span>© 2026 The Winning Shot. Scores and box-score stats from league data feeds, as of Oct 15, 2026.</span>
+    <span>© 2026 The Winning Shot. Live scores from ESPN. Story stats from league box scores.</span>
     <span>Football · Basketball · Baseball · Soccer</span>
   </div>
 </footer>
@@ -474,8 +474,7 @@ const TOP = ["bills-rams","lfc-mci","mil-lad","was-nyg"];
 const GAMES = [
  ["NFL","Final/OT","BUF",37,"LA",34],["MLB","Final","MIL",6,"LAD",2],
  ["EPL","FT","MCI",3,"LFC",0],["NFL","Final/OT","NYG",27,"WAS",27],["MLB","Final","CLE",1,"TB",3],
- ["EPL","FT","NEW",1,"COV",4],["NFL","Final","LV",17,"NE",45],
- ["MLB","Today 1:00 PM","TB",null,"CLE",null],["MLB","Tonight 8:00 PM","MIL",null,"LAD",null],["NFL","Tonight 8:15 PM","SEA",null,"DEN",null]
+ ["EPL","FT","NEW",1,"COV",4],["NFL","Final","LV",17,"NE",45]
 ];
 
 const RANK = [
@@ -607,9 +606,10 @@ function applyLive(data){
   const games=(data.games||[]).filter(g=>g&&g.home&&g.away&&g.date);
   if(!games.length)return;
   LIVE={...data,games};
-  const played=games.filter(g=>g.status!=="scheduled").sort((a,b)=>b.date.localeCompare(a.date));
+  const rank=g=>g.status==="live"?0:1;
+  const played=games.filter(g=>g.status!=="scheduled").sort((a,b)=>rank(a)-rank(b)||b.date.localeCompare(a.date));
   const next=games.filter(g=>g.status==="scheduled"&&new Date(g.date)>Date.now()).sort((a,b)=>a.date.localeCompare(b.date));
-  const tick=[...played.slice(0,16),...next.slice(0,4)].map(g=>g.status==="scheduled"
+  const tick=[...played.slice(0,18),...next.slice(0,6)].map(g=>g.status==="scheduled"
     ?[g.league,`${dayLabel(g.date)} ${clock(g.date)}`,g.away.short,null,g.home.short,null]
     :[g.league,g.statusText,g.away.short,g.away.score,g.home.short,g.home.score,g.status==="live"]);
   if(tick.length)$("#track").innerHTML=tick.map(gameHTML).join("")+tick.map(gameHTML).join("");
@@ -721,7 +721,7 @@ function renderPicks(){
   const agreed=wk.games.filter(g=>{const ps=people.map(p=>g.picks[p]);return ps.every(Boolean)&&ps.every(x=>x===ps[0])}).length;
   const net=r=>r[0]-r[1];
 
-  if(wr.graded){
+  if(wr.graded&&anyPick){
     const best=Math.max(...people.map(p=>net(wr.rec[p]))),leaders=people.filter(p=>net(wr.rec[p])===best),r=wr.rec[leaders[0]];
     $("#pkEyebrow").textContent=`The Graded Sheet · ${wk.label} · ${wr.graded} of ${n} graded`;
     $("#pkTitle").textContent=leaders.length===1?`${leaders[0]} went ${word(r[0])} and ${word(r[1])}`:`${listNames(leaders.map(nameCase))} tied at ${word(r[0])} and ${word(r[1])}`;
@@ -744,7 +744,7 @@ function renderPicks(){
   const played=people.some(p=>G.season[p][0]+G.season[p][1]>0);
   $("#pkStand").innerHTML=people.map(p=>`<div class="person"><span class="name"><span class="mk" ${played&&net(G.season[p])===bestSeason?`data-mark="underline" data-seed="lead-${p}"`:""}>${esc(p)}</span></span><span class="rec">${G.season[p][0]}-${G.season[p][1]}</span><span class="wk">${esc(wk.label)}: ${wr.rec[p][0]}-${wr.rec[p][1]}</span></div>`).join("");
 
-  $("#pkKey").innerHTML=wr.graded
+  $("#pkKey").innerHTML=wr.graded&&anyPick
     ?`<span><span class="pk" data-mark="check" data-seed="key-ck">JAX</span>right</span><span><span class="pk" data-mark="strike" data-seed="key-st">CLE</span>wrong</span><span><span class="pk tie" data-mark="dash" data-seed="key-ds">ATL</span>tie, counts for nobody</span><span><span class="pk q" data-mark="question" data-seed="key-q"></span>no pick</span>`
     :`<span><span class="pk" data-mark="circle" data-seed="key-ci">SEA</span>went against the other two</span><span><span class="pk q" data-mark="question" data-seed="key-q"></span>no pick yet</span>`;
 
@@ -1008,8 +1008,12 @@ fetch("whobetter.txt",{cache:"no-store"}).then(r=>r.ok?r.text():Promise.reject()
 fetch("picks.txt",{cache:"no-store"}).then(r=>r.ok?r.text():Promise.reject()).then(t=>{if(/WEEK\s/i.test(t)){PICKS=parsePicks(t);if(view==="picks")renderPicks()}}).catch(()=>{});
 
 renderTabs();renderGrid();renderPoll();setView(view);
-fetch("/api/scores",{cache:"no-store"}).then(r=>r.ok?r.json():null).then(d=>{if(d)applyLive(d)}).catch(()=>{});
-setInterval(()=>{fetch("/api/scores",{cache:"no-store"}).then(r=>r.ok?r.json():null).then(d=>{if(d)applyLive(d)}).catch(()=>{})},5*60*1000);
+/* Check for new scores: every 30 seconds while a game is live, every 5 minutes otherwise. */
+function pollScores(){
+  fetch("/api/scores",{cache:"no-store"}).then(r=>r.ok?r.json():null).then(d=>{if(d)applyLive(d)}).catch(()=>{})
+    .finally(()=>{const live=LIVE&&LIVE.games.some(g=>g.status==="live");setTimeout(pollScores,live?30e3:5*60e3)});
+}
+pollScores();
 </script>
 
 </body>
