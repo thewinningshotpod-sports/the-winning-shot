@@ -79,3 +79,10 @@ Each browser can vote once per question per matchup. That stops casual double-vo
 - `errors` says the key isn't set: re-check step 3.3, then redeploy.
 - `errors` mentions a plan, subscription or access: that sport isn't enabled on your API-Sports account.
 - A league shows nothing: it may be out of season, or API-Sports may use a different season label for it. The season rules are at the top of `netlify/lib/sports.mjs`.
+
+## Watch (YouTube)
+
+The Watch page and the homepage's "Latest episode" read the channel's public feed through `/api/videos`
+(`netlify/functions/videos.mjs`, channel ID `UCAl6bIUsXnVVBUrrWC841mg`). Nothing to update by hand:
+upload to YouTube and the newest episode shows on the site within about 10 minutes.
+YouTube's feed lists the 15 most recent uploads; Shorts appear in the grid but never as the featured episode.
