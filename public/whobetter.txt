@@ -1,0 +1,127 @@
+# WHO BETTER? · THE WINNING SHOT
+#
+# This file runs the Who Better? tab. Lines that start with # are notes and never show on the site.
+#
+# MATCHUPS are yours. They show first, in the order listed here (put the newest at the top).
+# Format:
+#   MATCHUP: Player A vs Player B | League Position | HUNDO: Player A | JON: Player B | COLLIN: Player A
+# The takes after the league are optional. Leave them off and the card just shows the vote.
+# Use the same spelling as the PLAYER lines below so votes stay together.
+#
+# PLAYERS feed the endless feed. After your matchups run out, the site pairs players
+# from the same league and position at random, forever.
+# Format:
+#   PLAYER: Name | League | Position | active
+#   PLAYER: Name | League | Position | all-time
+# "active" players get both questions (right now AND all time).
+# "all-time" players only get the all-time question. Use it for anyone retired,
+# or anyone whose "right now" question wouldn't make sense.
+# Check this list now and then: when someone retires, change active to all-time.
+#
+# PHOTOS come from each player's Wikipedia page (freely licensed photos only, credited on the card).
+# If the wrong person or no photo shows up, add the exact Wikipedia page title:
+#   PLAYER: Josh Allen | NFL | QB | active | wiki: Josh Allen (quarterback)
+# Or use your own photo (one you took or have the rights to):
+#   PLAYER: Josh Allen | NFL | QB | active | photo: https://yoursite.com/photos/allen.jpg
+
+MATCHUP: Michael Jordan vs LeBron James | NBA Player
+MATCHUP: Patrick Mahomes vs Josh Allen | NFL QB
+MATCHUP: Tom Brady vs Patrick Mahomes | NFL QB
+MATCHUP: Lionel Messi vs Cristiano Ronaldo | Soccer Forward
+MATCHUP: Shohei Ohtani vs Aaron Judge | MLB Hitter
+
+# NFL quarterbacks
+PLAYER: Patrick Mahomes | NFL | QB | active
+PLAYER: Josh Allen | NFL | QB | active | wiki: Josh Allen (quarterback)
+PLAYER: Lamar Jackson | NFL | QB | active
+PLAYER: Joe Burrow | NFL | QB | active
+PLAYER: Jalen Hurts | NFL | QB | active
+PLAYER: Jayden Daniels | NFL | QB | active
+PLAYER: C.J. Stroud | NFL | QB | active
+PLAYER: Justin Herbert | NFL | QB | active
+PLAYER: Tom Brady | NFL | QB | all-time
+PLAYER: Peyton Manning | NFL | QB | all-time
+PLAYER: Joe Montana | NFL | QB | all-time
+PLAYER: Dan Marino | NFL | QB | all-time
+PLAYER: John Elway | NFL | QB | all-time
+PLAYER: Brett Favre | NFL | QB | all-time
+
+# NFL running backs
+PLAYER: Saquon Barkley | NFL | RB | active
+PLAYER: Bijan Robinson | NFL | RB | active
+PLAYER: Jahmyr Gibbs | NFL | RB | active
+PLAYER: Christian McCaffrey | NFL | RB | active
+PLAYER: De'Von Achane | NFL | RB | active
+PLAYER: Barry Sanders | NFL | RB | all-time
+PLAYER: Walter Payton | NFL | RB | all-time
+PLAYER: Emmitt Smith | NFL | RB | all-time
+PLAYER: Jim Brown | NFL | RB | all-time
+PLAYER: LaDainian Tomlinson | NFL | RB | all-time
+PLAYER: Adrian Peterson | NFL | RB | all-time
+
+# NFL receivers
+PLAYER: Justin Jefferson | NFL | WR | active
+PLAYER: Ja'Marr Chase | NFL | WR | active
+PLAYER: CeeDee Lamb | NFL | WR | active
+PLAYER: Puka Nacua | NFL | WR | active
+PLAYER: Amon-Ra St. Brown | NFL | WR | active
+PLAYER: Malik Nabers | NFL | WR | active
+PLAYER: Jerry Rice | NFL | WR | all-time
+PLAYER: Randy Moss | NFL | WR | all-time
+PLAYER: Calvin Johnson | NFL | WR | all-time
+PLAYER: Terrell Owens | NFL | WR | all-time
+PLAYER: Larry Fitzgerald | NFL | WR | all-time
+
+# NBA
+PLAYER: Nikola Jokic | NBA | Player | active
+PLAYER: Shai Gilgeous-Alexander | NBA | Player | active
+PLAYER: Giannis Antetokounmpo | NBA | Player | active
+PLAYER: Luka Doncic | NBA | Player | active
+PLAYER: Victor Wembanyama | NBA | Player | active
+PLAYER: Anthony Edwards | NBA | Player | active | wiki: Anthony Edwards (basketball)
+PLAYER: Jayson Tatum | NBA | Player | active
+PLAYER: LeBron James | NBA | Player | all-time
+PLAYER: Michael Jordan | NBA | Player | all-time
+PLAYER: Kobe Bryant | NBA | Player | all-time
+PLAYER: Magic Johnson | NBA | Player | all-time
+PLAYER: Larry Bird | NBA | Player | all-time
+PLAYER: Kareem Abdul-Jabbar | NBA | Player | all-time
+PLAYER: Shaquille O'Neal | NBA | Player | all-time
+PLAYER: Tim Duncan | NBA | Player | all-time
+
+# MLB hitters
+PLAYER: Shohei Ohtani | MLB | Hitter | active
+PLAYER: Aaron Judge | MLB | Hitter | active
+PLAYER: Juan Soto | MLB | Hitter | active
+PLAYER: Bobby Witt Jr. | MLB | Hitter | active
+PLAYER: Mookie Betts | MLB | Hitter | active
+PLAYER: Ronald Acuna Jr. | MLB | Hitter | active
+PLAYER: Babe Ruth | MLB | Hitter | all-time
+PLAYER: Willie Mays | MLB | Hitter | all-time
+PLAYER: Hank Aaron | MLB | Hitter | all-time
+PLAYER: Ken Griffey Jr. | MLB | Hitter | all-time
+PLAYER: Barry Bonds | MLB | Hitter | all-time
+PLAYER: Mickey Mantle | MLB | Hitter | all-time
+
+# MLB pitchers
+PLAYER: Tarik Skubal | MLB | Pitcher | active
+PLAYER: Paul Skenes | MLB | Pitcher | active
+PLAYER: Zack Wheeler | MLB | Pitcher | active
+PLAYER: Blake Snell | MLB | Pitcher | active
+PLAYER: Sandy Koufax | MLB | Pitcher | all-time
+PLAYER: Pedro Martinez | MLB | Pitcher | all-time
+PLAYER: Randy Johnson | MLB | Pitcher | all-time
+PLAYER: Greg Maddux | MLB | Pitcher | all-time
+PLAYER: Nolan Ryan | MLB | Pitcher | all-time
+
+# Soccer
+PLAYER: Erling Haaland | Soccer | Forward | active
+PLAYER: Kylian Mbappe | Soccer | Forward | active
+PLAYER: Lamine Yamal | Soccer | Forward | active
+PLAYER: Lionel Messi | Soccer | Forward | active
+PLAYER: Cristiano Ronaldo | Soccer | Forward | active
+PLAYER: Pele | Soccer | Forward | all-time
+PLAYER: Diego Maradona | Soccer | Forward | all-time
+PLAYER: Ronaldo Nazario | Soccer | Forward | all-time | wiki: Ronaldo (Brazilian footballer)
+PLAYER: Thierry Henry | Soccer | Forward | all-time
+PLAYER: Johan Cruyff | Soccer | Forward | all-time

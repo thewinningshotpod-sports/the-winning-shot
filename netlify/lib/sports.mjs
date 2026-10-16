@@ -1,5 +1,5 @@
 // Shared code for The Winning Shot's score updates.
-// Pulls games from API-Sports for five leagues, turns them into one simple
+// Pulls games from API-Sports for four leagues, turns them into one simple
 // format, and saves the last eight days in Netlify Blobs under "scores/latest".
 
 import { getStore } from "@netlify/blobs";
@@ -15,8 +15,6 @@ export const LEAGUES = [
     season: ({ y, m }) => (m >= 8 ? `${y}-${y + 1}` : `${y - 1}-${y}`) },
   { code: "MLB", host: "v1.baseball.api-sports.io", path: "/games", league: 1,
     season: ({ y }) => y },
-  { code: "NHL", host: "v1.hockey.api-sports.io", path: "/games", league: 57,
-    season: ({ y, m }) => (m >= 8 ? y : y - 1) },
   { code: "EPL", host: "v3.football.api-sports.io", path: "/fixtures", league: 39,
     season: ({ y, m }) => (m >= 7 ? y : y - 1) },
 ];

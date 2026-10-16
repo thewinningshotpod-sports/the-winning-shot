@@ -1,0 +1,36 @@
+# THE WINNING SHOT · PICKS
+#
+# This file runs the Picks tab. Lines that start with # are notes and never show on the site.
+#
+# To post picks:
+#   1. Find the game's line under this week.
+#   2. Type each person's pick after their name, using the team code from the matchup (for example SEA).
+#   3. When a game is final, type the winner after WINNER: (or TIE).
+#      Once live scores are working, finished games are graded automatically and WINNER can stay blank.
+#   4. Click "Commit changes". The site updates in about a minute.
+#
+# To start a new week: copy a whole WEEK block (the WEEK line and its games),
+# paste it directly under STARTING RECORDS, and change the label and games.
+# The newest week goes at the top. Older weeks stay below and keep counting toward the season records.
+#
+# STARTING RECORDS are each person's records from before the first week in this file.
+# Set them once and leave them.
+
+PICKERS: HUNDO, JON, COLLIN
+STARTING RECORDS: HUNDO 0-0 | JON 0-0 | COLLIN 0-0
+
+WEEK Oct 15–19
+SEA at DEN | Thu 8:15 PM | HUNDO: | JON: | COLLIN: | WINNER:
+HOU at JAX | Sun 9:30 AM | HUNDO: | JON: | COLLIN: | WINNER:
+TEN at IND | Sun 1:00 PM | HUNDO: | JON: | COLLIN: | WINNER:
+CAR at PHI | Sun 1:00 PM | HUNDO: | JON: | COLLIN: | WINNER:
+PIT at TB | Sun 1:00 PM | HUNDO: | JON: | COLLIN: | WINNER:
+BAL at CLE | Sun 1:00 PM | HUNDO: | JON: | COLLIN: | WINNER:
+NO at NYG | Sun 1:00 PM | HUNDO: | JON: | COLLIN: | WINNER:
+CHI at ATL | Sun 1:00 PM | HUNDO: | JON: | COLLIN: | WINNER:
+NYJ at NE | Sun 1:00 PM | HUNDO: | JON: | COLLIN: | WINNER:
+ARI at LAR | Sun 4:05 PM | HUNDO: | JON: | COLLIN: | WINNER:
+LAC at KC | Sun 4:25 PM | HUNDO: | JON: | COLLIN: | WINNER:
+BUF at LV | Sun 4:25 PM | HUNDO: | JON: | COLLIN: | WINNER:
+DAL at GB | Sun 8:20 PM | HUNDO: | JON: | COLLIN: | WINNER:
+WAS at SF | Mon 8:15 PM | HUNDO: | JON: | COLLIN: | WINNER:

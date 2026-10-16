@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="The Winning Shot: scores, results and stories from the NFL, MLB, NHL, NBA and Premier League.">
+<meta name="description" content="The Winning Shot: scores, results, stories and weekly picks.">
 <title>The Winning Shot</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,7 +15,7 @@
 :root{
   --bg:#ECEADF; --bg-top:#F0EEE5; --bg-bottom:#E5E3D8; --surface:#F2F0EA; --fg:#1A1A16; --muted:#6B6A63; --line:rgba(26,26,22,.15);
   --accent:#15503A; --accent-ink:#F2F0EA; --flag:#D8E4C4; --flag-ink:#1A1A16;
-  --up:#15503A; --down:#6B6A63; --deep:#10382A; --bone:#F2F0EA; --plate:transparent;
+  --up:#15503A; --down:#6B6A63; --deep:#10382A; --bone:#F2F0EA; --plate:transparent; --deep-a:#17543C; --deep-b:#0B2A20;
   --display:"Poppins",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
   --body:"Poppins",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
   --mono:"TWS Mono","DejaVu Sans Mono",Menlo,Consolas,ui-monospace,monospace;
@@ -137,6 +137,107 @@ aside{display:grid;gap:30px;align-content:start}
 .news input{border:0;border-radius:8px;padding:11px 12px;font:inherit;background:var(--surface);color:var(--fg)}
 .news button{border:0;border-radius:8px;padding:12px;font:700 14px/1 var(--display);text-transform:uppercase;background:var(--fg);color:var(--bg)}
 .news .msg{font-size:13px;margin:8px 0 0;font-weight:600}
+
+/* Picks */
+.tab.tab-picks{color:var(--accent)}
+.tab.tab-picks[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.picks{padding-block:36px 64px;display:grid;gap:26px}
+.pk-head{display:grid;gap:14px;max-width:820px}
+.pk-hero{font:800 clamp(44px,9vw,96px)/.9 var(--display);text-transform:uppercase;letter-spacing:var(--track)}
+.pk-lede{margin:0;max-width:62ch;font-size:16px;color:var(--muted)}
+.pk-weeks{display:flex;flex-wrap:wrap;gap:8px 26px}
+.pk-weeks button{border:0;background:none;padding:6px 0;font:400 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.pk-weeks button[aria-pressed="true"]{color:var(--fg);font-weight:700}
+.standings{display:grid;grid-template-columns:repeat(var(--n,3),minmax(0,1fr));border-top:2px solid var(--fg)}
+.person{padding:18px 16px 20px 0;display:grid;gap:10px;align-content:start;min-width:0}
+.person + .person{padding-left:16px;border-left:1px solid var(--line)}
+.person .name{font:800 clamp(22px,5vw,46px)/.95 var(--display);text-transform:uppercase;letter-spacing:var(--track);width:max-content;max-width:100%}
+.person .rec{font:700 clamp(24px,5vw,42px)/1 var(--mono);font-variant-numeric:tabular-nums}
+.person .wk{font:400 12px/1.4 var(--mono);color:var(--muted)}
+.pk-key{display:flex;flex-wrap:wrap;gap:8px 26px;font:400 12px/1.4 var(--mono);color:var(--muted)}
+.pk-key > span{display:inline-flex;align-items:center;gap:10px}
+.pgrid{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.pgrid th{font:700 clamp(12px,2.2vw,18px)/1 var(--display);text-transform:uppercase;letter-spacing:var(--track);text-align:right;padding:0 0 12px;width:var(--col,120px)}
+.pgrid th:first-child{text-align:left;width:auto;font:400 11px/1 var(--mono);letter-spacing:.14em;color:var(--muted)}
+.pgrid td{height:62px;border-top:1px solid var(--line);text-align:right;padding:0;vertical-align:middle}
+.pgrid td:first-child{text-align:left;white-space:nowrap}
+.pgrid .gm{display:block;font:400 clamp(13px,2.4vw,19px)/1.2 var(--mono)}
+.pgrid .gm .at{color:var(--muted)}
+.pgrid .gm .w{font-weight:700}
+.pgrid .gm .l{color:var(--muted)}
+.pgrid .kick{display:block;font:400 11px/1.4 var(--mono);letter-spacing:.06em;color:var(--muted);margin-top:3px}
+.pgrid tr.total td{border-top:2px solid var(--fg);height:auto;padding-top:14px}
+.pgrid tr.total td:first-child{font:400 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.pk{position:relative;display:inline-block;font:700 clamp(14px,2.4vw,19px)/1.15 var(--mono);padding-inline:2px;margin-right:12px}
+.pk.tie{color:var(--muted)}
+.pk.q{width:2.2ch;height:1.15em;vertical-align:middle}
+.pk svg,.mk svg{position:absolute;overflow:visible;pointer-events:none}
+.pk svg path,.mk svg path{fill:none;stroke:var(--accent);stroke-width:2.3;stroke-linecap:round;stroke-linejoin:round}
+.mk{position:relative;display:inline-block}
+.pk-key .pk{font-size:13px;margin-right:4px}
+.pk-sub{font:800 clamp(24px,4vw,40px)/.95 var(--display);text-transform:uppercase;letter-spacing:var(--track);padding-top:10px}
+.splits{display:grid;grid-template-columns:repeat(var(--n,3),minmax(0,1fr));border-top:1px solid var(--line);margin-top:14px}
+.split{padding:16px 14px 16px 0;display:grid;gap:12px;align-content:start;min-width:0}
+.split + .split{padding-left:14px;border-left:1px solid var(--line)}
+.split h3{font:800 clamp(17px,3vw,24px)/1 var(--display);text-transform:uppercase;letter-spacing:var(--track)}
+.split .n{font:400 12px/1.3 var(--mono);color:var(--muted)}
+.split ul{list-style:none;margin:0;padding:0;display:grid;gap:16px}
+.split li{display:grid;gap:12px;font:400 13px/1.3 var(--mono);color:var(--muted)}
+.split li .g{color:var(--fg)}
+.split li .pk{font-size:15px;margin-left:8px}
+.split .none{font:400 13px/1.4 var(--mono);color:var(--muted)}
+.pk-note{margin:0;font:400 12px/1.6 var(--mono);color:var(--muted);border-top:1px solid var(--line);padding-top:14px;max-width:80ch}
+@media (max-width:640px){
+  .pgrid{--col:62px}
+  .pk{margin-right:6px}
+  .standings,.splits{grid-template-columns:1fr}
+  .person + .person,.split + .split{padding-left:0;border-left:0;border-top:1px solid var(--line)}
+  .person{grid-template-columns:minmax(0,1fr) auto;align-items:baseline;padding:14px 0}
+  .person .wk{grid-column:1/-1}
+}
+
+/* Who Better? */
+.wb{padding-block:36px 80px;display:grid;gap:26px}
+.wb-head{display:grid;gap:14px;max-width:820px}
+.wb-tally{font:400 12px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.wb-tally b{color:var(--fg)}
+.wb-feed{display:grid;gap:22px;max-width:860px}
+.wb-card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px 22px 18px;display:grid;gap:18px;animation:wbIn .35s ease both}
+@keyframes wbIn{from{transform:translateY(8px)}to{transform:none}}
+.wb-top{display:flex;justify-content:space-between;gap:12px}
+.wb-face{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.wb-ph{margin:0;display:grid;gap:10px;align-content:start;min-width:0}
+.wb-img{position:relative;aspect-ratio:4/5;max-width:100%;border-radius:10px;overflow:hidden;background:linear-gradient(160deg,var(--deep-a),var(--deep-b))}
+.wb-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 18%;mix-blend-mode:luminosity;opacity:.92;transition:opacity .4s ease,filter .4s ease}
+.wb-img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(11,42,32,.55));pointer-events:none}
+.wb-ini{position:absolute;inset:0;display:grid;place-items:center;font:800 clamp(44px,9vw,84px)/1 var(--display);letter-spacing:var(--track);color:rgba(242,240,234,.85)}
+.wb-img.has .wb-ini{display:none}
+.wb-ph.picked .wb-img img{mix-blend-mode:normal;opacity:1}
+.wb-ph.picked .wb-img{box-shadow:0 0 0 3px var(--accent)}
+.wb-ph figcaption{font:800 clamp(18px,3.6vw,32px)/.95 var(--display);text-transform:uppercase;letter-spacing:var(--track);overflow-wrap:anywhere}
+.wb-ph:last-child figcaption{text-align:right}
+.wb-vs{position:absolute;left:50%;top:calc((100% - 3.2em) / 2);transform:translate(-50%,-50%);z-index:1;display:grid;place-items:center;width:46px;height:46px;border-radius:50%;background:var(--bone);color:#1A1A16;font:700 13px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;box-shadow:0 0 0 4px var(--surface)}
+.wb-credit{margin:0;font:400 10px/1.5 var(--mono);color:var(--muted)}
+.wb-credit:empty{display:none}
+.wb-credit a{color:inherit}
+.wb-q{display:grid;gap:10px;border-top:1px solid var(--line);padding-top:14px}
+.wb-ql{font:400 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.wb-opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.wb-opt{position:relative;overflow:visible;display:flex;justify-content:space-between;align-items:center;gap:10px;min-height:52px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--bg);font:600 15px/1.2 var(--body);text-align:left}
+.wb-opt:hover:not(:disabled){border-color:var(--accent)}
+.wb-opt:disabled{cursor:default}
+.wb-opt .fill{position:absolute;inset:0 auto 0 0;width:0;border-radius:9px;background:color-mix(in srgb,var(--accent) 14%,transparent);transition:width .6s cubic-bezier(.3,.7,.2,1)}
+.wb-opt .nm,.wb-opt .pc{position:relative}
+.wb-opt .pc{font:700 15px/1 var(--mono);font-variant-numeric:tabular-nums}
+.wb-opt.win{border-color:color-mix(in srgb,var(--accent) 55%,transparent)}
+.wb-meta{font:400 11px/1.4 var(--mono);color:var(--muted)}
+.wb-room{font:400 12px/1.6 var(--mono);color:var(--muted);border-top:1px dashed var(--line);padding-top:12px}
+.wb-room b{color:var(--fg);font-weight:700}
+.wb-more{justify-self:start;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:10px 18px;font-weight:600;font-size:13px}
+.wb-sentinel{height:1px}
+@media (min-width:700px){.wb-img{aspect-ratio:1/1}}
+@media (max-width:520px){.wb-card{padding:16px 14px 14px}.wb-face{gap:10px}.wb-vs{width:38px;height:38px;font-size:11px}.wb-opt{padding:10px;font-size:14px;min-height:46px}}
+@media (prefers-reduced-motion:reduce){.wb-card{animation:none}.wb-opt .fill{transition:none}}
 
 /* Results */
 .day{font:400 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);padding:18px 0 8px}
@@ -269,10 +370,39 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
   </div>
 </main>
 
+<section id="picksView" class="wrap picks" hidden aria-labelledby="pkTitle">
+  <div class="pk-head">
+    <p class="eyebrow" id="pkEyebrow"></p>
+    <h1 class="pk-hero" id="pkTitle"></h1>
+    <p class="pk-lede" id="pkLede"></p>
+  </div>
+  <div class="pk-weeks" id="pkWeeks" role="group" aria-label="Choose a week"></div>
+  <div class="standings" id="pkStand" aria-label="Season standings"></div>
+  <div class="pk-key" id="pkKey"></div>
+  <div style="overflow-x:auto"><table class="pgrid" id="pkGrid"></table></div>
+  <div id="pkSplitWrap">
+    <h2 class="pk-sub">Who went alone</h2>
+    <div class="splits" id="pkSplits"></div>
+  </div>
+  <p class="pk-note">Picks are straight up: pick the winner. A tie counts for nobody. Every sheet is graded once the games are final.</p>
+</section>
+
+<section id="wbView" class="wrap wb" hidden aria-labelledby="wbTitle">
+  <div class="wb-head">
+    <p class="eyebrow">Who Better? · Two players, two questions</p>
+    <h1 class="pk-hero" id="wbTitle">Who better?</h1>
+    <p class="pk-lede">Pick who's better right now and who's better all time, then see how everyone else voted. It keeps going as long as you do.</p>
+    <p class="wb-tally" id="wbTally"></p>
+  </div>
+  <div class="wb-feed" id="wbFeed" aria-live="polite"></div>
+  <div class="wb-sentinel" id="wbSentinel"></div>
+  <button class="wb-more" id="wbMore" type="button">Load more matchups</button>
+</section>
+
 <footer>
   <div class="wrap">
     <span>© 2026 The Winning Shot. Scores and box-score stats from league data feeds, as of Oct 15, 2026.</span>
-    <span>Football · Basketball · Baseball · Soccer · Hockey</span>
+    <span>Football · Basketball · Baseball · Soccer</span>
   </div>
 </footer>
 
@@ -298,8 +428,7 @@ const SPORTS = {
   football:{name:"Football",c1:"#17543C",c2:"#0B2A20"},
   basketball:{name:"Basketball",c1:"#33332D",c2:"#1A1A16"},
   baseball:{name:"Baseball",c1:"#15503A",c2:"#1A1A16"},
-  soccer:{name:"Soccer",c1:"#0B2A20",c2:"#17543C"},
-  hockey:{name:"Hockey",c1:"#1A1A16",c2:"#15503A"}
+  soccer:{name:"Soccer",c1:"#0B2A20",c2:"#17543C"}
 };
 
 /* Every result and figure below comes from league box scores and schedules as of Oct 15, 2026. */
@@ -324,10 +453,6 @@ const STORIES = [
   stats:[["3–0","Final"],["65%","City possession"],["15–10","Shots, City–Liverpool"]],
   src:"Match stats: Liverpool vs Manchester City, Premier League, Oct 11, 2026.",
   body:["Liverpool held Manchester City scoreless for 64 minutes on Sunday. City scored in the 65th, 68th and 78th minutes and won 3–0.","City had 65 percent of the ball and outshot Liverpool 15 to 10. Liverpool put five shots on target and none of them went in.","Liverpool picked up three yellow cards and had a player sent off for a second booking.","Liverpool visit Brentford on Saturday. City host Ipswich Town the same day."]},
- {id:"dal-col",sport:"hockey",tag:"Game Story",score:"3–2",title:"Stars win the rematch in a shootout",dek:"A night after losing to Colorado at home, Dallas beat the Avalanche 3–2 in Denver.",date:"Wed Oct 14",
-  stats:[["3–2","Final, shootout"],["27–22","Shots, Colorado–Dallas"],["0 for 4","Colorado power play"]],
-  src:"Box score: Dallas Stars at Colorado Avalanche, Oct 14, 2026. Colorado at Dallas, Oct 13, 2026.",
-  body:["Colorado won 3–2 in Dallas on Tuesday. On Wednesday the Stars returned the score in Denver and won 3–2 in a shootout.","Arttu Hyry scored a shorthanded goal for Dallas. Brock Nelson and Gabriel Landeskog scored for Colorado, and the teams were still level after overtime.","Roope Hintz and Jason Robertson scored in the shootout. Casey DeSmith was in goal for Dallas, and Colorado outshot the Stars 27 to 22.","Colorado went 0 for 4 on the power play."]},
  {id:"nba-open",sport:"basketball",tag:"Preview",score:"10.20",title:"NBA opening night is Tuesday",dek:"Celtics at Pistons, 76ers at Knicks and Thunder at Spurs open the season on October 20.",date:"Thu Oct 15",
   stats:[["3","Games on opening night"],["64.7%","Knicks win probability"],["11","Games the next night"]],
   src:"NBA schedule and pregame win probabilities as of Oct 15, 2026.",
@@ -347,9 +472,9 @@ const TOP = ["bills-rams","lfc-mci","mil-lad","was-nyg"];
 
 /* Ticker: [league, status, away, away score, home, home score] — null scores are upcoming games */
 const GAMES = [
- ["NFL","Final/OT","BUF",37,"LA",34],["MLB","Final","MIL",6,"LAD",2],["NHL","Final/SO","DAL",3,"COL",2],
+ ["NFL","Final/OT","BUF",37,"LA",34],["MLB","Final","MIL",6,"LAD",2],
  ["EPL","FT","MCI",3,"LFC",0],["NFL","Final/OT","NYG",27,"WAS",27],["MLB","Final","CLE",1,"TB",3],
- ["NHL","Final","MTL",4,"WSH",5],["EPL","FT","NEW",1,"COV",4],["NFL","Final","LV",17,"NE",45],
+ ["EPL","FT","NEW",1,"COV",4],["NFL","Final","LV",17,"NE",45],
  ["MLB","Today 1:00 PM","TB",null,"CLE",null],["MLB","Tonight 8:00 PM","MIL",null,"LAD",null],["NFL","Tonight 8:15 PM","SEA",null,"DEN",null]
 ];
 
@@ -390,8 +515,8 @@ $("#track").innerHTML = GAMES.map(gameHTML).join("")+GAMES.map(gameHTML).join(""
 let filter = store.get("tws-filter")||"all";
 if(filter!=="all"&&!SPORTS[filter]) filter="all";
 function renderTabs(){
-  const items=[["all","All"],...Object.entries(SPORTS).map(([k,v])=>[k,v.name])];
-  $("#tabs").innerHTML=items.map(([k,n])=>`<button class="tab" type="button" data-f="${k}" aria-pressed="${k===filter}">${n}</button>`).join("");
+  const items=[["all","All"],["picks","Picks"],["whobetter","Who Better?"],...Object.entries(SPORTS).map(([k,v])=>[k,v.name])];
+  $("#tabs").innerHTML=items.map(([k,n])=>`<button class="tab${VIEWS.includes(k)?" tab-picks":""}" type="button" data-f="${k}" aria-pressed="${view!=="stories"?k===view:k===filter}">${n}</button>`).join("");
 }
 function renderGrid(){
   const list=STORIES.filter(s=>filter==="all"||s.sport===filter).filter(s=>filter!=="all"||s.id!==STORIES[0].id);
@@ -404,7 +529,9 @@ function renderGrid(){
       <span class="meta">${s.date} · ${s.mins} min read</span></button>`).join("")
     : `<p class="empty">No stories here yet.</p>`;
 }
-$("#tabs").addEventListener("click",e=>{const b=e.target.closest(".tab");if(!b)return;filter=b.dataset.f;store.set("tws-filter",filter);renderTabs();renderGrid();renderResults()});
+$("#tabs").addEventListener("click",e=>{const b=e.target.closest(".tab");if(!b)return;
+  if(VIEWS.includes(b.dataset.f)){setView(b.dataset.f);return}
+  filter=b.dataset.f;store.set("tws-filter",filter);if(view!=="stories")setView("stories");renderTabs();renderGrid();renderResults()});
 
 /* Lead + top stories */
 const lead=STORIES[0];
@@ -463,7 +590,7 @@ const savedTheme=store.get("tws-theme");if(savedTheme==="dark"||savedTheme==="li
    On the live site, /api/scores is served by the site's own background function,
    which pulls from API-Sports every hour. If it isn't reachable (for example when
    this file is opened on its own), the page keeps the scores written into it above. */
-const LEAGUE_SPORT={NFL:"football",NBA:"basketball",MLB:"baseball",NHL:"hockey",EPL:"soccer"};
+const LEAGUE_SPORT={NFL:"football",NBA:"basketball",MLB:"baseball",EPL:"soccer"};
 const TZ="America/New_York";
 let LIVE=null;
 const dayKey=d=>d.toLocaleDateString("en-CA",{timeZone:TZ});
@@ -498,6 +625,7 @@ function applyLive(data){
   }
   if(data.updated) $(".logo-sub").textContent=`Scores updated ${dayLabel(data.updated).toLowerCase()} at ${clock(data.updated)} ET`;
   renderResults();
+  if(view==="picks")renderPicks();
 }
 
 function renderResults(){
@@ -514,7 +642,372 @@ function renderResults(){
     return `<li><span class="lg">${g.league}</span><span class="tm">${side(g.away,g.home,fin)}${side(g.home,g.away,fin)}</span><span class="st ${g.status==="live"?"live":""}">${esc(g.statusText||"")}</span></li>`}).join("")}</ul>`).join("");
 }
 
-renderTabs();renderGrid();renderPoll();
+/* ---------- Picks ----------
+   The Picks tab reads picks.txt (next to this page). If that file can't be loaded,
+   it uses the copy written into the page below. */
+const PICKS_FALLBACK = "# THE WINNING SHOT \u00b7 PICKS\n#\n# This file runs the Picks tab. Lines that start with # are notes and never show on the site.\n#\n# To post picks:\n#   1. Find the game's line under this week.\n#   2. Type each person's pick after their name, using the team code from the matchup (for example SEA).\n#   3. When a game is final, type the winner after WINNER: (or TIE).\n#      Once live scores are working, finished games are graded automatically and WINNER can stay blank.\n#   4. Click \"Commit changes\". The site updates in about a minute.\n#\n# To start a new week: copy a whole WEEK block (the WEEK line and its games),\n# paste it directly under STARTING RECORDS, and change the label and games.\n# The newest week goes at the top. Older weeks stay below and keep counting toward the season records.\n#\n# STARTING RECORDS are each person's records from before the first week in this file.\n# Set them once and leave them.\n\nPICKERS: HUNDO, JON, COLLIN\nSTARTING RECORDS: HUNDO 0-0 | JON 0-0 | COLLIN 0-0\n\nWEEK Oct 15\u201319\nSEA at DEN | Thu 8:15 PM | HUNDO: | JON: | COLLIN: | WINNER:\nHOU at JAX | Sun 9:30 AM | HUNDO: | JON: | COLLIN: | WINNER:\nTEN at IND | Sun 1:00 PM | HUNDO: | JON: | COLLIN: | WINNER:\nCAR at PHI | Sun 1:00 PM | HUNDO: | JON: | COLLIN: | WINNER:\nPIT at TB | Sun 1:00 PM | HUNDO: | JON: | COLLIN: | WINNER:\nBAL at CLE | Sun 1:00 PM | HUNDO: | JON: | COLLIN: | WINNER:\nNO at NYG | Sun 1:00 PM | HUNDO: | JON: | COLLIN: | WINNER:\nCHI at ATL | Sun 1:00 PM | HUNDO: | JON: | COLLIN: | WINNER:\nNYJ at NE | Sun 1:00 PM | HUNDO: | JON: | COLLIN: | WINNER:\nARI at LAR | Sun 4:05 PM | HUNDO: | JON: | COLLIN: | WINNER:\nLAC at KC | Sun 4:25 PM | HUNDO: | JON: | COLLIN: | WINNER:\nBUF at LV | Sun 4:25 PM | HUNDO: | JON: | COLLIN: | WINNER:\nDAL at GB | Sun 8:20 PM | HUNDO: | JON: | COLLIN: | WINNER:\nWAS at SF | Mon 8:15 PM | HUNDO: | JON: | COLLIN: | WINNER:\n";
+const NFL_ABBR={"Arizona Cardinals":"ARI","Atlanta Falcons":"ATL","Baltimore Ravens":"BAL","Buffalo Bills":"BUF","Carolina Panthers":"CAR","Chicago Bears":"CHI","Cincinnati Bengals":"CIN","Cleveland Browns":"CLE","Dallas Cowboys":"DAL","Denver Broncos":"DEN","Detroit Lions":"DET","Green Bay Packers":"GB","Houston Texans":"HOU","Indianapolis Colts":"IND","Jacksonville Jaguars":"JAX","Kansas City Chiefs":"KC","Las Vegas Raiders":"LV","Los Angeles Chargers":"LAC","Los Angeles Rams":"LAR","Miami Dolphins":"MIA","Minnesota Vikings":"MIN","New England Patriots":"NE","New Orleans Saints":"NO","New York Giants":"NYG","New York Jets":"NYJ","Philadelphia Eagles":"PHI","Pittsburgh Steelers":"PIT","San Francisco 49ers":"SF","Seattle Seahawks":"SEA","Tampa Bay Buccaneers":"TB","Tennessee Titans":"TEN","Washington Commanders":"WAS"};
+const ALIAS={LA:"LAR",JAC:"JAX",WSH:"WAS"};
+const code=s=>{s=String(s||"").trim().toUpperCase();return ALIAS[s]||s};
+const WORDS=["zero","one","two","three","four","five","six","seven","eight","nine","ten","eleven","twelve","thirteen","fourteen","fifteen","sixteen","seventeen","eighteen","nineteen","twenty"];
+const word=n=>WORDS[n]??String(n);
+const cap=s=>s?s[0].toUpperCase()+s.slice(1):s;
+const nameCase=n=>n?n[0]+n.slice(1).toLowerCase():n;
+const listNames=a=>a.length<2?a.join(""):a.slice(0,-1).join(", ")+" and "+a[a.length-1];
+const atHTML=(a,h,win)=>{const c=t=>win&&win!=="TIE"?(t===win?"w":"l"):"";return `<span class="${c(a)}">${a}</span> <span class="at">at</span> <span class="${c(h)}">${h}</span>`};
+
+function parsePicks(text){
+  const out={people:[],start:{},weeks:[]};let wk=null;
+  String(text).split(/\r?\n/).forEach(raw=>{
+    const line=raw.trim();if(!line||line.startsWith("#"))return;let m;
+    if((m=line.match(/^PICKERS:\s*(.+)$/i))){out.people=m[1].split(",").map(s=>s.trim().toUpperCase()).filter(Boolean);return}
+    if((m=line.match(/^STARTING RECORDS:\s*(.+)$/i))){m[1].split("|").forEach(p=>{const r=p.trim().match(/^(\S+)\s+(\d+)\s*[-–]\s*(\d+)/);if(r)out.start[r[1].toUpperCase()]=[+r[2],+r[3]]});return}
+    if((m=line.match(/^WEEK\s+(.+)$/i))){wk={label:m[1].trim(),games:[]};out.weeks.push(wk);return}
+    if(!wk)return;
+    const segs=line.split("|").map(s=>s.trim());
+    const mm=segs[0].match(/^(\S+)\s+(?:at|@)\s+(\S+)$/i);if(!mm)return;
+    const g={away:code(mm[1]),home:code(mm[2]),kick:"",picks:{},winner:""};
+    segs.slice(1).forEach(s=>{const kv=s.match(/^([A-Za-z]+)\s*:\s*(.*)$/);
+      if(kv){const k=kv[1].toUpperCase(),v=kv[2].trim();if(k==="WINNER")g.winner=code(v);else g.picks[k]=code(v)}
+      else if(s)g.kick=s});
+    wk.games.push(g);
+  });
+  if(!out.people.length)out.people=["HUNDO","JON","COLLIN"];
+  return out;
+}
+
+/* A game's result: typed WINNER first, otherwise a final from the live scores. */
+function resultOf(g){
+  if(g.winner)return {win:g.winner,score:null};
+  if(!LIVE)return {win:"",score:null};
+  const ab=t=>code(NFL_ABBR[t.name]||t.short);
+  const f=LIVE.games.find(x=>x.league==="NFL"&&x.status==="final"&&ab(x.home)===g.home&&ab(x.away)===g.away);
+  if(!f||f.home.score==null||f.away.score==null)return {win:"",score:null};
+  return {win:f.home.score===f.away.score?"TIE":(f.home.score>f.away.score?g.home:g.away),score:[f.away.score,f.home.score]};
+}
+function gradeAll(P){
+  const season={};P.people.forEach(p=>season[p]=[...(P.start[p]||[0,0])]);
+  const weeks=P.weeks.map(wk=>{
+    const rec={};P.people.forEach(p=>rec[p]=[0,0]);let graded=0;
+    wk.games.forEach(g=>{const r=resultOf(g);g.win=r.win;g.score=r.score;if(!g.win)return;graded++;if(g.win==="TIE")return;
+      P.people.forEach(p=>{const pk=g.picks[p];if(pk)rec[p][pk===g.win?0:1]++})});
+    return {rec,graded};
+  });
+  weeks.forEach(w=>P.people.forEach(p=>{season[p][0]+=w.rec[p][0];season[p][1]+=w.rec[p][1]}));
+  return {season,weeks};
+}
+function oddOne(g,people){
+  const ps=people.map(p=>g.picks[p]||"");if(ps.some(x=>!x)||ps.length<3)return -1;
+  for(let i=0;i<ps.length;i++){const o=ps.filter((_,j)=>j!==i);if(o.every(x=>x===o[0])&&ps[i]!==o[0])return i}
+  return -1;
+}
+
+let PICKS=parsePicks(PICKS_FALLBACK), pickWeek=0;
+const VIEWS=["picks","whobetter"];
+const viewFromHash=()=>{const h=location.hash.slice(1);return VIEWS.includes(h)?h:"stories"};
+let view = viewFromHash();
+
+function renderPicks(){
+  const P=PICKS,people=P.people;
+  document.querySelectorAll("#pkStand,#pkSplits").forEach(el=>el.style.setProperty("--n",people.length));
+  if(!P.weeks.length){$("#pkTitle").textContent="No picks yet";$("#pkLede").textContent="Add a week to picks.txt to start the sheet.";["#pkWeeks","#pkStand","#pkKey","#pkGrid"].forEach(s=>$(s).innerHTML="");$("#pkSplitWrap").hidden=true;return}
+  if(pickWeek>=P.weeks.length)pickWeek=0;
+  const G=gradeAll(P),wk=P.weeks[pickWeek],wr=G.weeks[pickWeek],n=wk.games.length;
+
+  $("#pkWeeks").innerHTML=P.weeks.map((w,i)=>`<button type="button" data-w="${i}" aria-pressed="${i===pickWeek}"><span class="mk" ${i===pickWeek?`data-mark="underline" data-seed="wk-${i}-${w.label}"`:""}>${esc(w.label)}</span></button>`).join("");
+
+  const anyPick=wk.games.some(g=>people.some(p=>g.picks[p]));
+  const odd=wk.games.map(g=>oddOne(g,people));
+  const agreed=wk.games.filter(g=>{const ps=people.map(p=>g.picks[p]);return ps.every(Boolean)&&ps.every(x=>x===ps[0])}).length;
+  const net=r=>r[0]-r[1];
+
+  if(wr.graded){
+    const best=Math.max(...people.map(p=>net(wr.rec[p]))),leaders=people.filter(p=>net(wr.rec[p])===best),r=wr.rec[leaders[0]];
+    $("#pkEyebrow").textContent=`The Graded Sheet · ${wk.label} · ${wr.graded} of ${n} graded`;
+    $("#pkTitle").textContent=leaders.length===1?`${leaders[0]} went ${word(r[0])} and ${word(r[1])}`:`${listNames(leaders.map(nameCase))} tied at ${word(r[0])} and ${word(r[1])}`;
+    const rest=people.filter(p=>!leaders.includes(p)).map(p=>`${nameCase(p)} went ${word(wr.rec[p][0])} and ${word(wr.rec[p][1])}.`).join(" ");
+    const ties=wk.games.filter(g=>g.win==="TIE").length;
+    $("#pkLede").textContent=[wr.graded<n?`${cap(word(wr.graded))} of ${word(n)} games are final.`:`All ${word(n)} games are final.`,rest,ties?`${cap(word(ties))} ${ties===1?"game":"games"} ended in a tie and ${ties===1?"counts":"count"} for nobody.`:""].filter(Boolean).join(" ");
+  }else if(anyPick){
+    $("#pkEyebrow").textContent=`The Sheet · ${wk.label} · ${word(n)} games`;
+    $("#pkTitle").textContent=`${word(agreed)} of ${word(n)}`;
+    const breaks=people.map((p,i)=>[nameCase(p),odd.filter(x=>x===i).length]).filter(x=>x[1]);
+    const times=c=>c===1?"once":c===2?"twice":`${word(c)} times`;
+    $("#pkLede").textContent=`The room agreed on ${word(agreed)} ${agreed===1?"game":"games"}.`+(breaks.length?" "+breaks.sort((a,b)=>b[1]-a[1]).map(([nm,c])=>`${nm} broke off ${times(c)}.`).join(" "):"");
+  }else{
+    $("#pkEyebrow").textContent=`The Sheet · ${wk.label} · ${word(n)} games`;
+    $("#pkTitle").textContent="Picks pending";
+    $("#pkLede").textContent=`No picks are in yet for ${wk.label}.`+(wk.games[0]?` The first game is ${wk.games[0].away} at ${wk.games[0].home}, ${wk.games[0].kick||"this week"}.`:"");
+  }
+
+  const bestSeason=Math.max(...people.map(p=>net(G.season[p])));
+  const played=people.some(p=>G.season[p][0]+G.season[p][1]>0);
+  $("#pkStand").innerHTML=people.map(p=>`<div class="person"><span class="name"><span class="mk" ${played&&net(G.season[p])===bestSeason?`data-mark="underline" data-seed="lead-${p}"`:""}>${esc(p)}</span></span><span class="rec">${G.season[p][0]}-${G.season[p][1]}</span><span class="wk">${esc(wk.label)}: ${wr.rec[p][0]}-${wr.rec[p][1]}</span></div>`).join("");
+
+  $("#pkKey").innerHTML=wr.graded
+    ?`<span><span class="pk" data-mark="check" data-seed="key-ck">JAX</span>right</span><span><span class="pk" data-mark="strike" data-seed="key-st">CLE</span>wrong</span><span><span class="pk tie" data-mark="dash" data-seed="key-ds">ATL</span>tie, counts for nobody</span><span><span class="pk q" data-mark="question" data-seed="key-q"></span>no pick</span>`
+    :`<span><span class="pk" data-mark="circle" data-seed="key-ci">SEA</span>went against the other two</span><span><span class="pk q" data-mark="question" data-seed="key-q"></span>no pick yet</span>`;
+
+  const seed=(r,i)=>`${wk.label}-${r}-${i}`;
+  let rows=wk.games.map((g,r)=>{
+    const sub=g.win?(g.score?`Final ${g.score[0]}–${g.score[1]}`:(g.win==="TIE"?"Final · tie":"Final")):(g.kick||"");
+    const cells=people.map((p,i)=>{const pk=g.picks[p];
+      if(!pk)return `<td><span class="pk q" data-mark="question" data-seed="${seed(r,i)}q" aria-label="No pick"></span></td>`;
+      let m="";if(g.win)m=g.win==="TIE"?"dash":(pk===g.win?"check":"strike");else if(odd[r]===i)m="circle";
+      return `<td><span class="pk${g.win==="TIE"?" tie":""}" ${m?`data-mark="${m}" data-seed="${seed(r,i)}${m}"`:""}>${esc(pk)}</span></td>`}).join("");
+    return `<tr><td><span class="gm">${atHTML(g.away,g.home,g.win)}</span><span class="kick">${esc(sub)}</span></td>${cells}</tr>`}).join("");
+  if(wr.graded)rows+=`<tr class="total"><td>Week</td>${people.map(p=>`<td><span class="pk">${wr.rec[p][0]}-${wr.rec[p][1]}</span></td>`).join("")}</tr>`;
+  $("#pkGrid").innerHTML=`<thead><tr><th scope="col">${wr.graded?"Result":"Game"}</th>${people.map(p=>`<th scope="col">${esc(p)}</th>`).join("")}</tr></thead><tbody>${rows}</tbody>`;
+
+  const showSplits=anyPick&&!wr.graded&&people.length>=3;
+  $("#pkSplitWrap").hidden=!showSplits;
+  if(showSplits){
+    $("#pkSplits").innerHTML=people.map((p,i)=>{const list=wk.games.map((g,r)=>({g,r})).filter(x=>odd[x.r]===i);
+      return `<div class="split"><h3>${esc(p)}</h3><span class="n">${list.length} ${list.length===1?"game":"games"}</span>${list.length?`<ul>${list.map(({g,r})=>{const room=people.map(q=>g.picks[q]).find((_,j)=>j!==i);return `<li><span class="g">${atHTML(g.away,g.home)}</span><span><span class="pk" data-mark="circle" data-seed="sp-${wk.label}-${r}">${esc(g.picks[p])}</span> room took ${esc(room)}</span></li>`}).join("")}</ul>`:`<span class="none">Went with the room.</span>`}</div>`}).join("");
+  }
+  drawMarks($("#picksView"),false);
+  (document.fonts?.ready||Promise.resolve()).then(()=>{if(view==="picks")drawMarks($("#picksView"),false)});
+}
+$("#pkWeeks").addEventListener("click",e=>{const b=e.target.closest("button[data-w]");if(!b)return;pickWeek=+b.dataset.w;renderPicks();drawMarks($("#picksView"),true)});
+
+function setView(v){
+  view=v;
+  $("#top").hidden=v!=="stories";$("#picksView").hidden=v!=="picks";$("#wbView").hidden=v!=="whobetter";
+  try{history.replaceState(null,"",v!=="stories"?"#"+v:location.pathname+location.search)}catch(e){}
+  renderTabs();
+  if(v==="picks"){renderPicks();window.scrollTo(0,0)}
+  if(v==="whobetter"){startWB();window.scrollTo(0,0)}
+}
+document.querySelector(".logo").addEventListener("click",()=>{if(view!=="stories")setView("stories")});
+addEventListener("hashchange",()=>{const v=viewFromHash();if(v!==view)setView(v)});
+
+/* ---------- The pen: every mark is drawn fresh, seeded by the row it sits on ---------- */
+function hash32(s){let h=2166136261;for(const c of String(s)){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0}
+function rng(seed){let a=hash32(seed);return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function spline(p){
+  let d=`M${p[0][0].toFixed(1)} ${p[0][1].toFixed(1)}`;
+  for(let i=0;i<p.length-1;i++){const p0=p[i-1]||p[i],p1=p[i],p2=p[i+1],p3=p[i+2]||p2;
+    d+=` C${(p1[0]+(p2[0]-p0[0])/6).toFixed(1)} ${(p1[1]+(p2[1]-p0[1])/6).toFixed(1)} ${(p2[0]-(p3[0]-p1[0])/6).toFixed(1)} ${(p2[1]-(p3[1]-p1[1])/6).toFixed(1)} ${p2[0].toFixed(1)} ${p2[1].toFixed(1)}`}
+  return d;
+}
+const PAD=18;
+const PEN={
+  circle(w,h,r){const cx=PAD+w/2,cy=PAD+h/2,rx=w/2+9+r()*3,ry=h/2+6+r()*2.5,a0=r()*6.283,span=6.283+.32+r()*.35,ph=r()*6.28,tilt=(r()-.5)*.14,drift=(r()-.5)*5,N=18,pts=[];
+    for(let i=0;i<=N;i++){const t=i/N,a=a0+span*t,k=1+.05*Math.sin(2*a+ph)+(r()-.5)*.025;const x=Math.cos(a)*rx*k,y=Math.sin(a)*ry*k;
+      pts.push([cx+x*Math.cos(tilt)-y*Math.sin(tilt)+drift*t,cy+x*Math.sin(tilt)+y*Math.cos(tilt)+drift*.4*t])}
+    return [spline(pts)]},
+  check(w,h,r){const x0=PAD+w-9,j=()=>(r()-.5)*2.2;return [spline([[x0-3+j(),PAD+h*.42+j()],[x0+1,PAD+h*.7+j()],[x0+5+j()*.5,PAD+h+1],[x0+11+j(),PAD+h*.25+j()],[x0+19+j(),PAD-9+j()]])]},
+  strike(w,h,r){const y=PAD+h*.54+(r()-.5)*2,sl=(r()-.5)*3.5,pts=[];for(let i=0;i<=6;i++){const t=i/6;pts.push([PAD-8+r()*2+(w+16)*t,y+sl*t+Math.sin(t*3.1+r())*1.1+(r()-.5)*.8])}return [spline(pts)]},
+  underline(w,h,r){const y=PAD+h+4+r()*2,ph=r()*6,pts=[];for(let i=0;i<=8;i++){const t=i/8;pts.push([PAD-4+(w+10)*t,y+Math.sin(t*5+ph)*1.4+(r()-.5)*.9+t*1.2])}return [spline(pts)]},
+  dash(w,h,r){const y=PAD+h*.52+(r()-.5)*1.5;return [spline([[PAD+w+4,y+(r()-.5)],[PAD+w+9,y+(r()-.5)*1.2],[PAD+w+15,y+(r()-.5)]])]},
+  question(w,h,r){const cx=PAD+w/2+(r()-.5)*2,top=PAD-3,s=Math.max(h,16)/20,j=()=>(r()-.5)*1.2;
+    return [spline([[cx-6*s+j(),top+5*s],[cx-3*s,top+j()*.5],[cx+3*s+j(),top-.5*s],[cx+7*s,top+4.5*s+j()],[cx+4*s+j(),top+10*s],[cx+j()*.6,top+13*s],[cx+j()*.4,top+17*s]]),
+      `M${(cx+j()*.4).toFixed(1)} ${(top+22.5*s).toFixed(1)} l0.1 0.1`]}
+};
+function drawMarks(root,animate){
+  root.querySelectorAll("[data-mark]").forEach(el=>{
+    el.querySelector(":scope > svg")?.remove();
+    const kind=el.dataset.mark;if(!PEN[kind])return;
+    const w=el.offsetWidth,h=el.offsetHeight;if(!w)return;
+    const r=rng(el.dataset.seed||el.textContent),ns="http://www.w3.org/2000/svg",svg=document.createElementNS(ns,"svg");
+    svg.setAttribute("width",w+PAD*2);svg.setAttribute("height",h+PAD*2);svg.setAttribute("aria-hidden","true");
+    svg.style.left=-PAD+"px";svg.style.top=-PAD+"px";
+    PEN[kind](w,h,r).forEach(d=>{const p=document.createElementNS(ns,"path");p.setAttribute("d",d);svg.appendChild(p)});
+    el.appendChild(svg);
+    if(animate&&!matchMedia("(prefers-reduced-motion: reduce)").matches)
+      svg.querySelectorAll("path").forEach(p=>{const L=p.getTotalLength();if(!L)return;p.style.strokeDasharray=L;p.style.strokeDashoffset=L;
+        p.animate([{strokeDashoffset:L},{strokeDashoffset:0}],{duration:kind==="circle"?520:300,delay:Math.random()*240,easing:"cubic-bezier(.4,.1,.3,1)",fill:"forwards"})});
+  });
+}
+let rsz;addEventListener("resize",()=>{clearTimeout(rsz);rsz=setTimeout(()=>{if(view==="picks")drawMarks($("#picksView"),false);if(view==="whobetter")drawMarks($("#wbFeed"),false)},150)});
+
+/* ---------- Who Better? ----------
+   Matchups and players come from whobetter.txt (next to this page); the copy below is the fallback.
+   Votes go to /api/vote, which keeps the totals for every visitor. */
+const WB_FALLBACK = "# WHO BETTER? \u00b7 THE WINNING SHOT\n#\n# This file runs the Who Better? tab. Lines that start with # are notes and never show on the site.\n#\n# MATCHUPS are yours. They show first, in the order listed here (put the newest at the top).\n# Format:\n#   MATCHUP: Player A vs Player B | League Position | HUNDO: Player A | JON: Player B | COLLIN: Player A\n# The takes after the league are optional. Leave them off and the card just shows the vote.\n# Use the same spelling as the PLAYER lines below so votes stay together.\n#\n# PLAYERS feed the endless feed. After your matchups run out, the site pairs players\n# from the same league and position at random, forever.\n# Format:\n#   PLAYER: Name | League | Position | active\n#   PLAYER: Name | League | Position | all-time\n# \"active\" players get both questions (right now AND all time).\n# \"all-time\" players only get the all-time question. Use it for anyone retired,\n# or anyone whose \"right now\" question wouldn't make sense.\n# Check this list now and then: when someone retires, change active to all-time.\n#\n# PHOTOS come from each player's Wikipedia page (freely licensed photos only, credited on the card).\n# If the wrong person or no photo shows up, add the exact Wikipedia page title:\n#   PLAYER: Josh Allen | NFL | QB | active | wiki: Josh Allen (quarterback)\n# Or use your own photo (one you took or have the rights to):\n#   PLAYER: Josh Allen | NFL | QB | active | photo: https://yoursite.com/photos/allen.jpg\n\nMATCHUP: Michael Jordan vs LeBron James | NBA Player\nMATCHUP: Patrick Mahomes vs Josh Allen | NFL QB\nMATCHUP: Tom Brady vs Patrick Mahomes | NFL QB\nMATCHUP: Lionel Messi vs Cristiano Ronaldo | Soccer Forward\nMATCHUP: Shohei Ohtani vs Aaron Judge | MLB Hitter\n\n# NFL quarterbacks\nPLAYER: Patrick Mahomes | NFL | QB | active\nPLAYER: Josh Allen | NFL | QB | active | wiki: Josh Allen (quarterback)\nPLAYER: Lamar Jackson | NFL | QB | active\nPLAYER: Joe Burrow | NFL | QB | active\nPLAYER: Jalen Hurts | NFL | QB | active\nPLAYER: Jayden Daniels | NFL | QB | active\nPLAYER: C.J. Stroud | NFL | QB | active\nPLAYER: Justin Herbert | NFL | QB | active\nPLAYER: Tom Brady | NFL | QB | all-time\nPLAYER: Peyton Manning | NFL | QB | all-time\nPLAYER: Joe Montana | NFL | QB | all-time\nPLAYER: Dan Marino | NFL | QB | all-time\nPLAYER: John Elway | NFL | QB | all-time\nPLAYER: Brett Favre | NFL | QB | all-time\n\n# NFL running backs\nPLAYER: Saquon Barkley | NFL | RB | active\nPLAYER: Bijan Robinson | NFL | RB | active\nPLAYER: Jahmyr Gibbs | NFL | RB | active\nPLAYER: Christian McCaffrey | NFL | RB | active\nPLAYER: De'Von Achane | NFL | RB | active\nPLAYER: Barry Sanders | NFL | RB | all-time\nPLAYER: Walter Payton | NFL | RB | all-time\nPLAYER: Emmitt Smith | NFL | RB | all-time\nPLAYER: Jim Brown | NFL | RB | all-time\nPLAYER: LaDainian Tomlinson | NFL | RB | all-time\nPLAYER: Adrian Peterson | NFL | RB | all-time\n\n# NFL receivers\nPLAYER: Justin Jefferson | NFL | WR | active\nPLAYER: Ja'Marr Chase | NFL | WR | active\nPLAYER: CeeDee Lamb | NFL | WR | active\nPLAYER: Puka Nacua | NFL | WR | active\nPLAYER: Amon-Ra St. Brown | NFL | WR | active\nPLAYER: Malik Nabers | NFL | WR | active\nPLAYER: Jerry Rice | NFL | WR | all-time\nPLAYER: Randy Moss | NFL | WR | all-time\nPLAYER: Calvin Johnson | NFL | WR | all-time\nPLAYER: Terrell Owens | NFL | WR | all-time\nPLAYER: Larry Fitzgerald | NFL | WR | all-time\n\n# NBA\nPLAYER: Nikola Jokic | NBA | Player | active\nPLAYER: Shai Gilgeous-Alexander | NBA | Player | active\nPLAYER: Giannis Antetokounmpo | NBA | Player | active\nPLAYER: Luka Doncic | NBA | Player | active\nPLAYER: Victor Wembanyama | NBA | Player | active\nPLAYER: Anthony Edwards | NBA | Player | active | wiki: Anthony Edwards (basketball)\nPLAYER: Jayson Tatum | NBA | Player | active\nPLAYER: LeBron James | NBA | Player | all-time\nPLAYER: Michael Jordan | NBA | Player | all-time\nPLAYER: Kobe Bryant | NBA | Player | all-time\nPLAYER: Magic Johnson | NBA | Player | all-time\nPLAYER: Larry Bird | NBA | Player | all-time\nPLAYER: Kareem Abdul-Jabbar | NBA | Player | all-time\nPLAYER: Shaquille O'Neal | NBA | Player | all-time\nPLAYER: Tim Duncan | NBA | Player | all-time\n\n# MLB hitters\nPLAYER: Shohei Ohtani | MLB | Hitter | active\nPLAYER: Aaron Judge | MLB | Hitter | active\nPLAYER: Juan Soto | MLB | Hitter | active\nPLAYER: Bobby Witt Jr. | MLB | Hitter | active\nPLAYER: Mookie Betts | MLB | Hitter | active\nPLAYER: Ronald Acuna Jr. | MLB | Hitter | active\nPLAYER: Babe Ruth | MLB | Hitter | all-time\nPLAYER: Willie Mays | MLB | Hitter | all-time\nPLAYER: Hank Aaron | MLB | Hitter | all-time\nPLAYER: Ken Griffey Jr. | MLB | Hitter | all-time\nPLAYER: Barry Bonds | MLB | Hitter | all-time\nPLAYER: Mickey Mantle | MLB | Hitter | all-time\n\n# MLB pitchers\nPLAYER: Tarik Skubal | MLB | Pitcher | active\nPLAYER: Paul Skenes | MLB | Pitcher | active\nPLAYER: Zack Wheeler | MLB | Pitcher | active\nPLAYER: Blake Snell | MLB | Pitcher | active\nPLAYER: Sandy Koufax | MLB | Pitcher | all-time\nPLAYER: Pedro Martinez | MLB | Pitcher | all-time\nPLAYER: Randy Johnson | MLB | Pitcher | all-time\nPLAYER: Greg Maddux | MLB | Pitcher | all-time\nPLAYER: Nolan Ryan | MLB | Pitcher | all-time\n\n# Soccer\nPLAYER: Erling Haaland | Soccer | Forward | active\nPLAYER: Kylian Mbappe | Soccer | Forward | active\nPLAYER: Lamine Yamal | Soccer | Forward | active\nPLAYER: Lionel Messi | Soccer | Forward | active\nPLAYER: Cristiano Ronaldo | Soccer | Forward | active\nPLAYER: Pele | Soccer | Forward | all-time\nPLAYER: Diego Maradona | Soccer | Forward | all-time\nPLAYER: Ronaldo Nazario | Soccer | Forward | all-time | wiki: Ronaldo (Brazilian footballer)\nPLAYER: Thierry Henry | Soccer | Forward | all-time\nPLAYER: Johan Cruyff | Soccer | Forward | all-time\n";
+const slug=s=>String(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+const shortN=n=>{const p=String(n).replace(/\s+(Jr\.?|Sr\.?|II|III)$/i,"").split(/\s+/);return p.length>1?p.slice(1).join(" "):n};
+
+function parseWB(text){
+  const players={},groups={},matchups=[];
+  String(text).split(/\r?\n/).forEach(raw=>{
+    const line=raw.trim();if(!line||line.startsWith("#"))return;let m;
+    if((m=line.match(/^PLAYER:\s*(.+)$/i))){
+      const [name,league,pos,status,...extra]=m[1].split("|").map(s=>s.trim());if(!name||!league)return;
+      const p={name,slug:slug(name),league,pos:pos||"",active:!/all[\s-]*time|retired/i.test(status||"")};
+      extra.forEach(x=>{const kv=x.match(/^(wiki|photo)\s*:\s*(.+)$/i);if(kv)p[kv[1].toLowerCase()]=kv[2].trim()});
+      players[p.slug]=p;const k=`${league}|${p.pos}`;(groups[k]=groups[k]||[]).push(p);return;
+    }
+    if((m=line.match(/^MATCHUP:\s*(.+)$/i))){
+      const segs=m[1].split("|").map(s=>s.trim());const vs=segs[0].split(/\s+vs\.?\s+/i);if(vs.length!==2)return;
+      const [lg,...ps]=(segs[1]&&!segs[1].includes(":")?segs[1]:"").split(/\s+/);
+      const takes={};segs.slice(1).forEach(s=>{const kv=s.match(/^([A-Za-z]+)\s*:\s*(.+)$/);if(kv)takes[kv[1].toUpperCase()]=kv[2].trim()});
+      const mk=n=>players[slug(n)]||{name:n.trim(),slug:slug(n),league:lg||"",pos:ps.join(" "),active:true};
+      matchups.push({vsNames:vs,lg:lg||"",pos:ps.join(" "),takes,mk});
+    }
+  });
+  // Resolve matchups after every PLAYER line is read, wherever it sits in the file.
+  const ready=matchups.map(x=>{const a=x.mk(x.vsNames[0]),b=x.mk(x.vsNames[1]);
+    return {id:[a.slug,b.slug].sort().join("__"),a,b,league:x.lg||a.league,pos:x.pos||a.pos,takes:x.takes}}).filter(x=>x.a.slug&&x.b.slug&&x.a.slug!==x.b.slug);
+  return {players,groups,groupKeys:Object.keys(groups).filter(k=>groups[k].length>1),matchups:ready};
+}
+
+const WB={data:parseWB(WB_FALLBACK),cur:0,shown:new Set(),num:0,started:false,byId:{}};
+const wbLoad=()=>{try{return JSON.parse(localStorage.getItem("tws-wb")||"{}")||{}}catch(e){return {}}};
+let WBV=wbLoad();
+const wbSave=()=>{try{localStorage.setItem("tws-wb",JSON.stringify(WBV))}catch(e){}};
+const wbQs=m=>m.a.active&&m.b.active?[["now","Right now"],["all","All time"]]:[["all","All time"]];
+const wbDone=m=>{const v=WBV[m.id];return !!v&&wbQs(m).every(([q])=>v[q])};
+
+function wbNext(n){
+  const D=WB.data,out=[];
+  while(out.length<n&&WB.cur<D.matchups.length){const m=D.matchups[WB.cur++];if(!WB.shown.has(m.id)){WB.shown.add(m.id);out.push(m)}}
+  let guard=0;
+  while(out.length<n&&D.groupKeys.length&&guard++<800){
+    const pool=D.groups[D.groupKeys[Math.floor(Math.random()*D.groupKeys.length)]];
+    const i=Math.floor(Math.random()*pool.length);let j=Math.floor(Math.random()*(pool.length-1));if(j>=i)j++;
+    const a=pool[i],b=pool[j],m={id:[a.slug,b.slug].sort().join("__"),a,b,league:a.league,pos:a.pos,takes:{}};
+    if(WB.shown.has(m.id))continue;
+    if(wbDone(m)&&guard<600)continue; // prefer debates this visitor hasn't settled
+    WB.shown.add(m.id);out.push(m);
+  }
+  if(out.length<n)WB.shown.clear(); // every pair has been shown: start the cycle again
+  return out;
+}
+
+/* Player photos: freely licensed lead images from Wikipedia (Wikimedia Commons), credited on each card.
+   A "photo:" field on a PLAYER line overrides this with your own image. */
+const WB_PH={};
+try{const c=JSON.parse(localStorage.getItem("tws-wbph-v1")||"{}");if(c.t&&Date.now()-c.t<14*864e5)Object.assign(WB_PH,c.d||{})}catch(e){}
+const wbPhSave=()=>{try{localStorage.setItem("tws-wbph-v1",JSON.stringify({t:Date.now(),d:WB_PH}))}catch(e){}};
+const wbPhQ=new Map();let wbPhT=null;
+const initials=n=>String(n).replace(/\s+(Jr\.?|Sr\.?|II|III)$/i,"").split(/\s+/).map(w=>w[0]).filter(Boolean).slice(0,2).join("").toUpperCase();
+const textOf=html=>{const d=document.createElement("div");d.innerHTML=String(html||"");return (d.textContent||"").replace(/\s+/g," ").trim()};
+
+function wbWant(p){
+  if(p.photo){WB_PH[p.slug]={src:p.photo,credit:"",href:""};return}
+  if(p.slug in WB_PH||wbPhQ.has(p.slug))return;
+  wbPhQ.set(p.slug,p);clearTimeout(wbPhT);wbPhT=setTimeout(wbPhFetch,60);
+}
+async function wbPhFetch(){
+  const list=[...wbPhQ.values()];wbPhQ.clear();
+  const api="https://en.wikipedia.org/w/api.php?format=json&formatversion=2&origin=*&action=query&";
+  for(let i=0;i<list.length;i+=20){
+    const chunk=list.slice(i,i+20),want=new Map(chunk.map(p=>[p.wiki||p.name,p]));
+    try{
+      const r=await fetch(api+"redirects=1&prop=pageimages&piprop=thumbnail|name&pithumbsize=500&pilicense=free&titles="+encodeURIComponent([...want.keys()].join("|")));
+      const j=await r.json(),q=j.query||{},alias={};
+      [...(q.normalized||[]),...(q.redirects||[])].forEach(x=>{alias[x.from]=x.to});
+      const final=t=>{let k=t,n=0;while(alias[k]&&n++<4)k=alias[k];return k};
+      const pages=Object.fromEntries((q.pages||[]).map(pg=>[pg.title,pg]));
+      const files={};
+      want.forEach((p,t)=>{const pg=pages[final(t)];
+        if(pg&&pg.thumbnail&&pg.pageimage){WB_PH[p.slug]={src:pg.thumbnail.source,credit:"",href:""};files["File:"+pg.pageimage.replace(/_/g," ")]=p.slug}
+        else WB_PH[p.slug]=null});
+      const ft=Object.keys(files);
+      if(ft.length){
+        const r2=await fetch(api+"prop=imageinfo&iiprop=extmetadata|url&titles="+encodeURIComponent(ft.join("|")));
+        const j2=await r2.json(),q2=j2.query||{},al2={};
+        (q2.normalized||[]).forEach(x=>{al2[x.to]=x.from});
+        (q2.pages||[]).forEach(pg=>{const s=files[pg.title]??files[al2[pg.title]];const ii=pg.imageinfo&&pg.imageinfo[0];if(!s||!ii||!WB_PH[s])return;
+          const md=ii.extmetadata||{},artist=textOf(md.Artist&&md.Artist.value).slice(0,70),lic=textOf(md.LicenseShortName&&md.LicenseShortName.value);
+          WB_PH[s].credit=[artist,lic].filter(Boolean).join(", ");WB_PH[s].href=ii.descriptionurl||""});
+      }
+    }catch(e){chunk.forEach(p=>{if(!(p.slug in WB_PH))WB_PH[p.slug]=null})}
+  }
+  wbPhSave();wbPhApply(document);
+}
+function wbPhApply(root){
+  root.querySelectorAll(".wb-card").forEach(card=>{
+    const credits=[];
+    card.querySelectorAll(".wb-ph").forEach(fig=>{
+      const ph=WB_PH[fig.dataset.slug],box=fig.querySelector(".wb-img");
+      if(ph&&ph.src&&!box.querySelector("img")){const img=new Image();img.alt="";img.loading="lazy";img.decoding="async";img.referrerPolicy="no-referrer";
+        img.onload=()=>box.classList.add("has");img.onerror=()=>img.remove();img.src=ph.src;box.appendChild(img)}
+      if(ph&&ph.credit)credits.push(`${esc(fig.dataset.short)}: ${ph.href?`<a href="${esc(ph.href)}" target="_blank" rel="noopener">${esc(ph.credit)}</a>`:esc(ph.credit)}`);
+    });
+    const cr=card.querySelector(".wb-credit");if(cr)cr.innerHTML=credits.length?`Photos via Wikimedia Commons · ${credits.join(" · ")}`:"";
+  });
+}
+
+function wbCard(m){
+  const A0=shortN(m.a.name),B0=shortN(m.b.name),[A,B]=A0===B0?[m.a.name,m.b.name]:[A0,B0];
+  wbWant(m.a);wbWant(m.b);
+  const face=(p,label)=>`<figure class="wb-ph" data-slug="${p.slug}" data-short="${esc(label)}"><div class="wb-img"><span class="wb-ini" aria-hidden="true">${esc(initials(p.name))}</span></div><figcaption>${esc(p.name)}</figcaption></figure>`;
+  const opt=(p,label)=>`<button class="wb-opt" type="button" data-pick="${p.slug}"><span class="fill"></span><span class="nm"><span class="mk">${esc(label)}</span></span><span class="pc"></span></button>`;
+  const takes=Object.entries(m.takes||{});
+  return `<article class="wb-card" data-id="${m.id}">
+    <div class="wb-top"><span class="eyebrow">Who better? · ${esc([m.league,m.pos].filter(Boolean).join(" · "))}</span><span class="eyebrow">No. ${++WB.num}</span></div>
+    <div class="wb-face">${face(m.a,A)}<span class="wb-vs">vs</span>${face(m.b,B)}</div>
+    ${wbQs(m).map(([q,l])=>`<div class="wb-q" data-q="${q}"><span class="wb-ql">${l}</span><div class="wb-opts">${opt(m.a,A)}${opt(m.b,B)}</div><span class="wb-meta"></span></div>`).join("")}
+    ${takes.length?`<p class="wb-room" hidden>The room: ${takes.map(([who,p])=>`<b>${esc(nameCase(who))}</b> ${esc(shortN(p))}`).join(" · ")}</p>`:""}
+    <p class="wb-credit"></p>
+  </article>`;
+}
+
+function wbShow(card,q,c){
+  const qEl=card.querySelector(`.wb-q[data-q="${q}"]`);if(!qEl)return;
+  const id=card.dataset.id,mine=WBV[id]?.[q],opts=[...qEl.querySelectorAll(".wb-opt")];
+  const total=c?opts.reduce((s,b)=>s+(c[b.dataset.pick]||0),0):0;
+  opts.forEach(b=>{
+    const n=c?(c[b.dataset.pick]||0):0,pct=total?Math.round(n/total*100):0,isMine=b.dataset.pick===mine;
+    b.disabled=true;
+    b.querySelector(".pc").textContent=total?pct+"%":"";
+    b.querySelector(".fill").style.width=(total?pct:0)+"%";
+    b.classList.toggle("win",total>0&&n*2>total);
+    const mk=b.querySelector(".mk");if(isMine){mk.dataset.mark="circle";mk.dataset.seed=id+q}else delete mk.dataset.mark;
+    b.setAttribute("aria-label",`${b.querySelector(".nm").textContent}${total?`, ${pct} percent`:""}${isMine?", your pick":""}`);
+  });
+  qEl.querySelector(".wb-meta").textContent=total?`${total.toLocaleString()} ${total===1?"vote":"votes"}`:"Your pick is saved. Vote totals show on the live site.";
+  card.querySelector(".wb-room")?.removeAttribute("hidden");
+  const picked=new Set(Object.values(WBV[id]||{}));
+  card.querySelectorAll(".wb-ph").forEach(f=>f.classList.toggle("picked",picked.has(f.dataset.slug)));
+  drawMarks(qEl,true);
+}
+
+function wbTally(){
+  const n=Object.values(WBV).filter(v=>v&&(v.now||v.all)).length;
+  $("#wbTally").innerHTML=n?`You've settled <b>${n.toLocaleString()}</b> ${n===1?"debate":"debates"}`:"Make your first pick below";
+}
+
+async function wbAdd(n=6){
+  const list=wbNext(n);if(!list.length)return;
+  list.forEach(m=>WB.byId[m.id]=m);
+  $("#wbFeed").insertAdjacentHTML("beforeend",list.map(wbCard).join(""));
+  wbPhApply($("#wbFeed"));
+  const voted=list.filter(m=>WBV[m.id]);
+  if(!voted.length)return;
+  let counts={};
+  try{const r=await fetch(`/api/vote?ids=${encodeURIComponent(voted.map(m=>m.id).join(","))}`,{cache:"no-store"});if(r.ok)counts=await r.json()}catch(e){}
+  voted.forEach(m=>{const card=$(`.wb-card[data-id="${m.id}"]`);if(!card)return;
+    Object.keys(WBV[m.id]).forEach(q=>wbShow(card,q,counts[m.id]?counts[m.id][q]:null))});
+}
+
+$("#wbFeed").addEventListener("click",async e=>{
+  const btn=e.target.closest(".wb-opt");if(!btn||btn.disabled)return;
+  const card=btn.closest(".wb-card"),q=btn.closest(".wb-q").dataset.q,id=card.dataset.id,pick=btn.dataset.pick;
+  WBV[id]={...(WBV[id]||{}),[q]:pick};wbSave();wbTally();
+  btn.closest(".wb-q").querySelectorAll(".wb-opt").forEach(b=>b.disabled=true);
+  let c=null;
+  try{const r=await fetch("/api/vote",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({id,q,pick})});if(r.ok)c=await r.json()}catch(err){}
+  wbShow(card,q,c?c[q]:null);
+});
+$("#wbMore").addEventListener("click",()=>wbAdd(6));
+
+function startWB(){
+  wbTally();
+  if(WB.started){drawMarks($("#wbFeed"),false);return}
+  WB.started=true;wbAdd(6);
+  if("IntersectionObserver" in window){
+    $("#wbMore").hidden=true;
+    new IntersectionObserver(es=>{if(es.some(x=>x.isIntersecting)&&view==="whobetter")wbAdd(4)},{rootMargin:"600px 0px"}).observe($("#wbSentinel"));
+  }
+}
+fetch("whobetter.txt",{cache:"no-store"}).then(r=>r.ok?r.text():Promise.reject()).then(t=>{if(/PLAYER:/i.test(t)&&!WB.started)WB.data=parseWB(t)}).catch(()=>{});
+
+fetch("picks.txt",{cache:"no-store"}).then(r=>r.ok?r.text():Promise.reject()).then(t=>{if(/WEEK\s/i.test(t)){PICKS=parsePicks(t);if(view==="picks")renderPicks()}}).catch(()=>{});
+
+renderTabs();renderGrid();renderPoll();setView(view);
 fetch("/api/scores",{cache:"no-store"}).then(r=>r.ok?r.json():null).then(d=>{if(d)applyLive(d)}).catch(()=>{});
 setInterval(()=>{fetch("/api/scores",{cache:"no-store"}).then(r=>r.ok?r.json():null).then(d=>{if(d)applyLive(d)}).catch(()=>{})},5*60*1000);
 </script>

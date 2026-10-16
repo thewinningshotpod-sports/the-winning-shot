@@ -7,7 +7,7 @@ The website, plus two small background functions that keep the scores current.
 | Path | What it does |
 |---|---|
 | `public/index.html` | The website. |
-| `netlify/functions/refresh-scores.mjs` | Runs every hour. Pulls NFL, NBA, MLB, NHL and Premier League games from API-Sports and saves them. |
+| `netlify/functions/refresh-scores.mjs` | Runs every hour. Pulls NFL, NBA, MLB and Premier League games from API-Sports and saves them. |
 | `netlify/functions/scores.mjs` | Hands the saved scores to the page at `/api/scores`. |
 | `netlify/lib/sports.mjs` | The shared code: which leagues, how to read API-Sports data, how long to keep games (8 days). |
 | `netlify.toml`, `package.json` | Settings Netlify reads when it builds the site. |
@@ -21,7 +21,7 @@ If the scores ever can't load, the page keeps showing the scores written into it
 ### 1. Get an API-Sports key
 1. Create an account at https://dashboard.api-football.com (API-Sports' dashboard).
 2. Copy your API key from the dashboard.
-3. Make sure your account has access to all five sports used here: American Football, Basketball, Baseball, Hockey and Football (soccer). The free plan allows about 100 calls a day per sport; this site uses 72.
+3. Make sure your account has access to all five sports used here: American Football, Basketball, Baseball and Football (soccer). The free plan allows about 100 calls a day per sport; this site uses 72.
 
 ### 2. Put the files on GitHub
 1. Create a free account at https://github.com and click **New repository**. Name it `the-winning-shot`.
@@ -36,6 +36,31 @@ If the scores ever can't load, the page keeps showing the scores written into it
 
 ### 4. Use your own domain
 In Netlify: **Domain management → Add a domain**, enter the domain you bought, and follow the steps it shows at your domain registrar. HTTPS is set up for you.
+
+## Posting picks
+
+The **Picks** tab reads `public/picks.txt`. To post picks:
+
+1. On GitHub, open `public/picks.txt` and click the pencil to edit.
+2. On each game's line, type each person's pick after their name, using the team code from the matchup:
+   `SEA at DEN | Thu 8:15 PM | HUNDO: SEA | JON: DEN | COLLIN: SEA | WINNER:`
+3. When a game is final, type the winner after `WINNER:` (or `TIE`). Once live scores work, finished games grade themselves.
+4. Click **Commit changes**. The site updates in about a minute.
+
+New week: copy a whole `WEEK` block, paste it right under `STARTING RECORDS`, and change the label and games.
+Set `STARTING RECORDS` once to each person's record from before the first week in the file.
+A blank pick shows a green question mark and doesn't count against anyone.
+
+## Who Better?
+
+The **Who Better?** tab is an endless feed of head-to-head cards. Visitors pick who's better right now and all time, and see what percentage of everyone picked each player. Votes are stored by `netlify/functions/vote.mjs` in Netlify Blobs.
+
+Edit `public/whobetter.txt` on GitHub:
+- `MATCHUP:` lines are yours. They show first, in order. Add your takes: `MATCHUP: Patrick Mahomes vs Josh Allen | NFL QB | HUNDO: Patrick Mahomes | JON: Josh Allen | COLLIN: Patrick Mahomes`
+- `PLAYER:` lines feed the endless part. Players are paired with others in the same league and position.
+- Mark retired players `all-time` so they only get the all-time question.
+
+Each browser can vote once per question per matchup. That stops casual double-voting, but someone who clears their browser can vote again. It's a fan poll, not an election.
 
 ## Changing things later
 
