@@ -37,6 +37,12 @@ If the scores ever can't load, the page keeps showing the scores written into it
 ### 4. Use your own domain
 In Netlify: **Domain management → Add a domain**, enter the domain you bought, and follow the steps it shows at your domain registrar. HTTPS is set up for you.
 
+## Forms (newsletter and Work with us)
+
+Both forms are saved by **Netlify Forms**. Turn it on once: in Netlify, open the project → **Forms** → **Enable form detection**, then **Deploys → Trigger deploy**. Signups and messages then appear under **Forms** in Netlify (free plan: 100 submissions a month). Turn on email notifications there to get each one in your inbox.
+
+Until form detection is on, the forms tell visitors "That didn't go through" instead of pretending to work.
+
 ## Posting picks
 
 The **Picks** tab reads `public/picks.txt`. To post picks:

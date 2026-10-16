@@ -15,6 +15,10 @@
 #
 # STARTING RECORDS are each person's records from before the first week in this file.
 # Set them once and leave them.
+#
+# FACES: to show a photo instead of an initial in the standings, add a line like
+#   FACE: HUNDO | https://thewinningshot.netlify.app/faces/hundo.jpg
+# (upload the photo into public/faces/ on GitHub first, then use its address).
 
 PICKERS: HUNDO, JON, COLLIN
 STARTING RECORDS: HUNDO 0-0 | JON 0-0 | COLLIN 0-0
