@@ -5,8 +5,9 @@
 # To post picks:
 #   1. Find the game's line under this week.
 #   2. Type each person's pick after their name, using the team code from the matchup (for example SEA).
-#   3. When a game is final, type the winner after WINNER: (or TIE).
-#      Once live scores are working, finished games are graded automatically and WINNER can stay blank.
+#   3. Finished games are graded automatically from live scores, so WINNER can stay blank.
+#      For an older week, add FINAL: away-home (for example FINAL: 24-27) to show the score,
+#      or type the winner after WINNER: (or TIE).
 #   4. Click "Commit changes". The site updates in about a minute.
 #
 # To start a new week: copy a whole WEEK block (the WEEK line and its games),
@@ -21,20 +22,56 @@
 # (upload the photo into public/faces/ on GitHub first, then use its address).
 
 PICKERS: HUNDO, JON, COLLIN
-STARTING RECORDS: HUNDO 0-0 | JON 0-0 | COLLIN 0-0
+# Records through Week 3, from the Week 4 standings post. Weeks 4 onward are graded below.
+STARTING RECORDS: HUNDO 27-21 | JON 25-23 | COLLIN 25-23
 
-WEEK Oct 15–19
-SEA at DEN | Thu 8:15 PM | HUNDO: | JON: | COLLIN: | WINNER:
-HOU at JAX | Sun 9:30 AM | HUNDO: | JON: | COLLIN: | WINNER:
-TEN at IND | Sun 1:00 PM | HUNDO: | JON: | COLLIN: | WINNER:
-CAR at PHI | Sun 1:00 PM | HUNDO: | JON: | COLLIN: | WINNER:
-PIT at TB | Sun 1:00 PM | HUNDO: | JON: | COLLIN: | WINNER:
-BAL at CLE | Sun 1:00 PM | HUNDO: | JON: | COLLIN: | WINNER:
-NO at NYG | Sun 1:00 PM | HUNDO: | JON: | COLLIN: | WINNER:
-CHI at ATL | Sun 1:00 PM | HUNDO: | JON: | COLLIN: | WINNER:
-NYJ at NE | Sun 1:00 PM | HUNDO: | JON: | COLLIN: | WINNER:
-ARI at LAR | Sun 4:05 PM | HUNDO: | JON: | COLLIN: | WINNER:
-LAC at KC | Sun 4:25 PM | HUNDO: | JON: | COLLIN: | WINNER:
-BUF at LV | Sun 4:25 PM | HUNDO: | JON: | COLLIN: | WINNER:
-DAL at GB | Sun 8:20 PM | HUNDO: | JON: | COLLIN: | WINNER:
-WAS at SF | Mon 8:15 PM | HUNDO: | JON: | COLLIN: | WINNER:
+WEEK Week 6 · Oct 15–19
+SEA at DEN | Thu 8:15 PM | HUNDO: SEA | JON: SEA | COLLIN: SEA | WINNER:
+HOU at JAX | Sun 9:30 AM | HUNDO: JAX | JON: JAX | COLLIN: JAX | WINNER:
+TEN at IND | Sun 1:00 PM | HUNDO: IND | JON: IND | COLLIN: IND | WINNER:
+CAR at PHI | Sun 1:00 PM | HUNDO: CAR | JON: CAR | COLLIN: CAR | WINNER:
+PIT at TB | Sun 1:00 PM | HUNDO: PIT | JON: PIT | COLLIN: PIT | WINNER:
+BAL at CLE | Sun 1:00 PM | HUNDO: BAL | JON: BAL | COLLIN: BAL | WINNER:
+NO at NYG | Sun 1:00 PM | HUNDO: NO | JON: NYG | COLLIN: NYG | WINNER:
+CHI at ATL | Sun 1:00 PM | HUNDO: CHI | JON: ATL | COLLIN: CHI | WINNER:
+NYJ at NE | Sun 1:00 PM | HUNDO: NE | JON: NE | COLLIN: NE | WINNER:
+ARI at LAR | Sun 4:05 PM | HUNDO: LAR | JON: LAR | COLLIN: LAR | WINNER:
+LAC at KC | Sun 4:25 PM | HUNDO: KC | JON: KC | COLLIN: KC | WINNER:
+BUF at LV | Sun 4:25 PM | HUNDO: BUF | JON: BUF | COLLIN: BUF | WINNER:
+DAL at GB | Sun 8:20 PM | HUNDO: DAL | JON: GB | COLLIN: GB | WINNER:
+WAS at SF | Mon 8:15 PM | HUNDO: SF | JON: SF | COLLIN: SF | WINNER:
+
+WEEK Week 5 · Oct 8–12
+TB at DAL | HUNDO: TB | JON: TB | COLLIN: TB | FINAL: 24-16 | WINNER:
+PHI at JAX | HUNDO: JAX | JON: JAX | COLLIN: JAX | FINAL: 17-19 | WINNER:
+CIN at MIA | HUNDO: CIN | JON: CIN | COLLIN: CIN | FINAL: 31-24 | WINNER:
+LV at NE | HUNDO: NE | JON: NE | COLLIN: NE | FINAL: 17-45 | WINNER:
+MIN at NO | HUNDO: MIN | JON: MIN | COLLIN: MIN | FINAL: 23-13 | WINNER:
+CLE at NYJ | HUNDO: CLE | JON: CLE | COLLIN: CLE | FINAL: 12-17 | WINNER:
+IND at PIT | HUNDO: IND | JON: IND | COLLIN: PIT | FINAL: 22-34 | WINNER:
+HOU at TEN | HUNDO: HOU | JON: HOU | COLLIN: HOU | FINAL: 26-3 | WINNER:
+NYG at WAS | HUNDO: NYG | JON: WAS | COLLIN: NYG | FINAL: 27-27 | WINNER:
+CHI at GB | HUNDO: CHI | JON: CHI | COLLIN: GB | FINAL: 7-31 | WINNER:
+DEN at LAC | HUNDO: DEN | JON: DEN | COLLIN: LAC | FINAL: 23-17 | WINNER:
+DET at ARI | HUNDO: DET | JON: DET | COLLIN: DET | FINAL: 45-21 | WINNER:
+SF at SEA | HUNDO: SF | JON: SF | COLLIN: SEA | FINAL: 32-29 | WINNER:
+BAL at ATL | HUNDO: ATL | JON: BAL | COLLIN: ATL | FINAL: 30-23 | WINNER:
+BUF at LAR | HUNDO: BUF | JON: LAR | COLLIN: LAR | FINAL: 37-34 | WINNER:
+
+WEEK Week 4 · Oct 1–5
+PIT at CLE | HUNDO: PIT | JON: PIT | COLLIN: PIT | FINAL: 24-27 | WINNER:
+IND at WAS | HUNDO: IND | JON: WAS | COLLIN: IND | FINAL: 30-13 | WINNER:
+DAL at HOU | HUNDO: DAL | JON: HOU | COLLIN: HOU | FINAL: 34-30 | WINNER:
+NYJ at CHI | HUNDO: CHI | JON: CHI | COLLIN: CHI | FINAL: 12-23 | WINNER:
+JAX at CIN | HUNDO: JAX | JON: JAX | COLLIN: CIN | FINAL: 22-17 | WINNER:
+TEN at BAL | HUNDO: BAL | JON: BAL | COLLIN: BAL | FINAL: 18-24 | WINNER:
+ARI at NYG | HUNDO: ARI | JON: ARI | COLLIN: ARI | FINAL: 24-36 | WINNER:
+LAR at PHI | HUNDO: LAR | JON: PHI | COLLIN: LAR | FINAL: 24-20 | WINNER:
+GB at TB | HUNDO: GB | JON: GB | COLLIN: GB | FINAL: 17-14 | WINNER:
+NE at BUF | HUNDO: BUF | JON: BUF | COLLIN: BUF | FINAL: 29-26 | WINNER:
+MIA at MIN | HUNDO: MIN | JON: MIN | COLLIN: MIN | FINAL: 10-15 | WINNER:
+DEN at SF | HUNDO: DEN | JON: SF | COLLIN: SF | FINAL: 14-24 | WINNER:
+LAC at SEA | HUNDO: SEA | JON: SEA | COLLIN: SEA | FINAL: 23-30 | WINNER:
+KC at LV | HUNDO: KC | JON: KC | COLLIN: KC | FINAL: 30-27 | WINNER:
+DET at CAR | HUNDO: DET | JON: DET | COLLIN: DET | FINAL: 26-32 | WINNER:
+ATL at NO | HUNDO: ATL | JON: ATL | COLLIN: NO | FINAL: 45-24 | WINNER:
