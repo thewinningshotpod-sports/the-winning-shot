@@ -4,6 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="The Winning Shot: scores, results, stories and weekly picks.">
+<meta name="theme-color" content="#10382A">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="Winning Shot">
 <title>The Winning Shot</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -409,6 +414,74 @@ aside{display:grid;gap:30px;align-content:start}
   .pgrid td:first-child{padding-right:4px}
 }
 
+/* Vegas column, underdog tags, live win probability */
+.pgrid th.vg,.pgrid td.vg{border-left:1px solid var(--line);padding-left:6px}
+.pgrid th.vg{color:var(--muted)}
+.pgrid td.vg .pk{color:var(--body-ink)}
+.pgrid td .pct{display:block;font:400 10px/1.2 var(--mono);color:var(--muted);margin:2px 12px 0 0;letter-spacing:.04em}
+.pgrid .dog{display:block;font:700 9px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin:2px 12px 0 0}
+.pgrid .wp{display:grid;justify-items:end;gap:2px;margin:3px 12px 0 auto;width:46px;font:700 10px/1 var(--mono);color:var(--accent);font-variant-numeric:tabular-nums}
+.pgrid .wp i{display:block;height:3px;width:100%;background:var(--line);border-radius:2px;overflow:hidden;position:relative}
+.pgrid .wp i:after{content:"";position:absolute;inset:0 auto 0 0;width:var(--w);background:var(--accent);border-radius:2px;transition:width .6s ease}
+.pgrid .wp.low{color:var(--muted)}
+.pgrid .wp.low i:after{background:var(--faint)}
+.pgrid .kick.live{color:var(--accent);font-weight:700}
+.pgrid .kick.live:before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:6px;vertical-align:1px;animation:gnpulse 1.4s ease-in-out infinite}
+.pgrid .wx{display:block;font:400 10.5px/1.35 var(--mono);color:var(--muted);margin-top:2px;white-space:normal;max-width:24ch}
+.pgrid .hear{all:unset;cursor:pointer;display:inline-block;margin-top:5px;font:700 10px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--accent);border-bottom:1px solid currentColor;padding-bottom:1px}
+.pgrid .hear:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.gmb{all:unset;cursor:pointer;display:block}
+.gmb:after{content:"+";font:400 13px/1 var(--mono);color:var(--faint);margin-left:8px}
+.gmb[aria-expanded="true"]:after{content:"–"}
+.gmb:hover .at,.gmb:hover:after{color:var(--accent)}
+.gmb:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:3px}
+
+/* Game details row */
+.pgrid tr.gdetail td{height:auto;padding:14px 0 18px;text-align:left;white-space:normal;background:rgba(21,80,58,.04)}
+.gd{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px 28px;padding-inline:12px}
+.gd h4{font:400 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+.gd table{width:100%;border-collapse:collapse;font:400 13px/1.3 var(--mono);font-variant-numeric:tabular-nums}
+.pgrid .gd table td{height:auto;border-top:1px solid var(--line);padding:6px 4px;text-align:center;white-space:nowrap;vertical-align:middle}
+.pgrid .gd table td:nth-child(2){color:var(--muted);font-size:11px;white-space:normal}
+.pgrid .gd table th{font:700 12px/1 var(--mono);text-align:center;padding:0 0 6px;width:auto;letter-spacing:0;color:var(--fg)}
+.gd ul{list-style:none;margin:0;padding:0;display:grid;gap:6px;font:400 14px/1.35 var(--body)}
+.gd ul b{font:700 12px/1 var(--mono);margin-right:6px}
+.gd ul small{color:var(--muted);font:400 12px/1.3 var(--mono)}
+.gd .meta{font:400 12px/1.5 var(--mono);color:var(--muted)}
+.gd a{color:var(--accent);font:400 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase}
+.gd svg{width:100%;height:64px;display:block}
+.gd .wpline{fill:none;stroke:var(--accent);stroke-width:2}
+.gd .wpmid{stroke:var(--line);stroke-dasharray:3 3}
+
+/* The wire */
+.wire{list-style:none;margin:0;padding:0;display:grid}
+.wire li{border-top:1px solid var(--line);padding:12px 0}
+.wire a{color:var(--fg);text-decoration:none;font:600 15px/1.35 var(--body)}
+.wire a:hover{color:var(--accent)}
+.wire small{display:block;margin-top:4px;font:400 11px/1.3 var(--mono);color:var(--muted)}
+
+/* Who Better? trending tag */
+.wb-tag{margin:-4px 0 0;font:400 12px/1.45 var(--mono);color:var(--accent)}
+
+/* Live band, alerts */
+.live-band .eyebrow:before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--flag);margin-right:8px;vertical-align:1px;animation:gnpulse 1.4s ease-in-out infinite}
+.live-band .gn-when{font-size:17px}
+.btr-card .alerts-on{color:var(--accent);font:700 13px/1.3 var(--mono);letter-spacing:.06em;text-transform:uppercase}
+.pgrid .vgm{display:none}
+.pgrid .hear .sm{display:none}
+@media (max-width:640px){.pgrid .hear .sm{display:inline}}
+@media (max-width:640px){
+  .pgrid th.vg,.pgrid td.vg{display:none}
+  .pgrid .dog{display:none}
+  .pgrid .hear .xl{display:none}
+  .gmb:after{margin-left:4px;font-size:11px}
+  .pgrid .vgm{display:block;font:400 10px/1.35 var(--mono);color:var(--muted);margin-top:2px}
+  .pgrid .wp{width:38px;margin-right:6px}
+  .pgrid td .pct,.pgrid .dog{margin-right:6px}
+  .pgrid .wx{max-width:15ch;font-size:10px}
+  .gd{padding-inline:4px}
+}
+
 footer{border-top:1px solid var(--line);padding-block:32px 40px;color:var(--muted)}
 .foot{display:grid;grid-template-columns:auto minmax(0,1fr);gap:20px 40px;align-items:start}
 .foot-brand{display:grid;gap:10px}
@@ -481,6 +554,7 @@ footer{border-top:1px solid var(--line);padding-block:32px 40px;color:var(--mute
 
 <main id="homeView" class="wrap home">
   <section class="h-hero" aria-labelledby="hTitle">
+    <div class="gn-band live-band" id="hLive" hidden></div>
     <div class="gn-band" id="hGrading" hidden aria-live="polite"></div>
     <p class="eyebrow" id="hEyebrow"></p>
     <h1 class="h-title" id="hTitle"></h1>
@@ -568,6 +642,12 @@ footer{border-top:1px solid var(--line);padding-block:32px 40px;color:var(--mute
           <p class="fmsg" id="btrJoinMsg" aria-live="polite"></p>
         </div>
         <div class="btr-card" id="btrInvite" hidden></div>
+        <div class="btr-card" id="alertsCard">
+          <h3>Alerts</h3>
+          <p>A nudge 30 minutes before your picks lock, a heads-up for Grading Night, and your result each week.</p>
+          <div><button class="btn primary" type="button" id="alertsBtn">Turn on alerts</button></div>
+          <p class="fmsg" id="alertsMsg" aria-live="polite"></p>
+        </div>
         <div class="btr-card" id="btrLeague">
           <h3>Start a league</h3>
           <p>Play your friends and the three of us all season. Everyone in the league sees the same board.</p>
@@ -617,6 +697,11 @@ footer{border-top:1px solid var(--line);padding-block:32px 40px;color:var(--mute
         <h2>Biggest wins <span class="eyebrow" id="rankLabel">NFL, Oct 8–12</span></h2>
         <ol class="rank" id="rank"></ol>
         <p class="src">Ranked by margin of victory.</p>
+      </div>
+      <div class="panel" id="wirePanel" hidden>
+        <h2>The wire <span class="eyebrow">From ESPN</span></h2>
+        <ul class="wire" id="wire"></ul>
+        <p class="src">NFL headlines from ESPN. Each one opens on ESPN.</p>
       </div>
     </aside>
   </div>
@@ -817,7 +902,7 @@ function renderGrid(){
   $("#stTitle").textContent=filter==="all"?"Stories":SPORTS[filter].name;
   $("#grid").innerHTML=list.length?list.map(tcard).join(""):`<p class="empty">No stories here yet.</p>`;
 }
-function renderStories(){renderChips();renderGrid();renderResults();drawMarks($("#storiesView"),false)}
+function renderStories(){renderChips();renderGrid();renderResults();renderWire();drawMarks($("#storiesView"),false)}
 $("#chips").addEventListener("click",e=>{const b=e.target.closest("button[data-f]");if(!b)return;filter=b.dataset.f;store.set("tws-filter",filter);renderStories()});
 
 /* Biggest wins (written-in until live scores arrive) */
@@ -848,8 +933,16 @@ document.querySelectorAll("form[data-form]").forEach(f=>f.addEventListener("subm
   const msg=f.parentElement.querySelector(".fmsg"),btn=f.querySelector("button[type=submit]");
   btn.disabled=true;msg.textContent="Sending…";
   try{
-    const r=await fetch("/",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:new URLSearchParams(new FormData(f)).toString()});
-    if(!r.ok)throw new Error(r.status);
+    let done=false;
+    if(f.name==="newsletter"){
+      const s=await fetch("/api/subscribe",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:new FormData(f).get("email")})}).catch(()=>null);
+      if(s&&s.ok)done=true;
+      else if(s&&s.status===400){let d={};try{d=await s.json()}catch(e){}msg.textContent=d.error||"That email address doesn't look right.";btn.disabled=false;return}
+    }
+    if(!done){
+      const r=await fetch("/",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:new URLSearchParams(new FormData(f)).toString()});
+      if(!r.ok)throw new Error(r.status);
+    }
     msg.textContent=f.name==="newsletter"?"You're on the list. The first sheet lands Tuesday.":"Sent. We'll reply by email.";
     f.reset();
   }catch(err){msg.textContent="That didn't go through. Check your connection and try again."}
@@ -998,7 +1091,7 @@ function renderPicks(){
     $("#pkTitle").textContent=leaders.length===1?`${leaders[0]} went ${word(r[0])} and ${word(r[1])}`:`${listNames(leaders.map(nameCase))} tied at ${word(r[0])} and ${word(r[1])}`;
     const rest=people.filter(p=>!leaders.includes(p)).map(p=>`${nameCase(p)} went ${word(wr.rec[p][0])} and ${word(wr.rec[p][1])}.`).join(" ");
     const ties=wk.games.filter(g=>g.win==="TIE").length;
-    $("#pkLede").textContent=[wr.graded<n?`${cap(word(wr.graded))} of ${word(n)} games are final.`:`All ${word(n)} games are final.`,rest,ties?`${cap(word(ties))} ${ties===1?"game":"games"} ended in a tie and ${ties===1?"counts":"count"} for nobody.`:""].filter(Boolean).join(" ");
+    $("#pkLede").textContent=[wr.graded<n?`${cap(word(wr.graded))} of ${word(n)} games are final.`:`All ${word(n)} games are final.`,rest,ties?`${cap(word(ties))} ${ties===1?"game":"games"} ended in a tie and ${ties===1?"counts":"count"} for nobody.`:""].filter(Boolean).join(" ")+vegasLede({wk,wr,people,n});
   }else if(anyPick){
     $("#pkEyebrow").textContent=`The Sheet · ${wk.label} · ${word(n)} games`;
     $("#pkTitle").textContent=`${word(agreed)} of ${word(n)}`;
@@ -1026,10 +1119,10 @@ function renderPicks(){
     const cells=people.map((p,i)=>{const pk=g.picks[p];
       if(!pk)return `<td><span class="pk q" data-mark="question" data-seed="${seed(r,i)}q" aria-label="No pick"></span></td>`;
       let m="";if(g.win)m=g.win==="TIE"?"dash":(pk===g.win?"check":"strike");else if(odd[r]===i)m="circle";
-      return `<td><span class="pk${g.win==="TIE"?" tie":""}" ${m?`data-mark="${m}" data-seed="${seed(r,i)}${m}"`:""}>${esc(pk)}</span></td>`}).join("");
-    return `<tr><td><span class="gm">${atHTML(g.away,g.home,g.win)}</span>${subHTML(g,people,`${wk.label}-${r}`)}</td>${cells}${fanCells(wk,g,r,"pk")}</tr>`}).join("");
-  if(wr.graded)rows+=`<tr class="total"><td>Week</td>${people.map(p=>`<td><span class="pk">${wr.rec[p][0]}-${wr.rec[p][1]}</span></td>`).join("")}${fanTotals(wk)}</tr>`;
-  $("#pkGrid").innerHTML=`<thead><tr><th scope="col">${wr.graded?"Result":"Game"}</th>${people.map(p=>`<th scope="col">${esc(p)}</th>`).join("")}${fanHeads(wk)}</tr></thead><tbody>${rows}</tbody>`;
+      return `<td><span class="pk${g.win==="TIE"?" tie":""}" ${m?`data-mark="${m}" data-seed="${seed(r,i)}${m}"`:""}>${esc(pk)}</span>${dogHTML(g,pk)}${wpHTML(g,pk)}</td>`}).join("");
+    return `<tr><td><button type="button" class="gm gmb" data-gd="${g.away}-${g.home}" data-wk="${esc(wk.label)}" aria-expanded="false" aria-label="${g.away} at ${g.home}: game details">${atHTML(g.away,g.home,g.win)}</button>${rowSub(g,people,`${wk.label}-${r}`,wk)}</td>${cells}${vegasCell(wk,g,r,"pk")}${fanCells(wk,g,r,"pk")}</tr>`}).join("");
+  if(wr.graded)rows+=`<tr class="total"><td>Week</td>${people.map(p=>`<td><span class="pk">${wr.rec[p][0]}-${wr.rec[p][1]}</span></td>`).join("")}${vegasTotal(wk)}${fanTotals(wk)}</tr>`;
+  $("#pkGrid").innerHTML=`<thead><tr><th scope="col">${wr.graded?"Result":"Game"}</th>${people.map(p=>`<th scope="col">${esc(p)}</th>`).join("")}${vegasHead(wk)}${fanHeads(wk)}</tr></thead><tbody>${rows}</tbody>`;
 
   const showSplits=anyPick&&!wr.graded&&people.length>=3;
   $("#pkSplitWrap").hidden=!showSplits;
@@ -1037,7 +1130,7 @@ function renderPicks(){
     $("#pkSplits").innerHTML=people.map((p,i)=>{const list=wk.games.map((g,r)=>({g,r})).filter(x=>odd[x.r]===i);
       return `<div class="split"><h3>${esc(p)}</h3><span class="n">${list.length} ${list.length===1?"game":"games"}</span>${list.length?`<ul>${list.map(({g,r})=>{const room=people.map(q=>g.picks[q]).find((_,j)=>j!==i);return `<li><span class="g">${atHTML(g.away,g.home)}</span><span><span class="pk" data-mark="circle" data-seed="sp-${wk.label}-${r}">${esc(g.picks[p])}</span> room took ${esc(room)}</span></li>`}).join("")}</ul>`:`<span class="none">Went with the room.</span>`}</div>`}).join("");
   }
-  renderGradeButton();renderBoardPanel();
+  renderGradeButton();renderBoardPanel();reopenDetails($("#pkGrid"));
   drawMarks($("#picksView"),false);
   (document.fonts?.ready||Promise.resolve()).then(()=>{if(view==="sheet")drawMarks($("#picksView"),false)});
 }
@@ -1057,8 +1150,8 @@ function sheetRows(S,games,pre){
     const cells=people.map((p,i)=>{const pk=g.picks[p],seed=`${pre}-${wk.label}-${r}-${i}`;
       if(!pk)return `<td><span class="pk q" data-mark="question" data-seed="${seed}q" aria-label="No pick"></span></td>`;
       let m="";if(g.win)m=g.win==="TIE"?"dash":(pk===g.win?"check":"strike");else if(odd[r]===i)m="circle";
-      return `<td><span class="pk${g.win==="TIE"?" tie":""}" ${m?`data-mark="${m}" data-seed="${seed}${m}"`:""}>${esc(pk)}</span></td>`}).join("");
-    return `<tr><td><span class="gm">${atHTML(g.away,g.home,g.win)}</span>${subHTML(g,people,`${wk.label}-${r}`)}</td>${cells}${fanCells(wk,g,r,pre)}</tr>`}).join("");
+      return `<td><span class="pk${g.win==="TIE"?" tie":""}" ${m?`data-mark="${m}" data-seed="${seed}${m}"`:""}>${esc(pk)}</span>${dogHTML(g,pk)}${wpHTML(g,pk)}</td>`}).join("");
+    return `<tr><td><button type="button" class="gm gmb" data-gd="${g.away}-${g.home}" data-wk="${esc(wk.label)}" aria-expanded="false" aria-label="${g.away} at ${g.home}: game details">${atHTML(g.away,g.home,g.win)}</button>${rowSub(g,people,`${wk.label}-${r}`,wk)}</td>${cells}${vegasCell(wk,g,r,pre)}${fanCells(wk,g,r,pre)}</tr>`}).join("");
 }
 
 /* ---------- Home ---------- */
@@ -1076,7 +1169,7 @@ function renderHome(){
     const all=S.wk.games.map((g,r)=>({g,r})),open=all.filter(x=>!x.g.win);
     const show=(open.length?open:all.slice().reverse()).slice(0,5);
     $("#hNextTitle").textContent=open.length?"Up next":"This week's results";
-    $("#hGrid").innerHTML=`<thead><tr><th scope="col">Game</th>${S.people.map(p=>`<th scope="col">${esc(p)}</th>`).join("")}${fanHeads(S.wk)}</tr></thead><tbody>${sheetRows(S,show,"h")}</tbody>`;
+    $("#hGrid").innerHTML=`<thead><tr><th scope="col">Game</th>${S.people.map(p=>`<th scope="col">${esc(p)}</th>`).join("")}${vegasHead(S.wk)}${fanHeads(S.wk)}</tr></thead><tbody>${sheetRows(S,show,"h")}</tbody>`;
   }
   if(LIVE&&LIVE.updated)$("#hStamp").textContent=`Live scores · updated ${dayLabel(LIVE.updated).toLowerCase()} ${clock(LIVE.updated)} ET`;
   if(!WB.homeDone){
@@ -1084,7 +1177,7 @@ function renderHome(){
     if(m){WB.homeDone=true;WB.byId[m.id]=m;$("#hWB").innerHTML=wbCard(m);wbPhApply($("#hWB"));wbRestore([m])}
   }
   renderHomeWatch();
-  renderGradingBand();renderHomeBoard();renderChat();
+  renderGradingBand();renderHomeBoard();renderChat();renderLiveBand();reopenDetails($("#hGrid"));
   $("#hStories").innerHTML=STORIES.slice(0,3).map(tcard).join("");
   drawMarks($("#homeView"),false);
   (document.fonts?.ready||Promise.resolve()).then(()=>{if(view==="home")drawMarks($("#homeView"),false)});
@@ -1104,11 +1197,12 @@ const YT={channel:"UCAl6bIUsXnVVBUrrWC841mg",url:"https://www.youtube.com/@thewi
 const ytDate=iso=>{try{return new Date(iso).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"})}catch(e){return ""}};
 const ytViews=n=>n==null?"":` · ${n.toLocaleString("en-US")} view${n===1?"":"s"}`;
 function ytLoad(){
-  if(!YT.loading)YT.loading=fetch("/api/videos").then(r=>r.ok?r.json():null).then(d=>{YT.list=d&&Array.isArray(d.videos)?d.videos:null}).catch(()=>{YT.list=null});
+  if(!YT.loading)YT.loading=fetch("/api/videos").then(r=>r.ok?r.json():null).then(d=>{YT.list=d&&Array.isArray(d.videos)?d.videos:null;YT.live=d&&d.live||null}).catch(()=>{YT.list=null});
   return YT.loading;
 }
 function ytFacade(el,v,label){
-  const src=v?`https://www.youtube-nocookie.com/embed/${v.id}?autoplay=1&rel=0&modestbranding=1`
+  const st=YT.start||0;YT.start=0;
+  const src=v?`https://www.youtube-nocookie.com/embed/${v.id}?autoplay=1&rel=0&modestbranding=1${st?`&start=${st}`:""}`
              :`https://www.youtube-nocookie.com/embed/videoseries?list=UU${YT.channel.slice(2)}&autoplay=1&rel=0`;
   const title=v?v.title:"The Winning Shot Pod, latest uploads";
   el.innerHTML=`<button class="yt-face" type="button" aria-label="Play: ${esc(title)}">${v?`<img src="https://i.ytimg.com/vi/${v.id}/maxresdefault.jpg" alt="" loading="lazy" onerror="if(this.dataset.f)this.remove();else{this.dataset.f=1;this.src='https://i.ytimg.com/vi/${v.id}/hqdefault.jpg'}">`:""}<span class="play"></span><span class="cap">${esc(label)}</span></button>`;
@@ -1121,7 +1215,7 @@ function ytNow(el,v){
                :`<a class="link" href="${YT.url}/videos" target="_blank" rel="noopener">See every episode on YouTube</a>`;
 }
 const ytLong=()=>(YT.list||[]).filter(v=>!v.short);
-const ytFeatured=()=>ytLong()[0]||(YT.list||[])[0]||null;
+const ytFeatured=()=>(YT.live&&(YT.list||[]).find(v=>v.id===YT.live))||ytLong()[0]||(YT.list||[])[0]||null;
 function renderWatchGrid(){
   const rest=(YT.list||[]);
   $("#waMoreWrap").hidden=rest.length<2;
@@ -1202,12 +1296,12 @@ function fanCells(wk,g,r,pre){
   const seed=`${pre}-${wk.label}-${r}`;
   let room;
   if(rp){const m=markFor(rp,g.win),pct=Math.round((counts[rp]||0)/tot*100);
-    room=`<span class="pk${g.win==="TIE"?" tie":""}" ${m?`data-mark="${m}" data-seed="${seed}-rm${m}"`:""}>${esc(rp)}</span><span class="pct">${pct}%</span>`}
+    room=`<span class="pk${g.win==="TIE"?" tie":""}" ${m?`data-mark="${m}" data-seed="${seed}-rm${m}"`:""}>${esc(rp)}</span>${wpHTML(g,rp)||`<span class="pct">${pct}%</span>`}`}
   else room=`<span class="none" aria-label="${tot?"Split evenly":"No room pick"}">${tot?"½":"–"}</span>${tot?`<span class="pct">split</span>`:""}`;
   const mine=myPick(wk,g),open=gameOpen(wk,g);
   let you;
   if(open)you=`<button type="button" class="youpick${mine?" on":""}" data-pick="${g.away}-${g.home}" data-wk="${esc(wk.label)}" aria-label="Your pick, ${g.away} at ${g.home}: ${mine||"none"}. Tap to change.">${mine?esc(mine):"Pick"}</button>`;
-  else if(mine){const m=markFor(mine,g.win);you=`<span class="pk${g.win==="TIE"?" tie":""}" ${m?`data-mark="${m}" data-seed="${seed}-me${m}"`:""}>${esc(mine)}</span>`}
+  else if(mine){const m=markFor(mine,g.win);you=`<span class="pk${g.win==="TIE"?" tie":""}" ${m?`data-mark="${m}" data-seed="${seed}-me${m}"`:""}>${esc(mine)}</span>${wpHTML(g,mine)}`}
   else you=`<span class="none" aria-label="${g.win?"No pick":"Locked"}">–</span>`;
   return `<td class="fan room">${room}</td><td class="fan you">${you}</td>`;
 }
@@ -1257,7 +1351,7 @@ $("#btrJoinForm").addEventListener("submit",async e=>{
   e.preventDefault();const msg=$("#btrJoinMsg"),btn=e.target.querySelector("button");btn.disabled=true;msg.textContent="Saving…";
   try{
     const d=await roomPost({action:"hello",nick:$("#btrNick").value});
-    ROOM.nick=d.nick;store.set("tws-nick",d.nick);msg.textContent="";$("#btrJoin").hidden=true;
+    ROOM.nick=d.nick;store.set("tws-nick",d.nick);msg.textContent="";$("#btrJoin").hidden=true;savePush();
     toast(`You're on the board, ${d.nick}.`);
     if(ROOM.invite&&!(ROOM.me.leagues||[]).some(l=>l.code===ROOM.invite))await joinLeague(ROOM.invite);
     if(ROOM.pending){const p=ROOM.pending;ROOM.pending=null;renderRoomEverywhere();
@@ -1325,7 +1419,7 @@ function boardRows(kind){
 }
 function rowHTML(x,i,pre){
   const faces=PICKS.faces||{},me=x.kind==="fan"&&ROOM.nick&&x.name===ROOM.nick;
-  const pic=x.kind==="host"?(faces[x.name]?`<img src="${esc(faces[x.name])}" alt="">`:`<span class="dot">${esc(x.name[0])}</span>`):x.kind==="room"?`<span class="dot">R</span>`:`<span class="dot">${esc(x.name[0].toUpperCase())}</span>`;
+  const pic=x.kind==="host"?(faces[x.name]?`<img src="${esc(faces[x.name])}" alt="">`:`<span class="dot">${esc(x.name[0])}</span>`):x.kind==="room"?`<span class="dot">${x.name==="VEGAS"?"V":"R"}</span>`:`<span class="dot">${esc(x.name[0].toUpperCase())}</span>`;
   const label=me?`<span class="mk" data-mark="underline" data-seed="${pre}-me-${x.name}">${esc(x.name)}</span>`:esc(x.name);
   return `<li class="${x.kind}${me?" me":""}" data-name="${esc(x.name)}"><span class="rk">${i+1}</span><span class="nm">${pic}<span>${label}</span></span><span class="rc">${x.w}-${x.l}</span></li>`;
 }
@@ -1425,9 +1519,9 @@ function renderGradingBand(){
   const t=gradingAt(wk),now=Date.now();if(!t){el.hidden=true;return}
   const short=wk.label.split(" · ")[0];
   el.hidden=false;el.classList.toggle("live",now>=t&&now<t+LIVE_WINDOW);
-  if(now<t)el.innerHTML=`<div><p class="eyebrow">Grading Night</p><p class="gn-when">${esc(short)} gets graded live, ${esc(whenText(t))}</p></div><div class="gn-count" aria-label="Starts in ${untilText(t-now)}">${untilText(t-now)}</div><div class="gn-acts"><button class="btn" type="button" data-ics>Add to calendar</button></div>`;
+  if(now<t)el.innerHTML=`<div><p class="eyebrow">Grading Night</p><p class="gn-when">${esc(short)} gets graded live, ${esc(whenText(t))}</p></div><div class="gn-count" aria-label="Starts in ${untilText(t-now)}">${untilText(t-now)}</div><div class="gn-acts">${PUSH.sub?"":`<button class="btn" type="button" data-alerts>Get alerts</button>`}<button class="btn" type="button" data-ics>Add to calendar</button></div>`;
   else if(now<t+LIVE_WINDOW)el.innerHTML=`<div><p class="eyebrow">Grading Night is live</p><p class="gn-when">${esc(short)} is being graded right now.</p></div><div class="gn-acts"><button class="btn primary" type="button" data-grade="0">Watch the grading</button></div>`;
-  else el.innerHTML=`<div><p class="eyebrow">Grading Night</p><p class="gn-when">${esc(short)} has been graded. The next sheet goes up before kickoff.</p></div><div class="gn-acts"><button class="btn primary" type="button" data-grade="0">Replay the grading</button><button class="btn" type="button" data-ics>Add to calendar</button></div>`;
+  else el.innerHTML=`<div><p class="eyebrow">Grading Night</p><p class="gn-when">${esc(short)} has been graded. The next sheet goes up before kickoff.</p></div><div class="gn-acts"><button class="btn primary" type="button" data-grade="0">Replay the grading</button>${PUSH.sub?"":`<button class="btn" type="button" data-alerts>Get alerts</button>`}<button class="btn" type="button" data-ics>Add to calendar</button></div>`;
 }
 function renderGradeButton(){
   const box=$("#pkGradeBox");if(!box||!SHEET)return;
@@ -1483,16 +1577,16 @@ async function playGrading(i){
   $("#gnSound").setAttribute("aria-pressed",SOUND);$("#gnSound").textContent=SOUND?"Sound on":"Sound off";
   $("#gnEyebrow").textContent=`Grading Night · ${wk.label}`;$("#gnTitle").textContent="Grading the sheet";$("#gnLede").textContent="Every pick, one game at a time.";
   $("#gnEnd").hidden=true;$("#gnSkip").hidden=false;
-  const recs={};people.forEach(p=>recs[p]=[0,0]);const showRoom=W&&W.pickers;if(showRoom)recs["THE ROOM"]=[0,0];if(mine&&ROOM.nick)recs[ROOM.nick]=[0,0];
-  const kind=n=>people.includes(n)?"host":n==="THE ROOM"?"room":"fan";
+  const recs={};people.forEach(p=>recs[p]=[0,0]);const showRoom=W&&W.pickers;if(showRoom)recs["THE ROOM"]=[0,0];const showV=showVegas(wk);if(showV)recs["VEGAS"]=[0,0];if(mine&&ROOM.nick)recs[ROOM.nick]=[0,0];
+  const kind=n=>people.includes(n)?"host":n==="THE ROOM"||n==="VEGAS"?"room":"fan";
   const drawBoard=(hit)=>{const rows=Object.entries(recs).map(([name,r])=>({name,kind:kind(name),w:r[0],l:r[1]})).sort((a,b)=>net([b.w,b.l])-net([a.w,a.l])||b.w-a.w||(a.kind==="fan")-(b.kind==="fan"));
     $("#gnBoard").innerHTML=rows.map((x,j)=>rowHTML(x,j,"gn")).join("");if(hit)hit.forEach(n=>$("#gnBoard").querySelector(`li[data-name="${CSS.escape(n)}"]`)?.classList.add("hit"));drawMarks($("#gnBoard"),false)};
   drawBoard();
   const games=wk.games.map((g,r)=>({g,r}));
-  $("#gnGrid").innerHTML=`<thead><tr><th scope="col">Result</th>${people.map(p=>`<th scope="col">${esc(p)}</th>`).join("")}${showRoom?`<th scope="col" class="fan">Room</th>`:""}${mine&&ROOM.nick?`<th scope="col" class="fan">You</th>`:""}</tr></thead><tbody>${games.map(({g,r})=>{
+  $("#gnGrid").innerHTML=`<thead><tr><th scope="col">Result</th>${people.map(p=>`<th scope="col">${esc(p)}</th>`).join("")}${showV?`<th scope="col" class="vg">Vegas</th>`:""}${showRoom?`<th scope="col" class="fan">Room</th>`:""}${mine&&ROOM.nick?`<th scope="col" class="fan">You</th>`:""}</tr></thead><tbody>${games.map(({g,r})=>{
     const cell=(pk,seed)=>{if(!pk)return `<td><span class="pk q" data-wait="question" data-seed="${seed}q"></span></td>`;const m=markFor(pk,g.win);return `<td><span class="pk${g.win==="TIE"?" tie":""}" ${m?`data-wait="${m}" data-seed="${seed}${m}"`:""}>${esc(pk)}</span></td>`};
     const rg=roomGame(wk,g);
-    return `<tr class="wait" data-r="${r}"><td><span class="gm">${atHTML(g.away,g.home,g.win)}</span>${subHTML(g,people,`${wk.label}-${r}`)}</td>${people.map((p,k)=>cell(g.picks[p],`gn-${wk.label}-${r}-${k}`)).join("")}${showRoom?cell(rg&&rg.room,`gn-${wk.label}-${r}-rm`).replace("<td>",'<td class="fan">'):""}${mine&&ROOM.nick?cell(myPick(wk,g),`gn-${wk.label}-${r}-me`).replace("<td>",'<td class="fan">'):""}</tr>`}).join("")}</tbody>`;
+    return `<tr class="wait" data-r="${r}"><td><span class="gm">${atHTML(g.away,g.home,g.win)}</span>${subHTML(g,people,`${wk.label}-${r}`)}</td>${people.map((p,k)=>cell(g.picks[p],`gn-${wk.label}-${r}-${k}`)).join("")}${showV?cell((lineFor(g)||{}).fav,`gn-${wk.label}-${r}-vg`).replace("<td>",'<td class="vg">'):""}${showRoom?cell(rg&&rg.room,`gn-${wk.label}-${r}-rm`).replace("<td>",'<td class="fan">'):""}${mine&&ROOM.nick?cell(myPick(wk,g),`gn-${wk.label}-${r}-me`).replace("<td>",'<td class="fan">'):""}</tr>`}).join("")}</tbody>`;
   await sleep(500);
   for(const {g,r} of games){
     if(run!==GN.run)return;
@@ -1502,6 +1596,7 @@ async function playGrading(i){
     if(g.win){
       const score=(name,pk)=>{const m=markFor(pk,g.win);if(m==="check"){recs[name][0]++;hits.push(name)}else if(m==="strike")recs[name][1]++};
       people.forEach(p=>score(p,g.picks[p]));
+      if(showV)score("VEGAS",(lineFor(g)||{}).fav);
       if(showRoom){const rg=roomGame(wk,g);score("THE ROOM",rg&&rg.room)}
       if(mine&&ROOM.nick)score(ROOM.nick,myPick(wk,g));
     }
@@ -1578,6 +1673,192 @@ function allRight(g){
   return false;
 }
 setInterval(()=>{if(!document.hidden&&(view==="home"||view==="sheet"))loadRoom()},60e3);
+
+
+/* ---------- Integrations: Vegas, win probability, game details, weather, the wire, trending, live, alerts ---------- */
+const EXT={odds:null,weather:null,news:null,trending:null,games:{},open:new Set()};
+const getJSON=u=>fetch(u,{cache:"no-store"}).then(r=>r.ok?r.json():null).catch(()=>null);
+function loadExtras(){
+  return Promise.all([getJSON("/api/odds").then(d=>{if(d&&d.lines)EXT.odds=d}),getJSON("/api/weather").then(d=>{if(d&&d.games)EXT.weather=d.games})])
+    .then(()=>{if(view==="sheet")renderPicks();if(view==="home")renderHome()});
+}
+setInterval(()=>{if(!document.hidden)loadExtras()},10*60e3);
+
+/* Vegas: the favorite, graded like everyone else. */
+const lineFor=g=>EXT.odds&&EXT.odds.lines?EXT.odds.lines[`${g.away}-${g.home}`]||null:null;
+const showVegas=wk=>!!wk&&wk.games.some(lineFor);
+function vegasHead(wk){return showVegas(wk)?`<th scope="col" class="vg" title="The betting favorite">Vegas</th>`:""}
+function vegasCell(wk,g,r,pre){
+  if(!showVegas(wk))return "";
+  const v=lineFor(g);if(!v)return `<td class="vg"><span class="none">–</span></td>`;
+  const m=markFor(v.fav,g.win);
+  const lv=(liveNFL(g)||{}).wp,sub=lv?"":v.prob?`${Math.round(v.prob*100)}%`:(v.details||"").replace(/^[A-Z]{2,3}\s*/,"");
+  return `<td class="vg"><span class="pk${g.win==="TIE"?" tie":""}" ${m?`data-mark="${m}" data-seed="${pre}-${wk.label}-${r}-vg${m}"`:""}>${esc(v.fav)}</span>${sub?`<span class="pct">${esc(sub)}</span>`:""}${wpHTML(g,v.fav)}</td>`;
+}
+function vegasRec(wk){const r=[0,0];wk.games.forEach(g=>{const v=lineFor(g),m=v&&markFor(v.fav,g.win);if(m==="check")r[0]++;else if(m==="strike")r[1]++});return r}
+function vegasTotal(wk){if(!showVegas(wk))return "";const r=vegasRec(wk);return `<td class="vg"><span class="pk">${r[0]}-${r[1]}</span></td>`}
+function vegasLede(S){
+  if(!showVegas(S.wk))return "";
+  const r=vegasRec(S.wk);if(!r[0]&&!r[1])return "";
+  const n=x=>x[0]-x[1],beat=S.people.filter(p=>n(S.wr.rec[p])>n(r)).map(nameCase),done=S.wr.graded>=S.n;
+  let s=` Vegas ${done?"went":"is"} ${r[0]}–${r[1]}${done?"":" so far"}.`;
+  if(beat.length===S.people.length)s+=done?" All three of us beat Vegas.":" All three of us are ahead of Vegas.";
+  else if(beat.length)s+=done?` ${listNames(beat)} beat Vegas.`:` ${listNames(beat)} ${beat.length===1?"is":"are"} ahead of Vegas.`;
+  else if(S.people.every(p=>n(S.wr.rec[p])<n(r)))s+=done?" Vegas beat all three of us.":" Vegas is ahead of all three of us.";
+  return s;
+}
+const dogHTML=(g,pk)=>{const v=lineFor(g);return v&&pk&&pk!==v.fav&&!(liveNFL(g)||{}).wp?`<span class="dog" title="Took the underdog">dog</span>`:""};
+
+/* Live win probability under each pick, from ESPN's in-game model. */
+function wpHTML(g,pk){
+  const f=liveNFL(g);if(!pk||!f||f.status!=="live"||!f.wp)return "";
+  const p=Math.round(100*(pk===g.home?f.wp.home:f.wp.away));if(!(p>=0&&p<=100))return "";
+  return `<span class="wp${p<50?" low":""}" aria-label="${esc(pk)}: ${p} percent to win"><i style="--w:${p}%"></i>${p}%</span>`;
+}
+
+/* The row's second line: live score, kickoff + weather, or the final stamp; plus "Hear the pick". */
+function rowSub(g,people,seedKey,wk){
+  const f=liveNFL(g);let out;
+  if(!g.win&&f&&f.status==="live")out=`<span class="kick live">${esc(f.statusText||"Live")} · ${f.away.score??0}–${f.home.score??0}</span>`;
+  else out=subHTML(g,people,seedKey);
+  if(!g.win&&(!f||f.status==="scheduled")){const w=EXT.weather&&EXT.weather[`${g.away}-${g.home}`];if(w&&w.text)out+=`<span class="wx">${esc(w.text)}</span>`}
+  const v=showVegas(wk)&&lineFor(g);if(v)out+=`<span class="vgm">Vegas: ${esc(v.fav)}${v.prob?` ${Math.round(v.prob*100)}%`:""}</span>`;
+  const h=hearFor(wk,g);if(h)out+=`<button type="button" class="hear" data-yt="${h.id}" data-t="${h.t}" aria-label="Hear the pick on the pod, at ${h.stamp}">Hear <span class="xl">the pick</span><span class="sm">it</span> · ${h.stamp}</button>`;
+  return out;
+}
+
+/* Tap a game: box score and leaders once it starts, injuries and weather before. */
+document.addEventListener("click",async e=>{
+  const b=e.target.closest(".gmb");if(!b)return;
+  const gk=b.dataset.gd,tr=b.closest("tr"),wkLabel=b.dataset.wk,open=b.getAttribute("aria-expanded")==="true",key=wkLabel+"|"+gk;
+  if(open){EXT.open.delete(key);b.setAttribute("aria-expanded","false");tr.nextElementSibling?.classList.contains("gdetail")&&tr.nextElementSibling.remove();return}
+  EXT.open.add(key);b.setAttribute("aria-expanded","true");showDetail(tr,wkLabel,gk);
+});
+async function showDetail(tr,wkLabel,gk){
+  const wk=PICKS.weeks.find(w=>w.label===wkLabel),g=wk&&wk.games.find(x=>`${x.away}-${x.home}`===gk);if(!g)return;
+  let row=tr.nextElementSibling;
+  if(!row||!row.classList.contains("gdetail")){row=document.createElement("tr");row.className="gdetail";tr.after(row)}
+  row.innerHTML=`<td colspan="${tr.cells.length}"><div class="gd"><p class="meta">Loading the game…</p></div></td>`;
+  const f=liveNFL(g);
+  if(!f||!f.espnId){row.firstChild.innerHTML=`<div class="gd"><p class="meta">Game details are available for this week's games.</p></div>`;return}
+  const k=f.espnId,cached=EXT.games[k];
+  let d=cached&&Date.now()-cached.at<(f.status==="live"?30e3:600e3)?cached.d:null;
+  if(!d){d=await getJSON(`/api/game?id=${k}`);if(d)EXT.games[k]={at:Date.now(),d}}
+  if(!row.isConnected)return;
+  row.firstChild.innerHTML=`<div class="gd">${d&&!d.error?detailHTML(g,d,f):`<p class="meta">ESPN's game details didn't load. Try again in a minute.</p>`}</div>`;
+}
+function detailHTML(g,d,f){
+  const parts=[],v=lineFor(g);
+  const info=[d.venue&&d.venue.name,d.venue&&[d.venue.city,d.venue.state].filter(Boolean).join(", ")].filter(Boolean).join(" · ");
+  const pre=[];if(info)pre.push(esc(info));
+  if(d.weather&&d.weather.text)pre.push(esc(d.weather.text));
+  if(v)pre.push(`Vegas: ${esc(v.fav)}${v.prob?` ${Math.round(v.prob*100)}% to win`:""}${v.details?` (${esc(v.details)})`:""}`);
+  if(pre.length)parts.push(`<div><h4>The game</h4><p class="meta">${pre.join("<br>")}</p></div>`);
+  if(d.wp&&d.wp.length>3){
+    const W=300,H=64,pts=d.wp.map((p,i)=>`${(i/(d.wp.length-1)*W).toFixed(1)},${((1-p)*H).toFixed(1)}`).join(" ");
+    const last=d.wp[d.wp.length-1];
+    parts.push(`<div><h4>Win probability · ${esc(g.home)}</h4><svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="${esc(g.home)} win probability, now ${Math.round(last*100)} percent"><line class="wpmid" x1="0" y1="${H/2}" x2="${W}" y2="${H/2}"/><polyline class="wpline" points="${pts}"/></svg><p class="meta">${esc(g.home)} ${Math.round(last*100)}% · ${esc(g.away)} ${Math.round((1-last)*100)}%</p></div>`);
+  }
+  if(d.stats&&d.stats.length)parts.push(`<div><h4>Box score</h4><table><thead><tr><th>${esc(g.away)}</th><th></th><th>${esc(g.home)}</th></tr></thead><tbody>${d.stats.map(s=>`<tr><td>${esc(s.away)}</td><td>${esc(s.label)}</td><td>${esc(s.home)}</td></tr>`).join("")}</tbody></table></div>`);
+  (d.leaders||[]).forEach(t=>{if(t.cats&&t.cats.length)parts.push(`<div><h4>${esc(t.team)} leaders</h4><ul>${t.cats.map(c=>`<li><span><b>${esc(c.name)}</b><small>${esc(c.line)}</small></span></li>`).join("")}</ul></div>`)});
+  if(d.state==="pre")(d.injuries||[]).forEach(t=>parts.push(`<div><h4>${esc(t.team)} injury report</h4><ul>${t.list.map(i=>`<li><span><b>${esc(i.status)}</b>${esc(i.name)}${i.pos?` <small>${esc(i.pos)}</small>`:""}${i.detail?` <small>· ${esc(i.detail)}</small>`:""}</span></li>`).join("")}</ul></div>`));
+  if(!parts.length)parts.push(`<p class="meta">ESPN hasn't posted details for this game yet.</p>`);
+  parts.push(`<p class="meta" style="grid-column:1/-1">Game data from ESPN${d.weather&&!d.weather.dome?" · weather from Open-Meteo":""} · <a href="${esc(d.link)}" target="_blank" rel="noopener">Full game on ESPN</a></p>`);
+  return parts.join("");
+}
+function reopenDetails(root){
+  root.querySelectorAll(".gmb").forEach(b=>{if(EXT.open.has(b.dataset.wk+"|"+b.dataset.gd)){b.setAttribute("aria-expanded","true");showDetail(b.closest("tr"),b.dataset.wk,b.dataset.gd)}});
+}
+
+/* "Hear the pick": a chapter in that week's episode that names one of the teams. */
+const TEAM_WORDS=Object.fromEntries(Object.entries(NFL_ABBR).map(([full,ab])=>{const nick=full.split(" ").pop(),city=full.slice(0,-nick.length-1);
+  return [code(ab),{nick:nick.toLowerCase(),city:/^(New York|Los Angeles)$/.test(city)?null:city.toLowerCase()}]}));
+function mentions(label,team){
+  const l=" "+label.toLowerCase().replace(/[^a-z0-9 ]/g," ")+" ",w=TEAM_WORDS[team];if(!w)return false;
+  return l.includes(" "+w.nick+" ")||l.includes(" "+w.nick+"s ")||(w.city&&l.includes(" "+w.city+" "))||new RegExp(`(^|[^A-Z])${team}([^A-Z]|$)`).test(label);
+}
+function hearFor(wk,g){
+  if(!wk||!YT.list)return null;
+  const dates=wk.games.map(liveNFL).filter(Boolean).map(f=>new Date(f.date).getTime());
+  const first=dates.length?Math.min(...dates):null,last=dates.length?Math.max(...dates):null;
+  const eps=YT.list.filter(v=>!v.short&&v.chapters&&v.chapters.length&&(!first||(new Date(v.published)>first-5*864e5&&new Date(v.published)<last+6*3600e3)));
+  for(const v of eps){
+    const both=v.chapters.find(c=>mentions(c.label,g.away)&&mentions(c.label,g.home)),one=both||v.chapters.find(c=>mentions(c.label,g.away)||mentions(c.label,g.home));
+    if(one){const s=one.t,stamp=s>=3600?`${Math.floor(s/3600)}:${String(Math.floor(s%3600/60)).padStart(2,"0")}:${String(s%60).padStart(2,"0")}`:`${Math.floor(s/60)}:${String(s%60).padStart(2,"0")}`;return {id:v.id,t:s,stamp}}
+  }
+  return null;
+}
+document.addEventListener("click",e=>{const b=e.target.closest(".hear");if(!b)return;playAt(b.dataset.yt,+b.dataset.t)});
+async function playAt(id,t){
+  setView("watch");await ytLoad();
+  const v=(YT.list||[]).find(x=>x.id===id);if(!v)return;
+  await sleep(0);YT.start=t;ytShow(v);const f=$("#waPlayer button");if(f)f.click();
+}
+
+/* Live now: a band on the homepage while the pod is streaming (needs the YouTube key on the server). */
+function renderLiveBand(){
+  const el=$("#hLive");if(!el)return;
+  const v=YT.live&&(YT.list||[]).find(x=>x.id===YT.live);
+  if(!v){el.hidden=true;return}
+  el.hidden=false;
+  el.innerHTML=`<div><p class="eyebrow">Live now</p><p class="gn-when">${esc(v.title)}</p></div><div class="gn-acts"><button class="btn primary" type="button" data-live="${v.id}">Watch live</button></div>`;
+}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-live]");if(!b)return;playAt(b.dataset.live,0)});
+
+/* The wire: ESPN's NFL headlines on the Stories page, linked to ESPN. */
+async function renderWire(){
+  if(!EXT.news)EXT.news=await getJSON("/api/news");
+  const items=(EXT.news&&EXT.news.items)||[];
+  $("#wirePanel").hidden=!items.length;
+  $("#wire").innerHTML=items.slice(0,8).map(a=>`<li><a href="${esc(a.link)}" target="_blank" rel="noopener">${esc(a.headline)}</a><small>${a.published?esc(dayLabel(a.published)+" · "+clock(a.published)+" ET"):""}</small></li>`).join("");
+}
+
+/* Who Better? goes timely: the two most-added fantasy players at a position face off. */
+async function loadTrending(){
+  if(EXT.trending)return;
+  const d=await Promise.race([getJSON("/api/trending"),new Promise(r=>setTimeout(()=>r(null),2500))]);
+  EXT.trending=d||{matchups:[]};
+  const ms=(d&&d.matchups||[]).map(m=>{
+    const mk=p=>{const s=slug(p.name);const ex=WB.data.players[s];if(ex)return ex;
+      const pl={name:p.name,slug:s,league:"NFL",pos:m.pos,active:true};if(p.wiki)pl.wiki=p.wiki;else WB_PH[s]=null;return pl};
+    const a=mk(m.a),b=mk(m.b);if(a.slug===b.slug)return null;
+    return {id:[a.slug,b.slug].sort().join("__"),a,b,league:"NFL",pos:m.pos,takes:{},tag:`Trending in fantasy: ${shortN(m.a.name)} was added in ${m.a.adds.toLocaleString()} Sleeper leagues and ${shortN(m.b.name)} in ${m.b.adds.toLocaleString()} over the last two days.`};
+  }).filter(Boolean).filter(m=>!WB.data.matchups.some(x=>x.id===m.id));
+  WB.data.matchups.splice(WB.cur,0,...ms);
+}
+
+/* Alerts: web push, straight from the site. */
+const PUSH={reg:null,sub:null};
+const pushable=()=>"serviceWorker" in navigator&&"PushManager" in window&&"Notification" in window;
+const isIOS=()=>/iPhone|iPad|iPod/.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
+const standalone=()=>matchMedia("(display-mode: standalone)").matches||navigator.standalone===true;
+if("serviceWorker" in navigator&&location.protocol==="https:")navigator.serviceWorker.register("/sw.js").then(async r=>{PUSH.reg=r;try{PUSH.sub=await r.pushManager?.getSubscription()}catch(e){}renderAlerts()}).catch(()=>{});
+function b64(s){const p="=".repeat((4-s.length%4)%4),b=atob((s+p).replace(/-/g,"+").replace(/_/g,"/"));return Uint8Array.from(b,c=>c.charCodeAt(0))}
+function renderAlerts(){
+  const btn=$("#alertsBtn"),msg=$("#alertsMsg");if(!btn)return;
+  if(PUSH.sub){btn.textContent="Turn off alerts";btn.classList.remove("primary");msg.innerHTML=`<span class="alerts-on">Alerts are on</span>`;return}
+  btn.textContent="Turn on alerts";btn.classList.add("primary");
+  if(!pushable()&&isIOS()&&!standalone())msg.textContent="On iPhone: tap Share, then Add to Home Screen. Open The Winning Shot from your Home Screen and turn alerts on there.";
+  else if(!pushable())msg.textContent="This browser can't show alerts.";
+  else if(Notification.permission==="denied")msg.textContent="Alerts are blocked for this site. Allow notifications in your browser settings, then try again.";
+  else msg.textContent="";
+}
+async function toggleAlerts(){
+  const msg=$("#alertsMsg");
+  if(!pushable()){renderAlerts();if(view!=="sheet")setView("sheet","alertsCard");return}
+  try{
+    PUSH.reg=PUSH.reg||await navigator.serviceWorker.register("/sw.js");await navigator.serviceWorker.ready;
+    if(PUSH.sub){const ep=PUSH.sub.endpoint;await PUSH.sub.unsubscribe();PUSH.sub=null;fetch("/api/push",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({remove:ep})});toast("Alerts are off.");renderAlerts();return}
+    const perm=await Notification.requestPermission();if(perm!=="granted"){renderAlerts();return}
+    const k=await getJSON("/api/push");if(!k||!k.key)throw new Error("no key");
+    roomIds();
+    PUSH.sub=await PUSH.reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:b64(k.key)});
+    await savePush();toast("Alerts are on.");
+  }catch(err){msg.textContent="Alerts didn't turn on. Try again in a minute."}
+  renderAlerts();
+}
+function savePush(){if(!PUSH.sub)return Promise.resolve();roomIds();return fetch("/api/push",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({sub:PUSH.sub.toJSON(),pid:ROOM.pid})}).catch(()=>{})}
+document.addEventListener("click",e=>{if(e.target.closest("#alertsBtn,[data-alerts]"))toggleAlerts()});
 
 /* ---------- Views ---------- */
 const VIEWS={home:"#homeView",sheet:"#picksView",whobetter:"#wbView",stories:"#storiesView",watch:"#watchView",about:"#aboutView"};
@@ -1837,6 +2118,7 @@ function wbCard(m){
   const takes=Object.entries(m.takes||{});
   return `<article class="wb-card" data-id="${m.id}">
     <div class="wb-top"><span class="eyebrow">Who better? · ${esc([m.league,m.pos].filter(Boolean).join(" · "))}</span><span class="eyebrow">No. ${++WB.num}</span></div>
+    ${m.tag?`<p class="wb-tag">${esc(m.tag)}</p>`:""}
     <div class="wb-face">${face(m.a,A)}<span class="wb-vs">vs</span>${face(m.b,B)}</div>
     ${wbQs(m).map(([q,l])=>`<div class="wb-q" data-q="${q}"><span class="wb-ql">${l}</span><div class="wb-opts">${opt(m.a,A)}${opt(m.b,B)}</div><span class="wb-meta"></span></div>`).join("")}
     ${takes.length?`<p class="wb-room" hidden>The room: ${takes.map(([who,p])=>`<b>${esc(nameCase(who))}</b> ${esc(shortN(p))}`).join(" · ")}</p>`:""}
@@ -1901,11 +2183,14 @@ $("#wbMore").addEventListener("click",()=>wbAdd(6));
 function startWB(){
   wbTally();
   if(WB.started){drawMarks($("#wbFeed"),false);return}
-  WB.started=true;wbAdd(6);
-  if("IntersectionObserver" in window){
-    $("#wbMore").hidden=true;
-    new IntersectionObserver(es=>{if(es.some(x=>x.isIntersecting)&&view==="whobetter")wbAdd(4)},{rootMargin:"600px 0px"}).observe($("#wbSentinel"));
-  }
+  WB.started=true;
+  loadTrending().finally(()=>{
+    wbAdd(6);
+    if("IntersectionObserver" in window){
+      $("#wbMore").hidden=true;
+      new IntersectionObserver(es=>{if(es.some(x=>x.isIntersecting)&&view==="whobetter")wbAdd(4)},{rootMargin:"600px 0px"}).observe($("#wbSentinel"));
+    }
+  });
 }
 fetch("whobetter.txt",{cache:"no-store"}).then(r=>r.ok?r.text():Promise.reject()).then(t=>{if(/PLAYER:/i.test(t)&&!WB.started)WB.data=parseWB(t)}).catch(()=>{});
 
@@ -1920,6 +2205,8 @@ function pollScores(){
 }
 pollScores();
 loadRoom();
+loadExtras();
+ytLoad().then(()=>{renderLiveBand();if(view==="sheet")renderPicks();if(view==="home")renderHome()});
 </script>
 
 </body>

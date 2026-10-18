@@ -131,3 +131,38 @@ export function cleanNick(s) {
   if (BLOCKED.test(n.replace(/[^A-Za-z]/g, ""))) return { error: "Pick a different name." };
   return { nick: n, key: n.toLowerCase().replace(/[^a-z0-9]/g, "") };
 }
+
+// Grading Night: the Tuesday (or the GRADING: day) after the week's last game, 8:00 PM Eastern by default.
+const TZ = "America/New_York";
+const DOW = { sun: 0, mon: 1, tue: 2, wed: 3, thu: 4, fri: 5, sat: 6 };
+const MON = { jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5, jul: 6, aug: 7, sep: 8, oct: 9, nov: 10, dec: 11 };
+function etTime(y, m, d, h, mi) {
+  for (const off of [4, 5]) {
+    const t = Date.UTC(y, m, d, h + off, mi);
+    const p = new Intl.DateTimeFormat("en-US", { timeZone: TZ, hour: "numeric", hourCycle: "h23", day: "numeric" }).formatToParts(new Date(t));
+    if (+p.find((x) => x.type === "hour").value === h && +p.find((x) => x.type === "day").value === new Date(Date.UTC(y, m, d)).getUTCDate()) return t;
+  }
+  return Date.UTC(y, m, d, h + 5, mi);
+}
+export function gradingSpec(text) {
+  const m = String(text || "").match(/^\s*GRADING:\s*(.+)$/im);
+  return m ? m[1].trim() : "Tue 8:00 PM";
+}
+export function gradingAt(wk, live, spec = "Tue 8:00 PM") {
+  const s = String(spec).match(/^(\w{3})\w*\s+(\d{1,2})(?::(\d\d))?\s*(AM|PM)?/i) || [];
+  const dow = DOW[(s[1] || "tue").slice(0, 3).toLowerCase()] ?? 2;
+  let h = +(s[2] || 8) % 12; const mi = +(s[3] || 0); if (/pm/i.test(s[4] || "PM")) h += 12;
+  let end = null;
+  const dates = wk.games.map((g) => liveGame(g, live)).filter(Boolean).map((f) => new Date(f.date));
+  if (dates.length && dates.length === wk.games.length) end = new Date(Math.max(...dates));
+  if (!end) {
+    const m = wk.label.match(/([A-Za-z]{3})[a-z]*\s+(\d{1,2})\s*[–-]\s*(?:([A-Za-z]{3})[a-z]*\s+)?(\d{1,2})/);
+    if (m) { const mon = MON[(m[3] || m[1]).toLowerCase()], now = new Date(); let y = now.getFullYear();
+      if (mon != null) { end = new Date(Date.UTC(y, mon, +m[4], 16)); if (end - now > 200 * 864e5) end = new Date(Date.UTC(y - 1, mon, +m[4], 16)); } }
+  }
+  if (!end) return null;
+  const parts = new Intl.DateTimeFormat("en-CA", { timeZone: TZ, year: "numeric", month: "2-digit", day: "2-digit" }).format(end).split("-").map(Number);
+  let d = new Date(Date.UTC(parts[0], parts[1] - 1, parts[2]));
+  do { d = new Date(d.getTime() + 864e5); } while (d.getUTCDay() !== dow);
+  return etTime(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), h, mi);
+}

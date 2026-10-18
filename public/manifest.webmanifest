@@ -1,0 +1,15 @@
+{
+  "name": "The Winning Shot",
+  "short_name": "Winning Shot",
+  "description": "Three friends pick every NFL game. Every sheet graded Tuesday.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ECEADF",
+  "theme_color": "#10382A",
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

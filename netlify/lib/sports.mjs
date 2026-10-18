@@ -49,10 +49,40 @@ export function normalize(L, ev) {
     };
     const date = new Date(ev.date);
     if (!ev.id || Number.isNaN(date.getTime())) return null;
-    return { id: `${L.code}-${ev.id}`, league: L.code, date: date.toISOString(), status, statusText, home: side("home"), away: side("away") };
+    const out = { id: `${L.code}-${ev.id}`, league: L.code, date: date.toISOString(), status, statusText, home: side("home"), away: side("away") };
+    if (L.code === "NFL") Object.assign(out, nflExtras(comp, status, out));
+    return out;
   } catch {
     return null;
   }
+}
+
+// NFL only: ESPN's game id (for box scores), live win probability, the venue, and the pre-game line.
+const pct = (v) => { const n = num(v); return n == null ? null : n > 1 ? n / 100 : n; };
+function nflExtras(comp, status, g) {
+  const x = { espnId: String(comp.id || "").trim() || undefined };
+  const pr = comp.situation && comp.situation.lastPlay && comp.situation.lastPlay.probability;
+  if (status === "live" && pr && pct(pr.homeWinPercentage) != null) {
+    x.wp = { home: pct(pr.homeWinPercentage), away: pct(pr.awayWinPercentage), tie: pct(pr.tiePercentage) || 0 };
+  }
+  const v = comp.venue;
+  if (v) {
+    const a = v.address || {};
+    x.venue = { name: v.fullName || "", city: a.city || "", state: a.state || "", country: a.country || "", indoor: !!v.indoor };
+  }
+  const o = (comp.odds || [])[0];
+  if (o && status === "scheduled") {
+    const ml = (t) => num(t && (t.moneyLine ?? t.moneyline));
+    const hm = ml(o.homeTeamOdds), am = ml(o.awayTeamOdds);
+    let fav = o.homeTeamOdds && o.homeTeamOdds.favorite ? g.home.abbr : o.awayTeamOdds && o.awayTeamOdds.favorite ? g.away.abbr : "";
+    if (!fav && hm != null && am != null && hm !== am) fav = hm < am ? g.home.abbr : g.away.abbr;
+    if (!fav && o.details) { const m = String(o.details).match(/^([A-Z]{2,3})\s/); if (m) fav = m[1]; }
+    const imp = (m) => (m == null ? null : m < 0 ? -m / (-m + 100) : 100 / (m + 100));
+    let prob = null;
+    if (fav && hm != null && am != null) { const h = imp(hm), a2 = imp(am); prob = (fav === g.home.abbr ? h : a2) / (h + a2); }
+    if (fav) x.line = { fav, prob: prob == null ? null : Math.round(prob * 1000) / 1000, details: String(o.details || ""), source: (o.provider && o.provider.name) || "ESPN", at: new Date().toISOString() };
+  }
+  return x;
 }
 
 async function fetchBoard(L, date) {
@@ -75,7 +105,11 @@ export async function refresh({ now = Date.now() } = {}) {
     try {
       for (const ev of await fetchBoard(L, d)) {
         const g = normalize(L, ev);
-        if (g) games.set(g.id, g);
+        if (!g) continue;
+        // Keep the last line seen before kickoff: games are graded against the closing line.
+        const old = games.get(g.id);
+        if (old && old.line && !g.line) g.line = old.line;
+        games.set(g.id, g);
       }
     } catch (e) {
       errors.push(`${L.code} ${d || "current"}: ${e.message}`);

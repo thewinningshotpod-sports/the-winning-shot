@@ -105,3 +105,24 @@ Default: the Tuesday after the week's last game at 8:00 PM Eastern. To change it
 
 `public/chat.txt` holds real group-chat lines (`HUNDO: message`), newest first. The homepage shows the four newest;
 an empty file hides the strip.
+
+## Integrations
+
+| Feature | Source | Key (Netlify → Project configuration → Environment variables) |
+|---|---|---|
+| Live win probability on each pick, tap a game for box score, leaders, injuries | ESPN (unofficial) | none |
+| NFL headlines on Stories ("The wire") | ESPN (unofficial) | none |
+| VEGAS column (graded favorite, underdog tags, "beat Vegas") | The Odds API, else ESPN's line | `ODDS_API_KEY` (optional; free plan, about 240 of 500 credits a month) |
+| Kickoff weather on outdoor games | Open-Meteo | none |
+| Trending Who Better? matchups | Sleeper (most-added players, last 48 hours) + Wikipedia photos | none |
+| Push alerts: picks lock, Grading Night, weekly result | Browser web push (keys made automatically) | none |
+| Newsletter sign-ups and a Grading Night draft | Buttondown | `BUTTONDOWN_API_KEY` (until set, sign-ups go to Netlify Forms) |
+| LIVE NOW banner and real view counts | YouTube Data API | `YOUTUBE_API_KEY` (optional) |
+| "Hear the pick" links | Chapter timestamps in episode descriptions | none |
+
+**Hear the pick:** put chapters in the episode description, one per line, like `14:32 Cowboys at Packers`.
+Any chapter that names a team (nickname, city or code) links that week's game on the Sheet to that moment in the episode.
+
+**Alerts on iPhone:** visitors add the site to their Home Screen first (Share → Add to Home Screen), then turn alerts on from there.
+
+The newsletter draft is never sent automatically. It lands in Buttondown as a draft on Grading Night for the hosts to review, add the week's card image, and send.
