@@ -527,6 +527,193 @@ footer{border-top:1px solid var(--line);padding-block:32px 40px;color:var(--mute
   .rules li{grid-template-columns:76px minmax(0,1fr)}
   .statline b{font-size:21px}
 }
+
+/* ================= v5: the clipboard on the field =================
+   Field green for what's ahead, paper for what's decided. The Sheet is a real printout laid on the turf. */
+:root{
+  --turf:#0F3528;--turf-hi:#164A37;--turf-lo:#0A2519;
+  --chalk:#D8E4C4;--chalk-soft:rgba(216,228,196,.66);
+  --paper-a:#F4F2E9;--paper-b:#E8E6DA;
+  --chalkgrain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='c'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.15' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.06  0 0 0 0 0.21  0 0 0 0 0.16  0 0 0 1.1 -0.62'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23c)'/%3E%3C/svg%3E");
+}
+.home,.picks,.wb,.stories,.watch,.about{padding-top:0}
+
+/* The field: mowing stripes, faint yard lines, a little light from the top left. */
+.band{
+  --fg:#F2F0EA;--muted:var(--chalk-soft);--body-ink:rgba(242,240,234,.84);--faint:rgba(216,228,196,.42);--line:rgba(216,228,196,.18);
+  --accent:var(--chalk);--accent-ink:var(--turf);--surface:rgba(255,255,255,.05);--bg:var(--turf);
+  position:relative;isolation:isolate;color:var(--fg);
+  margin-inline:calc(50% - 50vw);padding-inline:calc(50vw - 50%);
+  padding-block:clamp(34px,5vw,72px) clamp(40px,6vw,84px);
+  background:
+    radial-gradient(110% 80% at 12% -10%,rgba(46,122,88,.38),transparent 62%),
+    repeating-linear-gradient(90deg,rgba(216,228,196,.075) 0 1px,transparent 1px 10%),
+    repeating-linear-gradient(90deg,rgba(255,255,255,.026) 0 5%,transparent 5% 10%),
+    linear-gradient(180deg,var(--turf-hi) 0%,var(--turf) 46%,var(--turf-lo) 100%);
+}
+.band:after{content:"";position:absolute;inset:0;z-index:-1;background-image:var(--grain);opacity:.9;pointer-events:none}
+.band .eyebrow{color:var(--chalk-soft)}
+.band ::selection{background:var(--chalk);color:var(--turf)}
+.band .btn{background:transparent;color:var(--fg);border-color:rgba(216,228,196,.34)}
+.band .btn:hover{border-color:var(--chalk)}
+.band .btn.primary{background:var(--chalk);color:var(--turf);border-color:var(--chalk)}
+.band .share{color:var(--fg);border-color:rgba(216,228,196,.34);background:transparent}
+.band .face{background:rgba(216,228,196,.12);color:var(--chalk);box-shadow:0 0 0 2px rgba(216,228,196,.5)}
+
+/* Chalk headlines: bone white with the speckle of chalk on a board. */
+.h-title,.h-title .mk,.pk-hero,.about h1,.band .gn-title{
+  color:#EEF0E6;background-image:var(--chalkgrain),linear-gradient(180deg,#F4F3EC,#DCE5CE);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+.picks .pk-hero,.wb .pk-hero,.stories .pk-hero,.watch .pk-hero{font-size:clamp(48px,9vw,120px);line-height:.86;letter-spacing:-.05em}
+.mk svg path,.pk svg path{transition:stroke .2s}
+
+/* Header on the turf, all pages. */
+header.mast{
+  --fg:#F2F0EA;backdrop-filter:none;--muted:var(--chalk-soft);--line:rgba(216,228,196,.14);
+  background:var(--turf-hi);background-image:linear-gradient(180deg,#123F2F,var(--turf-hi));
+  border-bottom:1px solid rgba(216,228,196,.12);color:var(--fg);position:sticky;top:0;z-index:40;
+}
+.mast .nav a{color:rgba(216,228,196,.6);position:relative}
+.mast .nav a:hover{color:#F2F0EA}
+.mast .nav a[aria-current="page"]{color:#F2F0EA}
+.mast .nav a[aria-current="page"]:after{content:"";position:absolute;left:0;right:0;bottom:3px;height:2px;border-radius:2px;background:var(--chalk)}
+.mast .btn.primary{background:var(--chalk);color:var(--turf);border-color:var(--chalk)}
+.ticker{background:var(--turf-lo);border-bottom:1px solid rgba(216,228,196,.08)}
+
+/* ---------- Home: the hero is the field ---------- */
+.home{gap:clamp(64px,8vw,112px);padding-bottom:0}
+.h-hero{display:grid;grid-template-columns:minmax(0,1fr);gap:0;padding-block:clamp(26px,4vw,56px) clamp(48px,7vw,104px);overflow:hidden}
+.h-hero .chalk{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+.chalk path{fill:none;stroke:rgba(216,228,196,.17);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.chalk .o{stroke:rgba(216,228,196,.2)}
+.h-bands{display:grid;gap:10px;margin-top:clamp(26px,3vw,40px);align-self:start}
+.h-bands .gn-band{padding:14px 16px;gap:10px 18px}
+.h-bands .gn-band .gn-count{font-size:clamp(20px,2.2vw,26px)}
+.h-bands .gn-band .gn-when{font-size:14px}
+.h-bands:empty,.h-bands:not(:has(> :not([hidden]))){display:none}
+.band .gn-band{background:rgba(5,22,16,.38);background-image:none;border:1px solid rgba(216,228,196,.2);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
+.h-hero #hEyebrow{margin-bottom:14px}
+.h-hero .h-title{font-size:clamp(54px,11.2vw,168px);line-height:.84;letter-spacing:-.052em;margin:0 0 clamp(26px,3.4vw,44px);max-width:12ch;text-wrap:balance}
+.h-hero .h-title .mk svg path{stroke:var(--chalk);stroke-width:3.2}
+.h-copy{display:grid;gap:14px;align-content:start}
+.h-copy .h-explain{font:600 clamp(20px,2.3vw,27px)/1.22 var(--display);letter-spacing:-.015em;color:#F2F0EA;max-width:22ch}
+.h-copy .h-lede{color:var(--body-ink);font-size:16px;max-width:44ch}
+.h-copy .h-actions{margin-top:8px}
+.h-copy .h-actions .meta{color:var(--chalk-soft);font:400 12px/1.4 var(--mono)}
+.h-hero .standings{margin-top:clamp(26px,3vw,38px);border-top-color:rgba(216,228,196,.5)}
+.h-hero .person .who{flex-direction:column;align-items:flex-start;gap:12px}
+.h-hero .face{width:68px;height:68px;font-size:22px}
+.h-hero .person .name{font-size:clamp(20px,2.3vw,32px)}
+.h-hero .person .rec{font-size:clamp(24px,2.8vw,38px);color:#F2F0EA}
+.h-hero .person .wk{color:var(--chalk-soft)}
+
+/* The printout: three-hole punched, laid on the turf at a slight angle. */
+.sheetcard{
+  --fg:#1A1A16;--muted:#6B6A63;--body-ink:rgba(26,26,22,.8);--faint:rgba(26,26,22,.4);--line:rgba(26,26,22,.14);
+  --accent:#15503A;--accent-ink:#F2F0EA;--surface:#F2F0EA;--bg:#ECEADF;
+  position:relative;color:var(--fg);border-radius:3px;
+  background-color:var(--paper-a);background-image:var(--grain),linear-gradient(176deg,var(--paper-a) 0%,#EFEDE3 55%,var(--paper-b) 100%);
+  padding:clamp(18px,2.4vw,30px) clamp(16px,2.4vw,30px) clamp(16px,2vw,24px) clamp(40px,4.6vw,64px);
+  box-shadow:0 1px 0 rgba(255,255,255,.55) inset,0 2px 3px rgba(4,18,13,.25),0 22px 40px -14px rgba(4,18,13,.55),0 50px 90px -40px rgba(4,18,13,.6);
+}
+.sheetcard:before{content:"";position:absolute;left:clamp(12px,1.6vw,22px);top:0;bottom:0;width:15px;pointer-events:none;
+  background:radial-gradient(circle at 50% 50%,var(--hole,var(--turf-lo)) 0 6.2px,rgba(0,0,0,.18) 6.6px,transparent 7.6px) 0 14%/15px 15px no-repeat,
+             radial-gradient(circle at 50% 50%,var(--hole,var(--turf-lo)) 0 6.2px,rgba(0,0,0,.18) 6.6px,transparent 7.6px) 0 50%/15px 15px no-repeat,
+             radial-gradient(circle at 50% 50%,var(--hole,var(--turf-lo)) 0 6.2px,rgba(0,0,0,.18) 6.6px,transparent 7.6px) 0 86%/15px 15px no-repeat}
+.sheetcard:after{content:"";position:absolute;top:0;bottom:0;left:clamp(32px,3.8vw,52px);width:1px;background:rgba(21,80,58,.18);pointer-events:none}
+.sheetcard .section-head{border-top:0;padding-top:0}
+.sheetcard .eyebrow{color:var(--muted)}
+.h-sheet{margin-top:clamp(36px,5vw,56px)}
+.h-sheet .pgrid{--col:66px}
+.h-sheet .pgrid th{font-size:14px}
+.h-sheet th.vg,.h-sheet td.vg{display:none}
+.h-sheet .dog{display:none}
+.h-sheet .vgm{display:block;font:400 10.5px/1.35 var(--mono);color:var(--muted);margin-top:2px}
+.h-sheet .section-head h2{font-size:clamp(22px,2.6vw,34px)}
+
+@media (min-width:1000px){
+  .h-hero{grid-template-columns:minmax(0,5fr) minmax(0,7fr);column-gap:clamp(36px,4vw,64px);
+    grid-template-areas:"eyebrow eyebrow" "title title" "copy sheet" "stand sheet" "bands sheet" ". sheet"}
+  .h-bands{grid-area:bands}.h-hero #hEyebrow{grid-area:eyebrow}.h-hero .h-title{grid-area:title;max-width:none}
+  .h-copy{grid-area:copy}.h-hero .standings{grid-area:stand;align-self:start}
+  .h-sheet{grid-area:sheet;margin-top:-8px;transform:rotate(-1.15deg);transform-origin:30% 0}
+}
+
+/* Sections on paper: bigger titles, one heavy rule. */
+.section-head{border-top-width:3px}
+.section-head h2{font-size:clamp(30px,4.6vw,58px);line-height:.9;letter-spacing:-.045em}
+.h-btr .btr-lede{font:600 clamp(24px,3vw,38px)/1.16 var(--display);letter-spacing:-.022em;max-width:20ch;color:var(--fg)}
+.h-btr .btr-lede b{font-weight:800}
+.h-wbwrap{max-width:none}
+.h-wbwrap .wb-feed{max-width:900px}
+#hStories .tcard h3,#subGrid .tcard h3{font-size:clamp(24px,2.6vw,34px);line-height:.95}
+#hStories .tcard,#subGrid .tcard{padding-block:22px 28px;border-top:2px solid var(--fg)}
+
+/* The episode plays on the field. */
+.h-watch.band{padding-block:clamp(40px,6vw,80px)}
+.h-watch.band .section-head{border-top-color:rgba(216,228,196,.5)}
+.h-watch.band .yt{max-width:none;box-shadow:0 30px 70px -30px rgba(0,0,0,.7)}
+.h-watch.band .w-now h2{color:#F2F0EA}
+
+/* Sign-up and footer: the end of the field. */
+.signup.band{border-radius:0;margin-bottom:0;padding-block:clamp(48px,7vw,96px)}
+.signup.band h2{font-size:clamp(44px,8vw,110px);line-height:.86;letter-spacing:-.05em;color:#EEF0E6;background-image:var(--chalkgrain),linear-gradient(180deg,#F4F3EC,#DCE5CE);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.signup.band .fform input{background:rgba(255,255,255,.08);border-color:rgba(216,228,196,.3);color:#F2F0EA}
+.signup.band .fform input::placeholder{color:rgba(216,228,196,.5)}
+.signup.band .fform button{background:var(--chalk);color:var(--turf)}
+footer{--fg:#F2F0EA;--muted:var(--chalk-soft);--line:rgba(216,228,196,.14);background:var(--turf-lo);color:var(--chalk-soft);border-top:1px solid rgba(216,228,196,.1)}
+footer .foot-brand p{color:#F2F0EA}
+footer .foot-nav a{color:var(--chalk-soft)}
+footer .foot-nav a:hover{color:#F2F0EA}
+
+/* ---------- Other pages open on the field ---------- */
+.pk-band,.wb-head.band,.stories .band,.watch-band,.about .lead.band{display:grid;gap:16px;max-width:none}
+.pk-band .pk-head{max-width:880px}
+.pk-band .standings{margin-top:12px;border-top-color:rgba(216,228,196,.5)}
+.pk-band .person .rec{color:#F2F0EA}
+.pk-band .face{width:58px;height:58px}
+.pk-band .pk-weeks button[aria-pressed="true"]{color:#F2F0EA}
+.pk-band .pk-weeks .mk svg path{stroke:var(--chalk)}
+.pk-band .gn-band{margin-top:4px}
+.pk-sheet{margin-top:clamp(-56px,-4vw,-28px);z-index:2;--hole:var(--turf-lo);display:grid;gap:20px}
+.pk-sheet .pk-key{padding-top:2px}
+.watch-band{padding-bottom:clamp(40px,5vw,64px)}
+.watch-band .yt{box-shadow:0 30px 70px -30px rgba(0,0,0,.7)}
+.watch-band .w-now h2{color:#F2F0EA}
+.about .lead.band h1{max-width:14ch}
+.about .lead.band p{color:var(--body-ink);max-width:56ch}
+.about{max-width:1120px}
+.about > :not(.band){max-width:860px}
+.wb-head.band .wb-tally{color:var(--chalk-soft)}
+.wb-head.band .wb-tally b{color:#F2F0EA}
+
+@media (max-width:999px){
+  .h-sheet{transform:rotate(-.6deg)}
+}
+@media (max-width:640px){
+  .h-hero .h-title{font-size:clamp(50px,15.5vw,80px)}
+  .h-hero .face{width:52px;height:52px;font-size:18px}
+  .h-hero .person .name{font-size:19px}
+  .h-hero .person .rec{font-size:24px}
+  .sheetcard{padding:16px 8px 14px 26px}
+  .sheetcard:before{left:6px;width:13px;background-size:13px 13px}
+  .sheetcard:after{left:22px}
+  .h-sheet{transform:none;margin-inline:-4px}
+  .h-sheet .pgrid,.pk-sheet .pgrid{--col:44px}
+  .h-sheet th.rm,.h-sheet td.room{display:none}
+  .h-sheet .pgrid th,.pk-sheet .pgrid th{font-size:11px;letter-spacing:-.01em}
+  .h-hero .standings,.pk-band .standings,.about .lead.band .standings{grid-template-columns:repeat(var(--n,3),minmax(0,1fr))!important}
+  .h-hero .person,.pk-band .person{padding:14px 8px 4px 0}
+  .h-hero .person + .person,.pk-band .person + .person{padding-left:10px;border-left:1px solid var(--line);border-top:0}
+  .pk-band .person .who{flex-direction:column;align-items:flex-start;gap:10px}
+  .pk-band .person .name{font-size:19px}
+  .pk-band .person .rec{font-size:24px}
+  .pk-band .face{width:48px;height:48px}
+  .pk-sheet{margin-inline:-6px}
+  .mast .nav a[aria-current="page"]:after{bottom:2px}
+}
+@media (prefers-reduced-motion:reduce){.chalk path{animation:none!important;stroke-dashoffset:0!important}}
 </style>
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
@@ -555,19 +742,24 @@ footer{border-top:1px solid var(--line);padding-block:32px 40px;color:var(--mute
 </header>
 
 <main id="homeView" class="wrap home">
-  <section class="h-hero" aria-labelledby="hTitle">
-    <div class="gn-band live-band" id="hLive" hidden></div>
-    <div class="gn-band" id="hGrading" hidden aria-live="polite"></div>
+  <section class="h-hero band" aria-labelledby="hTitle">
+    <svg class="chalk" id="hChalk" aria-hidden="true" viewBox="0 0 1200 760" preserveAspectRatio="xMidYMid slice"></svg>
     <p class="eyebrow" id="hEyebrow"></p>
     <h1 class="h-title" id="hTitle"></h1>
-    <p class="h-explain">Three friends pick every NFL game. Every sheet graded Tuesday.</p>
-    <p class="h-lede" id="hLede"></p>
+    <div class="h-copy">
+      <p class="h-explain">Three friends pick every NFL game. Every sheet graded Tuesday.</p>
+      <p class="h-lede" id="hLede"></p>
+      <div class="h-actions"><a class="btn primary big" href="#sheet" data-view="sheet">See the sheet</a><span class="meta" id="hStamp"></span></div>
+    </div>
     <div class="standings" id="hStand" aria-label="Season standings"></div>
-    <div>
+    <div class="h-bands">
+      <div class="gn-band live-band" id="hLive" hidden></div>
+      <div class="gn-band" id="hGrading" hidden aria-live="polite"></div>
+    </div>
+    <div class="sheetcard h-sheet">
       <div class="section-head"><h2 id="hNextTitle">Up next</h2><a href="#sheet" data-view="sheet">Full sheet</a></div>
       <div style="overflow-x:auto"><table class="pgrid" id="hGrid"></table></div>
     </div>
-    <div class="h-actions"><a class="btn primary big" href="#sheet" data-view="sheet">See the sheet</a><span class="meta" id="hStamp"></span></div>
   </section>
 
   <section class="btr h-btr" aria-labelledby="hBtrTitle">
@@ -591,7 +783,7 @@ footer{border-top:1px solid var(--line);padding-block:32px 40px;color:var(--mute
     <div class="wb-feed" id="hWB"></div>
   </section>
 
-  <section aria-labelledby="hWaTitle" class="h-watch" id="hWatch">
+  <section aria-labelledby="hWaTitle" class="h-watch band" id="hWatch">
     <div class="section-head"><h2 id="hWaTitle">Latest episode</h2><a href="#watch" data-view="watch">All episodes</a></div>
     <div class="yt" id="hPlayer"></div>
     <div class="w-now" id="hNow"></div>
@@ -602,7 +794,7 @@ footer{border-top:1px solid var(--line);padding-block:32px 40px;color:var(--mute
     <div class="tgrid" id="hStories"></div>
   </section>
 
-  <section class="signup" id="get-the-sheet" aria-labelledby="nlTitle">
+  <section class="signup band" id="get-the-sheet" aria-labelledby="nlTitle">
     <p class="eyebrow">The newsletter</p>
     <h2 id="nlTitle">Get the sheet</h2>
     <p>Our takes, straight to your inbox. Free on Substack.</p>
@@ -616,6 +808,7 @@ footer{border-top:1px solid var(--line);padding-block:32px 40px;color:var(--mute
 </main>
 
 <section id="picksView" class="wrap picks" hidden aria-labelledby="pkTitle">
+  <div class="band pk-band">
   <div class="pk-head">
     <p class="eyebrow" id="pkEyebrow"></p>
     <h1 class="pk-hero" id="pkTitle"></h1>
@@ -624,8 +817,11 @@ footer{border-top:1px solid var(--line);padding-block:32px 40px;color:var(--mute
   </div>
   <div class="pk-weeks" id="pkWeeks" role="group" aria-label="Choose a week"></div>
   <div class="standings" id="pkStand" aria-label="Season standings"></div>
+  </div>
+  <div class="sheetcard pk-sheet">
   <div class="pk-key" id="pkKey"></div>
   <div style="overflow-x:auto"><table class="pgrid" id="pkGrid"></table></div>
+  </div>
   <section class="btr" id="btr" aria-labelledby="btrTitle">
     <div class="section-head"><h2 id="btrTitle">Beat the Room</h2><span class="eyebrow" id="btrCount"></span></div>
     <p class="btr-lede" id="btrLede"></p>
@@ -667,7 +863,7 @@ footer{border-top:1px solid var(--line);padding-block:32px 40px;color:var(--mute
 </section>
 
 <section id="wbView" class="wrap wb" hidden aria-labelledby="wbTitle">
-  <div class="wb-head">
+  <div class="wb-head band">
     <p class="eyebrow">Who better? · Two players, two questions</p>
     <h1 class="pk-hero" id="wbTitle">Who better?</h1>
     <p class="pk-lede">Pick who's better right now and who's better all time, then see how everyone else voted. It keeps going as long as you do.</p>
@@ -679,9 +875,9 @@ footer{border-top:1px solid var(--line);padding-block:32px 40px;color:var(--mute
 </section>
 
 <section id="storiesView" class="wrap stories" hidden aria-labelledby="stTitle">
-  <div class="pk-head">
-    <p class="eyebrow">Stories · results · the week in numbers</p>
+  <div class="pk-head band">
     <h1 class="pk-hero" id="stTitle">Stories</h1>
+    <p class="pk-lede">Our takes from Substack, plus every final from the last week.</p>
   </div>
   <div id="subWrap" hidden>
     <div class="section-head"><h2>From our Substack</h2><a href="https://thewinningshot.substack.com" target="_blank" rel="noopener">All posts</a></div>
@@ -712,14 +908,16 @@ footer{border-top:1px solid var(--line);padding-block:32px 40px;color:var(--mute
 </section>
 
 <section id="watchView" class="wrap watch" hidden aria-labelledby="waTitle">
+  <div class="band watch-band">
   <div class="pk-head">
-    <p class="eyebrow">Watch · The Winning Shot Pod</p>
+    <p class="eyebrow">The Winning Shot Pod</p>
     <h1 class="pk-hero" id="waTitle">Watch</h1>
     <p class="pk-lede">Every episode of the pod, newest first. Hit play here or watch on YouTube.</p>
     <div class="w-top"><a class="btn primary" href="https://www.youtube.com/@thewinningshotpod?sub_confirmation=1" target="_blank" rel="noopener">Subscribe on YouTube</a><a class="link" href="https://www.youtube.com/@thewinningshotpod/videos" target="_blank" rel="noopener">Open the channel</a></div>
   </div>
   <div class="yt" id="waPlayer"></div>
   <div class="w-now" id="waNow"></div>
+  </div>
   <div id="waMoreWrap" hidden>
     <div class="section-head"><h2>More episodes</h2><span class="eyebrow" id="waCount"></span></div>
     <div class="vgrid" id="waGrid"></div>
@@ -727,7 +925,7 @@ footer{border-top:1px solid var(--line);padding-block:32px 40px;color:var(--mute
 </section>
 
 <section id="aboutView" class="wrap about" hidden aria-labelledby="abTitle">
-  <div class="lead">
+  <div class="lead band">
     <p class="eyebrow">About The Winning Shot</p>
     <h1 id="abTitle">Three friends. Every game. Graded Tuesday.</h1>
     <p>The Winning Shot is Hundo, Jon and Collin picking every NFL game straight up. The sheet goes up before kickoff, the green pen comes out when the games are final, and the season standings never reset.</p>
@@ -1182,6 +1380,7 @@ function renderHome(){
   }
   renderHomeWatch();
   renderGradingBand();renderHomeBoard();renderChat();renderLiveBand();reopenDetails($("#hGrid"));
+  if(!$("#hChalk").dataset.done)(document.fonts?.ready||Promise.resolve()).then(()=>setTimeout(()=>{if(view==="home")drawChalk()},80));
   $("#hStories").innerHTML=SUB.posts.length?SUB.posts.slice(0,3).map(subCard).join(""):STORIES.slice(0,3).map(tcard).join("");
   drawMarks($("#homeView"),false);
   (document.fonts?.ready||Promise.resolve()).then(()=>{if(view==="home")drawMarks($("#homeView"),false)});
@@ -1292,7 +1491,7 @@ const markFor=(pk,win)=>!pk||!win?"":win==="TIE"?"dash":pk===win?"check":"strike
 function fanHeads(wk){
   if(!showFans(wk))return "";
   const W=wk&&roomWeek(wk);
-  return `<th scope="col" class="fan">Room${W?`<small>${W.pickers} playing</small>`:""}</th><th scope="col" class="fan">You${ROOM.nick?`<small>${esc(ROOM.nick)}</small>`:""}</th>`;
+  return `<th scope="col" class="fan rm">Room${W?`<small>${W.pickers} playing</small>`:""}</th><th scope="col" class="fan">You${ROOM.nick?`<small>${esc(ROOM.nick)}</small>`:""}</th>`;
 }
 function fanCells(wk,g,r,pre){
   if(!showFans(wk))return "";
@@ -1877,6 +2076,32 @@ function renderSubstack(){
 }
 getJSON("/api/substack").then(d=>{if(d&&Array.isArray(d.posts)&&d.posts.length){SUB.posts=d.posts;if(view==="stories"){renderSubstack();drawMarks($("#storiesView"),false)}if(view==="home")renderHome()}});
 $("#nlForm").addEventListener("submit",()=>{setTimeout(()=>{$("#nlMsg").textContent="Almost there: Substack opened in a new tab. Check your inbox to confirm.";$("#nlForm").reset()},50)});
+
+/* ---------- The chalk play on the home field: drawn once, when the page first opens ---------- */
+function drawChalk(){
+  const svg=$("#hChalk");if(!svg||svg.dataset.done)return;svg.dataset.done="1";
+  const r=rng("chalk-"+((PICKS.weeks[0]||{}).label||"")),ns="http://www.w3.org/2000/svg",j=a=>(r()-.5)*a,paths=[];
+  const add=(d,cls,delay,dur)=>{const p=document.createElementNS(ns,"path");p.setAttribute("d",d);if(cls)p.setAttribute("class",cls);svg.appendChild(p);paths.push([p,delay,dur])};
+  const O=(x,y,s=15,delay)=>{const pts=[];const a0=r()*6.28;for(let i=0;i<=12;i++){const a=a0+i/12*6.6;pts.push([x+Math.cos(a)*(s+j(2)),y+Math.sin(a)*(s+j(2))])}add(spline(pts),"o",delay,420)};
+  const X=(x,y,s=13,delay)=>{add(spline([[x-s+j(3),y-s+j(3)],[x+j(2),y+j(2)],[x+s+j(3),y+s+j(3)]]),"",delay,220);add(spline([[x+s+j(3),y-s+j(3)],[x+j(2),y+j(2)],[x-s+j(3),y+s+j(3)]]),"",delay+120,220)};
+  const route=(pts,delay)=>{add(spline(pts),"",delay,900);const [a,b]=pts.slice(-2),ang=Math.atan2(b[1]-a[1],b[0]-a[0]),L=16;
+    add(`M${(b[0]-L*Math.cos(ang-.5)).toFixed(1)} ${(b[1]-L*Math.sin(ang-.5)).toFixed(1)} L${b[0].toFixed(1)} ${b[1].toFixed(1)} L${(b[0]-L*Math.cos(ang+.5)).toFixed(1)} ${(b[1]-L*Math.sin(ang+.5)).toFixed(1)}`,"",delay+880,160)};
+  // Line of scrimmage runs down the field; offense on the right, defense on the left.
+  const los=820+j(30),ys=[250,300,350,400,450];
+  add(`M${los} 120 L${los} 690`,"",0,700);
+  ys.forEach((y,i)=>O(los+30,y+j(6),15,120+i*70));
+  O(los+110,350+j(8),15,520);O(los+175,410+j(8),15,580);
+  O(los+40,140,15,640);O(los+44,640,15,680);
+  [[los-80,230],[los-70,330],[los-75,430],[los-170,300],[los-180,520],[los-320,170],[los-330,610]].forEach(([x,y],i)=>X(x+j(10),y+j(10),13,300+i*80));
+  route([[los+40,140],[los-120,130],[los-260,115+j(20)],[los-420,140+j(30)]],1100);
+  route([[los+44,640],[los-40,650],[los-140,600],[los-200,470+j(30)]],1250);
+  route([[los+175,410],[los+120,520],[los-20,560],[los-160,700]],1400);
+  route([[los+30,300],[los-60,290],[los-110,230],[los-130,150+j(20)]],1550);
+  const still=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  paths.forEach(([p,delay,dur])=>{if(still)return;const L=p.getTotalLength();p.style.strokeDasharray=L;p.style.strokeDashoffset=L;
+    p.animate([{strokeDashoffset:L},{strokeDashoffset:0}],{duration:dur,delay:delay+250,easing:"cubic-bezier(.45,.05,.3,1)",fill:"forwards"})});
+  drawMarks($("#hTitle"),!still);
+}
 
 /* ---------- Views ---------- */
 const VIEWS={home:"#homeView",sheet:"#picksView",whobetter:"#wbView",stories:"#storiesView",watch:"#watchView",about:"#aboutView"};
