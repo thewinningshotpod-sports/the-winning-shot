@@ -86,3 +86,22 @@ The Watch page and the homepage's "Latest episode" read the channel's public fee
 (`netlify/functions/videos.mjs`, channel ID `UCAl6bIUsXnVVBUrrWC841mg`). Nothing to update by hand:
 upload to YouTube and the newest episode shows on the site within about 10 minutes.
 YouTube's feed lists the 15 most recent uploads; Shorts appear in the grid but never as the featured episode.
+
+## Beat the Room
+
+Visitors pick every game on the Sheet against Hundo, Jon and Collin (the YOU column), with just a name, no account.
+`netlify/functions/room.mjs` (`/api/room`) saves picks in Netlify Blobs (store `room`) and refuses any pick after kickoff,
+using the live ESPN feed. THE ROOM column is the team most visitors picked; an even split leaves it blank.
+Everything is graded by the same rules as the Sheet (`netlify/lib/sheet.mjs`). The season board starts with the first week anyone played.
+Private leagues: anyone on the board can start one and share its link (`/?league=CODE#sheet`).
+
+## Grading Night
+
+Every week is graded on screen at a fixed time, shown as a countdown on the homepage with an "Add to calendar" invite.
+Default: the Tuesday after the week's last game at 8:00 PM Eastern. To change it, add a line to picks.txt such as
+`GRADING: Tue 9:00 PM`. Anyone can replay the grading afterwards from the Sheet. The marker sound is off unless a visitor turns it on.
+
+## From the chat
+
+`public/chat.txt` holds real group-chat lines (`HUNDO: message`), newest first. The homepage shows the four newest;
+an empty file hides the strip.

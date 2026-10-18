@@ -1,0 +1,13 @@
+# FROM THE CHAT
+#
+# Real messages from the group chat, shown on the homepage. Only post a line all three of you are fine with.
+# Nothing here is ever invented: if this file has no messages, the strip stays hidden.
+#
+# One message per line, newest at the top. Start with the person's name:
+#   HUNDO: Dallas wins by ten. Screenshot this.
+#   JON: Write it down. Then cross it out on Tuesday.
+#
+# Put a WEEK line above a group to label it (optional):
+#   WEEK Week 6
+#
+# The homepage shows the four newest.

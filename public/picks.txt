@@ -22,6 +22,9 @@
 # (upload the photo into public/faces/ on GitHub first, then use its address).
 
 PICKERS: HUNDO, JON, COLLIN
+FACE: HUNDO | /faces/hundo.jpg
+FACE: JON | /faces/jon.jpg
+FACE: COLLIN | /faces/collin.jpg
 # Records through Week 3, from the Week 4 standings post. Weeks 4 onward are graded below.
 STARTING RECORDS: HUNDO 27-21 | JON 25-23 | COLLIN 25-23
 
