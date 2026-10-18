@@ -484,6 +484,24 @@ aside{display:grid;gap:30px;align-content:start}
 
 .signup .fmsg a{color:var(--flag)}
 .signup .fmsg{color:rgba(242,240,234,.75)}
+/* Blind résumé cards */
+.wb-blind{gap:16px}
+.bl-ask{font:800 clamp(24px,3.4vw,36px)/.98 var(--display);text-transform:uppercase;letter-spacing:-.04em;margin:0}
+.bl-ask span{display:block;margin-top:8px;font:400 13px/1.3 var(--body);text-transform:none;letter-spacing:0;color:var(--muted)}
+.bl-t{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.bl-t thead th{font:800 clamp(15px,2.2vw,22px)/1 var(--display);text-transform:uppercase;letter-spacing:-.03em;text-align:right;padding:0 0 10px;width:30%}
+.bl-t thead th:first-child{width:auto}
+.bl-t tbody th{font:500 14px/1.3 var(--body);color:var(--body-ink);text-align:left;padding:10px 12px 10px 0;border-top:1px solid var(--line)}
+.bl-t td{font:700 clamp(16px,2.4vw,22px)/1.1 var(--mono);text-align:right;padding:10px 0;border-top:1px solid var(--line);white-space:nowrap}
+.wb-blind.revealed .bl-n{animation:blFlip .5s cubic-bezier(.3,.7,.3,1) both}
+@keyframes blFlip{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.wb-blind .bl-faces{margin-top:4px}
+.wb-blind .bl-faces .wb-img{aspect-ratio:16/10}
+.wb-blind .bl-faces figcaption{font-size:clamp(17px,2.6vw,26px)}
+.bl-why{margin:0;font:600 17px/1.4 var(--body);color:var(--fg);max-width:56ch}
+.bl-src{margin:0;font:400 11px/1.5 var(--mono);color:var(--muted)}
+.bl-src a{color:inherit}
+@media (prefers-reduced-motion:reduce){.wb-blind.revealed .bl-n{animation:none}}
 footer{border-top:1px solid var(--line);padding-block:32px 40px;color:var(--muted)}
 .foot{display:grid;grid-template-columns:auto minmax(0,1fr);gap:20px 40px;align-items:start}
 .foot-brand{display:grid;gap:10px}
@@ -2184,20 +2202,20 @@ function drawSheetCard(x,S){{
   }}
 $("#shareSheet").addEventListener("click",()=>{const S=SHEET;if(!S)return;shareImage(x=>drawSheetCard(x,S),`the-winning-shot-${S.wk.label.replace(/[^a-z0-9]+/gi,"-").toLowerCase()}.png`,"The Winning Shot · The Sheet")});
 function shareWB(id){
-  const m=WB.byId[id];if(!m)return;const c=WB.cnt[id]||{},mine=WBV[id]||{};
+  const m=WB.byId[id];if(!m)return;const c=WB.cnt[id]||{},mine=WBV[id]||{},K=p=>m.blind?"bl-"+p.slug:p.slug;
   shareImage(x=>{
-    x.fillStyle="rgba(26,26,22,.5)";x.font="400 22px 'TWS Mono', monospace";x.fillText(`WHO BETTER? · ${[m.league,m.pos].filter(Boolean).join(" · ").toUpperCase()}`,64,170);
+    x.fillStyle="rgba(26,26,22,.5)";x.font="400 22px 'TWS Mono', monospace";x.fillText(`${m.blind?"BLIND RÉSUMÉ":"WHO BETTER?"} · ${[m.league,m.pos].filter(Boolean).join(" · ").toUpperCase()}`,64,170);
     let t=displayText(x,m.a.name,96,280);
     x.fillStyle="rgba(26,26,22,.5)";x.font="700 30px 'TWS Mono', monospace";x.fillText("VS",64,t.y+80);
     t=displayText(x,m.b.name,96,t.y+190);
     let y=t.y+110;
     wbQs(m).forEach(([q,label])=>{
-      const cq=c[q]||{},total=[m.a,m.b].reduce((s,p)=>s+(cq[p.slug]||0),0);
+      const cq=c[q]||{},total=[m.a,m.b].reduce((s,p)=>s+(cq[K(p)]||0),0);
       x.fillStyle="rgba(26,26,22,.5)";x.font="400 22px 'TWS Mono', monospace";x.fillText(label.toUpperCase()+(total?` · ${total.toLocaleString()} VOTES`:""),64,y);y+=26;
-      [m.a,m.b].forEach(p=>{const n=cq[p.slug]||0,pct=total?Math.round(n/total*100):0;
+      [m.a,m.b].forEach(p=>{const n=cq[K(p)]||0,pct=total?Math.round(n/total*100):0;
         x.fillStyle="#F2F0EA";x.fillRect(64,y,952,70);x.fillStyle="rgba(21,80,58,.16)";x.fillRect(64,y,952*pct/100,70);
         x.fillStyle="#1A1A16";x.font="700 30px Poppins, sans-serif";const label=shortN(p.name);x.fillText(label,88,y+46);
-        if(mine[q]===p.slug){const w=x.measureText(label).width;penOnCanvas(x,"circle",88,y+16,w,36,`wbs-${id}-${q}`,"#15503A",4)}
+        if(mine[q]===K(p)){const w=x.measureText(label).width;penOnCanvas(x,"circle",88,y+16,w,36,`wbs-${id}-${q}`,"#15503A",4)}
         x.textAlign="right";x.font="700 32px 'TWS Mono', monospace";x.fillText(total?pct+"%":"",992,y+47);x.textAlign="left";y+=82});
       y+=36});
   },`who-better-${id}.png`,"Who better? · The Winning Shot");
@@ -2247,14 +2265,22 @@ let rsz;addEventListener("resize",()=>{clearTimeout(rsz);rsz=setTimeout(()=>{con
 /* ---------- Who Better? ----------
    Matchups and players come from whobetter.txt (next to this page); the copy below is the fallback.
    Votes go to /api/vote, which keeps the totals for every visitor. */
-const WB_FALLBACK = "# WHO BETTER? \u00b7 THE WINNING SHOT\n#\n# This file runs the Who Better? tab. Lines that start with # are notes and never show on the site.\n#\n# MATCHUPS are yours. They show first, in the order listed here (put the newest at the top).\n# Format:\n#   MATCHUP: Player A vs Player B | League Position | HUNDO: Player A | JON: Player B | COLLIN: Player A\n# The takes after the league are optional. Leave them off and the card just shows the vote.\n# Use the same spelling as the PLAYER lines below so votes stay together.\n#\n# PLAYERS feed the endless feed. After your matchups run out, the site pairs players\n# from the same league and position at random, forever.\n# Format:\n#   PLAYER: Name | League | Position | active\n#   PLAYER: Name | League | Position | all-time\n# \"active\" players get both questions (right now AND all time).\n# \"all-time\" players only get the all-time question. Use it for anyone retired,\n# or anyone whose \"right now\" question wouldn't make sense.\n# Check this list now and then: when someone retires, change active to all-time.\n#\n# PHOTOS come from each player's Wikipedia page (freely licensed photos only, credited on the card).\n# If the wrong person or no photo shows up, add the exact Wikipedia page title:\n#   PLAYER: Josh Allen | NFL | QB | active | wiki: Josh Allen (quarterback)\n# Or use your own photo (one you took or have the rights to):\n#   PLAYER: Josh Allen | NFL | QB | active | photo: https://yoursite.com/photos/allen.jpg\n\nMATCHUP: Michael Jordan vs LeBron James | NBA Player\nMATCHUP: Patrick Mahomes vs Josh Allen | NFL QB\nMATCHUP: Tom Brady vs Patrick Mahomes | NFL QB\nMATCHUP: Lionel Messi vs Cristiano Ronaldo | Soccer Forward\nMATCHUP: Shohei Ohtani vs Aaron Judge | MLB Hitter\n\n# NFL quarterbacks\nPLAYER: Patrick Mahomes | NFL | QB | active\nPLAYER: Josh Allen | NFL | QB | active | wiki: Josh Allen (quarterback)\nPLAYER: Lamar Jackson | NFL | QB | active\nPLAYER: Joe Burrow | NFL | QB | active\nPLAYER: Jalen Hurts | NFL | QB | active\nPLAYER: Jayden Daniels | NFL | QB | active\nPLAYER: C.J. Stroud | NFL | QB | active\nPLAYER: Justin Herbert | NFL | QB | active\nPLAYER: Tom Brady | NFL | QB | all-time\nPLAYER: Peyton Manning | NFL | QB | all-time\nPLAYER: Joe Montana | NFL | QB | all-time\nPLAYER: Dan Marino | NFL | QB | all-time\nPLAYER: John Elway | NFL | QB | all-time\nPLAYER: Brett Favre | NFL | QB | all-time\n\n# NFL running backs\nPLAYER: Saquon Barkley | NFL | RB | active\nPLAYER: Bijan Robinson | NFL | RB | active\nPLAYER: Jahmyr Gibbs | NFL | RB | active\nPLAYER: Christian McCaffrey | NFL | RB | active\nPLAYER: De'Von Achane | NFL | RB | active\nPLAYER: Barry Sanders | NFL | RB | all-time\nPLAYER: Walter Payton | NFL | RB | all-time\nPLAYER: Emmitt Smith | NFL | RB | all-time\nPLAYER: Jim Brown | NFL | RB | all-time\nPLAYER: LaDainian Tomlinson | NFL | RB | all-time\nPLAYER: Adrian Peterson | NFL | RB | all-time\n\n# NFL receivers\nPLAYER: Justin Jefferson | NFL | WR | active\nPLAYER: Ja'Marr Chase | NFL | WR | active\nPLAYER: CeeDee Lamb | NFL | WR | active\nPLAYER: Puka Nacua | NFL | WR | active\nPLAYER: Amon-Ra St. Brown | NFL | WR | active\nPLAYER: Malik Nabers | NFL | WR | active\nPLAYER: Jerry Rice | NFL | WR | all-time\nPLAYER: Randy Moss | NFL | WR | all-time\nPLAYER: Calvin Johnson | NFL | WR | all-time\nPLAYER: Terrell Owens | NFL | WR | all-time\nPLAYER: Larry Fitzgerald | NFL | WR | all-time\n\n# NBA\nPLAYER: Nikola Jokic | NBA | Player | active\nPLAYER: Shai Gilgeous-Alexander | NBA | Player | active\nPLAYER: Giannis Antetokounmpo | NBA | Player | active\nPLAYER: Luka Doncic | NBA | Player | active\nPLAYER: Victor Wembanyama | NBA | Player | active\nPLAYER: Anthony Edwards | NBA | Player | active | wiki: Anthony Edwards (basketball)\nPLAYER: Jayson Tatum | NBA | Player | active\nPLAYER: LeBron James | NBA | Player | all-time\nPLAYER: Michael Jordan | NBA | Player | all-time\nPLAYER: Kobe Bryant | NBA | Player | all-time\nPLAYER: Magic Johnson | NBA | Player | all-time\nPLAYER: Larry Bird | NBA | Player | all-time\nPLAYER: Kareem Abdul-Jabbar | NBA | Player | all-time\nPLAYER: Shaquille O'Neal | NBA | Player | all-time\nPLAYER: Tim Duncan | NBA | Player | all-time\n\n# MLB hitters\nPLAYER: Shohei Ohtani | MLB | Hitter | active\nPLAYER: Aaron Judge | MLB | Hitter | active\nPLAYER: Juan Soto | MLB | Hitter | active\nPLAYER: Bobby Witt Jr. | MLB | Hitter | active\nPLAYER: Mookie Betts | MLB | Hitter | active\nPLAYER: Ronald Acuna Jr. | MLB | Hitter | active\nPLAYER: Babe Ruth | MLB | Hitter | all-time\nPLAYER: Willie Mays | MLB | Hitter | all-time\nPLAYER: Hank Aaron | MLB | Hitter | all-time\nPLAYER: Ken Griffey Jr. | MLB | Hitter | all-time\nPLAYER: Barry Bonds | MLB | Hitter | all-time\nPLAYER: Mickey Mantle | MLB | Hitter | all-time\n\n# MLB pitchers\nPLAYER: Tarik Skubal | MLB | Pitcher | active\nPLAYER: Paul Skenes | MLB | Pitcher | active\nPLAYER: Zack Wheeler | MLB | Pitcher | active\nPLAYER: Blake Snell | MLB | Pitcher | active\nPLAYER: Sandy Koufax | MLB | Pitcher | all-time\nPLAYER: Pedro Martinez | MLB | Pitcher | all-time\nPLAYER: Randy Johnson | MLB | Pitcher | all-time\nPLAYER: Greg Maddux | MLB | Pitcher | all-time\nPLAYER: Nolan Ryan | MLB | Pitcher | all-time\n\n# Soccer\nPLAYER: Erling Haaland | Soccer | Forward | active\nPLAYER: Kylian Mbappe | Soccer | Forward | active\nPLAYER: Lamine Yamal | Soccer | Forward | active\nPLAYER: Lionel Messi | Soccer | Forward | active\nPLAYER: Cristiano Ronaldo | Soccer | Forward | active\nPLAYER: Pele | Soccer | Forward | all-time\nPLAYER: Diego Maradona | Soccer | Forward | all-time\nPLAYER: Ronaldo Nazario | Soccer | Forward | all-time | wiki: Ronaldo (Brazilian footballer)\nPLAYER: Thierry Henry | Soccer | Forward | all-time\nPLAYER: Johan Cruyff | Soccer | Forward | all-time\n";
+const WB_FALLBACK = "# WHO BETTER? \u00b7 THE WINNING SHOT\n#\n# This file runs the Who Better? tab. Lines that start with # are notes and never show on the site.\n#\n# MATCHUPS are yours. They show first, in the order listed here (put the newest at the top).\n# Format:\n#   MATCHUP: Player A vs Player B | League Position | HUNDO: Player A | JON: Player B | COLLIN: Player A\n# The takes after the league are optional. Leave them off and the card just shows the vote.\n# Use the same spelling as the PLAYER lines below so votes stay together.\n#\n#\n# BLIND R\u00c9SUM\u00c9S: two players' real numbers, no names. Fans vote on the stats alone,\n# then the names flip in. They lead the feed and show up every third card.\n# Use them for pairs that are closer than people think. Every number must come from a real source.\n# Format (3 to 6 STAT lines; the first value is the first player's):\n#   BLIND: Player A vs Player B | League Position | all      (or \"now\" for active players)\n#   STAT: Career PPG | 24.6 | 23.7\n#   WHY: One line shown after the vote.\n#   SOURCE: https://www.basketball-reference.com/...\n#\n# PLAYERS feed the endless feed. After your matchups run out, the site pairs players\n# from the same league and position at random, forever.\n# Format:\n#   PLAYER: Name | League | Position | active\n#   PLAYER: Name | League | Position | all-time\n# \"active\" players get both questions (right now AND all time).\n# \"all-time\" players only get the all-time question. Use it for anyone retired,\n# or anyone whose \"right now\" question wouldn't make sense.\n# Check this list now and then: when someone retires, change active to all-time.\n#\n# PHOTOS come from each player's Wikipedia page (freely licensed photos only, credited on the card).\n# If the wrong person or no photo shows up, add the exact Wikipedia page title:\n#   PLAYER: Josh Allen | NFL | QB | active | wiki: Josh Allen (quarterback)\n# Or use your own photo (one you took or have the rights to):\n#   PLAYER: Josh Allen | NFL | QB | active | photo: https://yoursite.com/photos/allen.jpg\n\n# ---------- Blind r\u00e9sum\u00e9s (stats from Pro-Football-Reference, Basketball-Reference and Baseball-Reference, checked Oct 18, 2026) ----------\n\nBLIND: Randy Moss vs Terrell Owens | NFL WR | all\nSTAT: Receiving yards | 15,292 | 15,934\nSTAT: Receiving TDs | 156 | 153\nSTAT: Yards per game | 70.1 | 72.7\nSTAT: Pro Bowls | 6 | 6\nSTAT: 1st-team All-Pro | 4 | 5\nWHY: 642 yards and three touchdowns apart for a career, tied on Pro Bowls, and Owens has one more First-team All-Pro than Moss.\nSOURCE: https://www.pro-football-reference.com/players/M/MossRa00.htm\nSOURCE: https://www.pro-football-reference.com/players/O/OwenTe00.htm\n\nBLIND: Barry Sanders vs Adrian Peterson | NFL RB | all\nSTAT: Rushing yards | 15,269 | 14,918\nSTAT: Rushing TDs | 99 | 120\nSTAT: Best season | 2,053 | 2,097\nSTAT: Yards per carry | 5.0 | 4.6\nSTAT: MVPs | 1 | 1\nWHY: 351 career rushing yards apart, one MVP each, and Peterson had the bigger single season.\nSOURCE: https://www.pro-football-reference.com/players/S/SandBa00.htm\nSOURCE: https://www.pro-football-reference.com/players/P/PeteAd01.htm\n\nBLIND: Calvin Johnson vs Larry Fitzgerald | NFL WR | all\nSTAT: Catches per game | 5.4 | 5.4\nSTAT: Yards per game | 86.1 | 66.5\nSTAT: Best season, yards | 1,964 | 1,431\nSTAT: Receiving TDs | 83 | 121\nSTAT: Pro Bowls | 6 | 11\nWHY: Per game they caught exactly as many passes. Johnson played 135 games, Fitzgerald 263.\nSOURCE: https://www.pro-football-reference.com/players/J/JohnCa00.htm\nSOURCE: https://www.pro-football-reference.com/players/F/FitzLa00.htm\n\nBLIND: Dan Marino vs Brett Favre | NFL QB | all\nSTAT: Passer rating | 86.4 | 86.0\nSTAT: 1st-team All-Pro | 3 | 3\nSTAT: Win % as starter | .613 | .624\nSTAT: Pass yards per game | 253.6 | 237.9\nSTAT: Super Bowl wins | 0 | 1\nWHY: Passer ratings 0.4 apart, the same First-team All-Pros, and Marino, without a ring, threw for more yards per game.\nSOURCE: https://www.pro-football-reference.com/players/M/MariDa00.htm\nSOURCE: https://www.pro-football-reference.com/players/F/FavrBr00.htm\n\nBLIND: LaDainian Tomlinson vs Emmitt Smith | NFL RB | all\nSTAT: Rush yards per game | 80.5 | 81.2\nSTAT: Yards per carry | 4.3 | 4.2\nSTAT: Scrimmage yds/game | 108.6 | 95.5\nSTAT: MVPs | 1 | 1\nSTAT: Super Bowl wins | 0 | 3\nWHY: Less than a yard a game apart on the ground, one MVP each, and Emmitt Smith, the all-time rushing leader, has fewer scrimmage yards per game than Tomlinson.\nSOURCE: https://www.pro-football-reference.com/players/T/TomlLa00.htm\nSOURCE: https://www.pro-football-reference.com/players/S/SmitEm00.htm\n\nBLIND: Marvin Harrison vs Reggie Wayne | NFL WR | all\nSTAT: Receptions | 1,102 | 1,070\nSTAT: Receiving yards | 14,580 | 14,345\nSTAT: Yards per catch | 13.2 | 13.4\nSTAT: Super Bowl wins | 1 | 1\nSTAT: Receiving TDs | 128 | 82\nWHY: 235 yards and 32 catches apart for their careers, one ring each. Only Harrison is in the Hall of Fame.\nSOURCE: https://www.pro-football-reference.com/players/H/HarrMa00.htm\nSOURCE: https://www.pro-football-reference.com/players/W/WaynRe00.htm\n\nBLIND: Curtis Martin vs Edgerrin James | NFL RB | all\nSTAT: Rush yards per game | 83.9 | 82.7\nSTAT: Yards per carry | 4.0 | 4.0\nSTAT: Rushing TDs | 90 | 80\nSTAT: 1st-team All-Pro | 1 | 1\nSTAT: Pro Bowls | 5 | 4\nWHY: 1.2 rushing yards a game apart, the same yards per carry, one First-team All-Pro each.\nSOURCE: https://www.pro-football-reference.com/players/M/MartCu00.htm\nSOURCE: https://www.pro-football-reference.com/players/J/JameEd00.htm\n\nBLIND: Larry Bird vs Magic Johnson | NBA Player | all\nSTAT: MVPs | 3 | 3\nSTAT: All-NBA 1st Team | 9 | 9\nSTAT: All-Star selections | 12 | 12\nSTAT: Career PER | 23.5 | 24.1\nSTAT: Steals per game | 1.7 | 1.9\nWHY: Same MVPs, same All-NBA First Teams, same All-Star picks. Their career PER is 0.6 apart.\nSOURCE: https://www.basketball-reference.com/players/b/birdla01.html\nSOURCE: https://www.basketball-reference.com/players/j/johnsma02.html\n\nBLIND: Tim Duncan vs Shaquille O'Neal | NBA Player | all\nSTAT: Rebounds per game | 10.8 | 10.9\nSTAT: Blocks per game | 2.2 | 2.3\nSTAT: Finals MVPs | 3 | 3\nSTAT: All-Star selections | 15 | 15\nSTAT: All-NBA selections | 15 | 14\nWHY: A tenth of a rebound and a tenth of a block apart per game, tied on Finals MVPs and All-Star picks.\nSOURCE: https://www.basketball-reference.com/players/d/duncati01.html\nSOURCE: https://www.basketball-reference.com/players/o/onealsh01.html\n\nBLIND: Kareem Abdul-Jabbar vs Shaquille O'Neal | NBA Player | all\nSTAT: Points per game | 24.6 | 23.7\nSTAT: Rebounds per game | 11.2 | 10.9\nSTAT: Blocks per game | 2.6 | 2.3\nSTAT: Field goal % | 55.9 | 58.2\nSTAT: Finals MVPs | 2 | 3\nWHY: Scoring, rebounding and blocks are each within a point a game. Shaq has the better field goal percentage and one more Finals MVP.\nSOURCE: https://www.basketball-reference.com/players/a/abdulka01.html\nSOURCE: https://www.basketball-reference.com/players/o/onealsh01.html\n\nBLIND: Kobe Bryant vs Tim Duncan | NBA Player | all\nSTAT: Championships | 5 | 5\nSTAT: All-NBA 1st Team | 11 | 10\nSTAT: Finals MVPs | 2 | 3\nSTAT: All-Defensive teams | 12 | 15\nSTAT: All-Star selections | 18 | 15\nWHY: Five rings each, one apart on All-NBA First Teams and Finals MVPs.\nSOURCE: https://www.basketball-reference.com/players/b/bryanko01.html\nSOURCE: https://www.basketball-reference.com/players/d/duncati01.html\n\nBLIND: Hakeem Olajuwon vs David Robinson | NBA Player | all\nSTAT: Points per game | 21.8 | 21.1\nSTAT: Rebounds per game | 11.1 | 10.6\nSTAT: Blocks per game | 3.1 | 3.0\nSTAT: MVPs | 1 | 1\nSTAT: Championships | 2 | 2\nWHY: Within a point, half a rebound and a tenth of a block per game, with the same MVPs and the same rings.\nSOURCE: https://www.basketball-reference.com/players/o/olajuha01.html\nSOURCE: https://www.basketball-reference.com/players/r/robinda01.html\n\nBLIND: Willie Mays vs Hank Aaron | MLB Hitter | all\nSTAT: Home runs | 660 | 755\nSTAT: Hits | 3,293 | 3,771\nSTAT: Batting average | .301 | .305\nSTAT: OPS+ | 155 | 155\nSTAT: WAR (Baseball-Ref) | 156.2 | 143.2\nWHY: Identical career OPS+, batting averages four points apart, and Mays, with 95 fewer home runs, has 13 more WAR than Aaron.\nSOURCE: https://www.baseball-reference.com/players/m/mayswi01.shtml\nSOURCE: https://www.baseball-reference.com/players/a/aaronha01.shtml\n\nBLIND: Barry Bonds vs Babe Ruth | MLB Hitter | all\nSTAT: Home runs | 762 | 714\nSTAT: On-base % | .444 | .474\nSTAT: OPS+ | 182 | 206\nSTAT: Batting WAR | 162.8 | 162.3\nSTAT: MVPs | 7 | 1\nWHY: Their WAR as hitters is half a win apart over entire careers.\nSOURCE: https://www.baseball-reference.com/players/b/bondsba01.shtml\nSOURCE: https://www.baseball-reference.com/players/r/ruthba01.shtml\n\nBLIND: Mickey Mantle vs Jimmie Foxx | MLB Hitter | all\nSTAT: Home runs | 536 | 534\nSTAT: Batting average | .298 | .325\nSTAT: OPS+ | 172 | 163\nSTAT: MVPs | 3 | 3\nSTAT: WAR (Baseball-Ref) | 110.3 | 92.7\nWHY: Two home runs apart for a career, three MVPs each.\nSOURCE: https://www.baseball-reference.com/players/m/mantlmi01.shtml\nSOURCE: https://www.baseball-reference.com/players/f/foxxji01.shtml\n\nBLIND: Randy Johnson vs Greg Maddux | MLB Pitcher | all\nSTAT: Wins | 303 | 355\nSTAT: ERA | 3.29 | 3.16\nSTAT: ERA+ | 135 | 132\nSTAT: Cy Young awards | 5 | 4\nSTAT: WAR (Baseball-Ref) | 101.1 | 106.6\nWHY: ERA+ three points apart, ERA 0.13 apart, one Cy Young apart.\nSOURCE: https://www.baseball-reference.com/players/j/johnsra05.shtml\nSOURCE: https://www.baseball-reference.com/players/m/maddugr01.shtml\n\nBLIND: Nolan Ryan vs Randy Johnson | MLB Pitcher | all\nSTAT: Wins | 324 | 303\nSTAT: Strikeouts | 5,714 | 4,875\nSTAT: ERA | 3.19 | 3.29\nSTAT: ERA+ | 112 | 135\nSTAT: Cy Young awards | 0 | 5\nWHY: Ryan has more wins, more strikeouts and the lower ERA, and never won a Cy Young. Johnson won five.\nSOURCE: https://www.baseball-reference.com/players/r/ryanno01.shtml\nSOURCE: https://www.baseball-reference.com/players/j/johnsra05.shtml\n\nBLIND: Sandy Koufax vs Johan Santana | MLB Pitcher | all\nSTAT: Wins | 165 | 139\nSTAT: ERA | 2.76 | 3.20\nSTAT: ERA+ | 131 | 136\nSTAT: Cy Young awards | 3 | 2\nSTAT: WAR (Baseball-Ref) | 48.9 | 51.7\nWHY: Koufax trails Santana on ERA+ and WAR, and leads by one Cy Young.\nSOURCE: https://www.baseball-reference.com/players/k/koufasa01.shtml\nSOURCE: https://www.baseball-reference.com/players/s/santajo02.shtml\n\n# ---------- Matchups ----------\nMATCHUP: Michael Jordan vs LeBron James | NBA Player\nMATCHUP: Patrick Mahomes vs Josh Allen | NFL QB\nMATCHUP: Tom Brady vs Patrick Mahomes | NFL QB\nMATCHUP: Lionel Messi vs Cristiano Ronaldo | Soccer Forward\nMATCHUP: Shohei Ohtani vs Aaron Judge | MLB Hitter\n\n# NFL quarterbacks\nPLAYER: Patrick Mahomes | NFL | QB | active\nPLAYER: Josh Allen | NFL | QB | active | wiki: Josh Allen (quarterback)\nPLAYER: Lamar Jackson | NFL | QB | active\nPLAYER: Joe Burrow | NFL | QB | active\nPLAYER: Jalen Hurts | NFL | QB | active\nPLAYER: Jayden Daniels | NFL | QB | active\nPLAYER: C.J. Stroud | NFL | QB | active\nPLAYER: Justin Herbert | NFL | QB | active\nPLAYER: Tom Brady | NFL | QB | all-time\nPLAYER: Peyton Manning | NFL | QB | all-time\nPLAYER: Joe Montana | NFL | QB | all-time\nPLAYER: Dan Marino | NFL | QB | all-time\nPLAYER: John Elway | NFL | QB | all-time\nPLAYER: Brett Favre | NFL | QB | all-time\n\n# NFL running backs\nPLAYER: Saquon Barkley | NFL | RB | active\nPLAYER: Bijan Robinson | NFL | RB | active\nPLAYER: Jahmyr Gibbs | NFL | RB | active\nPLAYER: Christian McCaffrey | NFL | RB | active\nPLAYER: De'Von Achane | NFL | RB | active\nPLAYER: Barry Sanders | NFL | RB | all-time\nPLAYER: Walter Payton | NFL | RB | all-time\nPLAYER: Emmitt Smith | NFL | RB | all-time\nPLAYER: Jim Brown | NFL | RB | all-time\nPLAYER: LaDainian Tomlinson | NFL | RB | all-time\nPLAYER: Adrian Peterson | NFL | RB | all-time\n\n# NFL receivers\nPLAYER: Justin Jefferson | NFL | WR | active\nPLAYER: Ja'Marr Chase | NFL | WR | active\nPLAYER: CeeDee Lamb | NFL | WR | active\nPLAYER: Puka Nacua | NFL | WR | active\nPLAYER: Amon-Ra St. Brown | NFL | WR | active\nPLAYER: Malik Nabers | NFL | WR | active\nPLAYER: Jerry Rice | NFL | WR | all-time\nPLAYER: Randy Moss | NFL | WR | all-time\nPLAYER: Calvin Johnson | NFL | WR | all-time\nPLAYER: Terrell Owens | NFL | WR | all-time\nPLAYER: Larry Fitzgerald | NFL | WR | all-time\n\n# NBA\nPLAYER: Nikola Jokic | NBA | Player | active\nPLAYER: Shai Gilgeous-Alexander | NBA | Player | active\nPLAYER: Giannis Antetokounmpo | NBA | Player | active\nPLAYER: Luka Doncic | NBA | Player | active\nPLAYER: Victor Wembanyama | NBA | Player | active\nPLAYER: Anthony Edwards | NBA | Player | active | wiki: Anthony Edwards (basketball)\nPLAYER: Jayson Tatum | NBA | Player | active\nPLAYER: LeBron James | NBA | Player | all-time\nPLAYER: Michael Jordan | NBA | Player | all-time\nPLAYER: Kobe Bryant | NBA | Player | all-time\nPLAYER: Magic Johnson | NBA | Player | all-time\nPLAYER: Larry Bird | NBA | Player | all-time\nPLAYER: Kareem Abdul-Jabbar | NBA | Player | all-time\nPLAYER: Shaquille O'Neal | NBA | Player | all-time\nPLAYER: Tim Duncan | NBA | Player | all-time\n\n# MLB hitters\nPLAYER: Shohei Ohtani | MLB | Hitter | active\nPLAYER: Aaron Judge | MLB | Hitter | active\nPLAYER: Juan Soto | MLB | Hitter | active\nPLAYER: Bobby Witt Jr. | MLB | Hitter | active\nPLAYER: Mookie Betts | MLB | Hitter | active\nPLAYER: Ronald Acuna Jr. | MLB | Hitter | active\nPLAYER: Babe Ruth | MLB | Hitter | all-time\nPLAYER: Willie Mays | MLB | Hitter | all-time\nPLAYER: Hank Aaron | MLB | Hitter | all-time\nPLAYER: Ken Griffey Jr. | MLB | Hitter | all-time\nPLAYER: Barry Bonds | MLB | Hitter | all-time\nPLAYER: Mickey Mantle | MLB | Hitter | all-time\n\n# MLB pitchers\nPLAYER: Tarik Skubal | MLB | Pitcher | active\nPLAYER: Paul Skenes | MLB | Pitcher | active\nPLAYER: Zack Wheeler | MLB | Pitcher | active\nPLAYER: Blake Snell | MLB | Pitcher | active\nPLAYER: Sandy Koufax | MLB | Pitcher | all-time\nPLAYER: Pedro Martinez | MLB | Pitcher | all-time\nPLAYER: Randy Johnson | MLB | Pitcher | all-time\nPLAYER: Greg Maddux | MLB | Pitcher | all-time\nPLAYER: Nolan Ryan | MLB | Pitcher | all-time\n\n# Soccer\nPLAYER: Erling Haaland | Soccer | Forward | active\nPLAYER: Kylian Mbappe | Soccer | Forward | active\nPLAYER: Lamine Yamal | Soccer | Forward | active\nPLAYER: Lionel Messi | Soccer | Forward | active\nPLAYER: Cristiano Ronaldo | Soccer | Forward | active\nPLAYER: Pele | Soccer | Forward | all-time\nPLAYER: Diego Maradona | Soccer | Forward | all-time\nPLAYER: Ronaldo Nazario | Soccer | Forward | all-time | wiki: Ronaldo (Brazilian footballer)\nPLAYER: Thierry Henry | Soccer | Forward | all-time\nPLAYER: Johan Cruyff | Soccer | Forward | all-time\nPLAYER: Hakeem Olajuwon | NBA | Player | all-time\nPLAYER: David Robinson | NBA | Player | all-time | wiki: David Robinson (basketball)\nPLAYER: Jimmie Foxx | MLB | Hitter | all-time\nPLAYER: Johan Santana | MLB | Pitcher | all-time\nPLAYER: Marvin Harrison | NFL | WR | all-time | wiki: Marvin Harrison Sr.\nPLAYER: Reggie Wayne | NFL | WR | all-time\nPLAYER: Curtis Martin | NFL | RB | all-time\nPLAYER: Edgerrin James | NFL | RB | all-time\n";
 const slug=s=>String(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
 const shortN=n=>{const p=String(n).replace(/\s+(Jr\.?|Sr\.?|II|III)$/i,"").split(/\s+/);return p.length>1?p.slice(1).join(" "):n};
 
 function parseWB(text){
-  const players={},groups={},matchups=[];
+  const players={},groups={},matchups=[],blinds=[];
   String(text).split(/\r?\n/).forEach(raw=>{
     const line=raw.trim();if(!line||line.startsWith("#"))return;let m;
+    if((m=line.match(/^BLIND:\s*(.+)$/i))){
+      const segs=m[1].split("|").map(s=>s.trim()),vs=segs[0].split(/\s+vs\.?\s+/i);if(vs.length!==2)return;
+      const [lg,...ps]=(segs[1]||"").split(/\s+/);
+      blinds.push({vsNames:vs,lg:lg||"",pos:ps.join(" "),q:/now/i.test(segs[2]||"")?"now":"all",stats:[],why:"",src:[]});return;
+    }
+    if((m=line.match(/^STAT:\s*(.+)$/i))){const b=blinds[blinds.length-1],[l,x,y]=m[1].split("|").map(s=>s.trim());if(b&&l&&x&&y)b.stats.push([l,x,y]);return}
+    if((m=line.match(/^WHY:\s*(.+)$/i))){const b=blinds[blinds.length-1];if(b)b.why=m[1].trim();return}
+    if((m=line.match(/^SOURCE:\s*(\S+)/i))){const b=blinds[blinds.length-1];if(b&&/^https:\/\//.test(m[1]))b.src.push(m[1]);return}
     if((m=line.match(/^PLAYER:\s*(.+)$/i))){
       const [name,league,pos,status,...extra]=m[1].split("|").map(s=>s.trim());if(!name||!league)return;
       const p={name,slug:slug(name),league,pos:pos||"",active:!/all[\s-]*time|retired/i.test(status||"")};
@@ -2272,14 +2298,25 @@ function parseWB(text){
   // Resolve matchups after every PLAYER line is read, wherever it sits in the file.
   const ready=matchups.map(x=>{const a=x.mk(x.vsNames[0]),b=x.mk(x.vsNames[1]);
     return {id:[a.slug,b.slug].sort().join("__"),a,b,league:x.lg||a.league,pos:x.pos||a.pos,takes:x.takes}}).filter(x=>x.a.slug&&x.b.slug&&x.a.slug!==x.b.slug);
-  return {players,groups,groupKeys:Object.keys(groups).filter(k=>groups[k].length>1),matchups:ready};
+  const mkP=(n,lg,pos)=>players[slug(n)]||{name:n.trim(),slug:slug(n),league:lg,pos,active:false};
+  const blind=blinds.filter(x=>x.stats.length>=3).map(x=>{const a=mkP(x.vsNames[0],x.lg,x.pos),b=mkP(x.vsNames[1],x.lg,x.pos);
+    const [s1,s2]=[a.slug,b.slug].sort();
+    return {id:`bl-${s1}__bl-${s2}`,blind:true,a,b,league:x.lg||a.league,pos:x.pos||a.pos,q:x.q,stats:x.stats,why:x.why,src:x.src,takes:{}}}).filter(x=>x.a.slug!==x.b.slug);
+  // Rotate leagues so the blind résumés alternate sports.
+  const byLg={};blind.forEach(x=>(byLg[x.league]=byLg[x.league]||[]).push(x));
+  const lgs=Object.keys(byLg);blind.length=0;
+  for(let i=0;lgs.some(l=>byLg[l][i]);i++)lgs.forEach(l=>{if(byLg[l][i])blind.push(byLg[l][i])});
+  // Blind résumés lead, then every third card: blind, hand-picked, hand-picked, blind...
+  const mixed=[];let bi=0,ci=0;
+  while(bi<blind.length||ci<ready.length){if(bi<blind.length)mixed.push(blind[bi++]);for(let k=0;k<2&&ci<ready.length;k++)mixed.push(ready[ci++])}
+  return {players,groups,groupKeys:Object.keys(groups).filter(k=>groups[k].length>1),matchups:mixed};
 }
 
 const WB={data:parseWB(WB_FALLBACK),cur:0,shown:new Set(),num:0,started:false,byId:{},cnt:{}};
 const wbLoad=()=>{try{return JSON.parse(localStorage.getItem("tws-wb")||"{}")||{}}catch(e){return {}}};
 let WBV=wbLoad();
 const wbSave=()=>{try{localStorage.setItem("tws-wb",JSON.stringify(WBV))}catch(e){}};
-const wbQs=m=>m.a.active&&m.b.active?[["now","Right now"],["all","All time"]]:[["all","All time"]];
+const wbQs=m=>m.blind?[[m.q,m.q==="now"?"Right now":"All time"]]:m.a.active&&m.b.active?[["now","Right now"],["all","All time"]]:[["all","All time"]];
 const wbDone=m=>{const v=WBV[m.id];return !!v&&wbQs(m).every(([q])=>v[q])};
 
 function wbNext(n){
@@ -2342,6 +2379,7 @@ async function wbPhFetch(){
 }
 function wbPhApply(root){
   root.querySelectorAll(".wb-card").forEach(card=>{
+    if(card.classList.contains("wb-blind")&&!card.classList.contains("revealed"))return;
     const credits=[];
     card.querySelectorAll(".wb-ph").forEach(fig=>{
       const ph=WB_PH[fig.dataset.slug],box=fig.querySelector(".wb-img");
@@ -2353,7 +2391,34 @@ function wbPhApply(root){
   });
 }
 
+function wbBlindCard(m){
+  const flip=Math.random()<.5,L=flip?m.b:m.a,Rp=flip?m.a:m.b,col=flip?[2,1]:[1,2];
+  wbWant(m.a);wbWant(m.b);
+  const face=(p,side)=>`<figure class="wb-ph" data-slug="${p.slug}" data-short="${esc(shortN(p.name))}"><div class="wb-img"><span class="wb-ini" aria-hidden="true">${esc(initials(p.name))}</span></div><figcaption>${esc(p.name)}</figcaption></figure>`;
+  const opt=(p,label)=>`<button class="wb-opt" type="button" data-pick="bl-${p.slug}" data-name="${esc(shortN(p.name))}"><span class="fill"></span><span class="nm"><span class="mk">${label}</span></span><span class="pc"></span></button>`;
+  const host=(()=>{try{return new URL(m.src[0]).hostname.replace(/^www\./,"")}catch(e){return ""}})();
+  return `<article class="wb-card wb-blind" data-id="${m.id}">
+    <div class="wb-top"><span class="eyebrow">Blind résumé · ${esc([m.league,m.pos].filter(Boolean).join(" · "))}</span><span class="eyebrow">No. ${++WB.num}</span></div>
+    <h3 class="bl-ask">${m.q==="now"?"Who's better right now?":"Whose career would you take?"} <span>Names show after you pick.</span></h3>
+    <table class="bl-t"><thead><tr><th scope="col"><span class="sr">Stat</span></th><th scope="col" class="bl-n" data-real="${esc(L.name)}">Player A</th><th scope="col" class="bl-n" data-real="${esc(Rp.name)}">Player B</th></tr></thead>
+      <tbody>${m.stats.map(st=>`<tr><th scope="row">${esc(st[0])}</th><td>${esc(st[col[0]])}</td><td>${esc(st[col[1]])}</td></tr>`).join("")}</tbody></table>
+    <div class="wb-face bl-faces" hidden>${face(L)}<span class="wb-vs">vs</span>${face(Rp)}</div>
+    <div class="wb-q" data-q="${m.q}"><div class="wb-opts">${opt(L,"Player A")}${opt(Rp,"Player B")}</div><span class="wb-meta"></span></div>
+    <p class="bl-why" hidden>${esc(m.why)}</p>
+    <p class="bl-src" hidden>${m.src.length?`Stats: <a href="${esc(m.src[0])}" target="_blank" rel="noopener">${esc(host)}</a>${m.src[1]?` and <a href="${esc(m.src[1])}" target="_blank" rel="noopener">${esc((()=>{try{return new URL(m.src[1]).hostname.replace(/^www\./,"")}catch(e){return ""}})())}</a>`:""}`:""}</p>
+    <p class="wb-credit"></p>
+  </article>`;
+}
+function blindReveal(card){
+  if(card.classList.contains("revealed"))return;
+  card.classList.add("revealed");
+  card.querySelectorAll(".bl-n").forEach(th=>{th.textContent=th.dataset.real});
+  card.querySelectorAll(".wb-opt").forEach(b=>{b.querySelector(".mk").textContent=b.dataset.name});
+  card.querySelector(".bl-faces").hidden=false;card.querySelector(".bl-why").hidden=!card.querySelector(".bl-why").textContent;card.querySelector(".bl-src").hidden=false;
+  wbPhApply(card.parentElement||document);
+}
 function wbCard(m){
+  if(m.blind)return wbBlindCard(m);
   const A0=shortN(m.a.name),B0=shortN(m.b.name),[A,B]=A0===B0?[m.a.name,m.b.name]:[A0,B0];
   wbWant(m.a);wbWant(m.b);
   const face=(p,label)=>`<figure class="wb-ph" data-slug="${p.slug}" data-short="${esc(label)}"><div class="wb-img"><span class="wb-ini" aria-hidden="true">${esc(initials(p.name))}</span></div><figcaption>${esc(p.name)}</figcaption></figure>`;
@@ -2371,6 +2436,7 @@ function wbCard(m){
 
 function wbShow(card,q,c){
   const qEl=card.querySelector(`.wb-q[data-q="${q}"]`);if(!qEl)return;
+  if(card.classList.contains("wb-blind"))blindReveal(card);
   const id=card.dataset.id,mine=WBV[id]?.[q],opts=[...qEl.querySelectorAll(".wb-opt")];
   const total=c?opts.reduce((s,b)=>s+(c[b.dataset.pick]||0),0):0;
   opts.forEach(b=>{
@@ -2386,7 +2452,7 @@ function wbShow(card,q,c){
   card.querySelector(".wb-room")?.removeAttribute("hidden");
   if(!card.querySelector(".wb-share"))card.querySelector(".wb-credit").insertAdjacentHTML("beforebegin",`<div><button class="share wb-share" type="button">Share result</button></div>`);
   const picked=new Set(Object.values(WBV[id]||{}));
-  card.querySelectorAll(".wb-ph").forEach(f=>f.classList.toggle("picked",picked.has(f.dataset.slug)));
+  card.querySelectorAll(".wb-ph").forEach(f=>f.classList.toggle("picked",picked.has(f.dataset.slug)||picked.has("bl-"+f.dataset.slug)));
   drawMarks(qEl,true);
 }
 
@@ -2427,7 +2493,7 @@ function startWB(){
   wbTally();
   if(WB.started){drawMarks($("#wbFeed"),false);return}
   WB.started=true;
-  loadTrending().finally(()=>{
+  Promise.race([WB.ready||Promise.resolve(),sleep(1500)]).then(()=>loadTrending()).catch(()=>{}).finally(()=>{
     wbAdd(6);
     if("IntersectionObserver" in window){
       $("#wbMore").hidden=true;
@@ -2435,7 +2501,7 @@ function startWB(){
     }
   });
 }
-fetch("whobetter.txt",{cache:"no-store"}).then(r=>r.ok?r.text():Promise.reject()).then(t=>{if(/PLAYER:/i.test(t)&&!WB.started)WB.data=parseWB(t)}).catch(()=>{});
+WB.ready=fetch("whobetter.txt",{cache:"no-store"}).then(r=>r.ok?r.text():Promise.reject()).then(t=>{if(/PLAYER:/i.test(t)&&!$("#wbFeed").children.length)WB.data=parseWB(t)}).catch(()=>{});
 
 fetch("picks.txt",{cache:"no-store"}).then(r=>r.ok?r.text():Promise.reject()).then(t=>{if(/WEEK\s/i.test(t)){PICKS=parsePicks(t);SHEET=null;renderPicks();if(view==="home")renderHome();if(view==="about")renderAbout()}}).catch(()=>{});
 

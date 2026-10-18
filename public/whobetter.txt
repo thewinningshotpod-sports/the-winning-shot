@@ -8,6 +8,16 @@
 # The takes after the league are optional. Leave them off and the card just shows the vote.
 # Use the same spelling as the PLAYER lines below so votes stay together.
 #
+#
+# BLIND RÉSUMÉS: two players' real numbers, no names. Fans vote on the stats alone,
+# then the names flip in. They lead the feed and show up every third card.
+# Use them for pairs that are closer than people think. Every number must come from a real source.
+# Format (3 to 6 STAT lines; the first value is the first player's):
+#   BLIND: Player A vs Player B | League Position | all      (or "now" for active players)
+#   STAT: Career PPG | 24.6 | 23.7
+#   WHY: One line shown after the vote.
+#   SOURCE: https://www.basketball-reference.com/...
+#
 # PLAYERS feed the endless feed. After your matchups run out, the site pairs players
 # from the same league and position at random, forever.
 # Format:
@@ -24,6 +34,189 @@
 # Or use your own photo (one you took or have the rights to):
 #   PLAYER: Josh Allen | NFL | QB | active | photo: https://yoursite.com/photos/allen.jpg
 
+# ---------- Blind résumés (stats from Pro-Football-Reference, Basketball-Reference and Baseball-Reference, checked Oct 18, 2026) ----------
+
+BLIND: Randy Moss vs Terrell Owens | NFL WR | all
+STAT: Receiving yards | 15,292 | 15,934
+STAT: Receiving TDs | 156 | 153
+STAT: Yards per game | 70.1 | 72.7
+STAT: Pro Bowls | 6 | 6
+STAT: 1st-team All-Pro | 4 | 5
+WHY: 642 yards and three touchdowns apart for a career, tied on Pro Bowls, and Owens has one more First-team All-Pro than Moss.
+SOURCE: https://www.pro-football-reference.com/players/M/MossRa00.htm
+SOURCE: https://www.pro-football-reference.com/players/O/OwenTe00.htm
+
+BLIND: Barry Sanders vs Adrian Peterson | NFL RB | all
+STAT: Rushing yards | 15,269 | 14,918
+STAT: Rushing TDs | 99 | 120
+STAT: Best season | 2,053 | 2,097
+STAT: Yards per carry | 5.0 | 4.6
+STAT: MVPs | 1 | 1
+WHY: 351 career rushing yards apart, one MVP each, and Peterson had the bigger single season.
+SOURCE: https://www.pro-football-reference.com/players/S/SandBa00.htm
+SOURCE: https://www.pro-football-reference.com/players/P/PeteAd01.htm
+
+BLIND: Calvin Johnson vs Larry Fitzgerald | NFL WR | all
+STAT: Catches per game | 5.4 | 5.4
+STAT: Yards per game | 86.1 | 66.5
+STAT: Best season, yards | 1,964 | 1,431
+STAT: Receiving TDs | 83 | 121
+STAT: Pro Bowls | 6 | 11
+WHY: Per game they caught exactly as many passes. Johnson played 135 games, Fitzgerald 263.
+SOURCE: https://www.pro-football-reference.com/players/J/JohnCa00.htm
+SOURCE: https://www.pro-football-reference.com/players/F/FitzLa00.htm
+
+BLIND: Dan Marino vs Brett Favre | NFL QB | all
+STAT: Passer rating | 86.4 | 86.0
+STAT: 1st-team All-Pro | 3 | 3
+STAT: Win % as starter | .613 | .624
+STAT: Pass yards per game | 253.6 | 237.9
+STAT: Super Bowl wins | 0 | 1
+WHY: Passer ratings 0.4 apart, the same First-team All-Pros, and Marino, without a ring, threw for more yards per game.
+SOURCE: https://www.pro-football-reference.com/players/M/MariDa00.htm
+SOURCE: https://www.pro-football-reference.com/players/F/FavrBr00.htm
+
+BLIND: LaDainian Tomlinson vs Emmitt Smith | NFL RB | all
+STAT: Rush yards per game | 80.5 | 81.2
+STAT: Yards per carry | 4.3 | 4.2
+STAT: Scrimmage yds/game | 108.6 | 95.5
+STAT: MVPs | 1 | 1
+STAT: Super Bowl wins | 0 | 3
+WHY: Less than a yard a game apart on the ground, one MVP each, and Emmitt Smith, the all-time rushing leader, has fewer scrimmage yards per game than Tomlinson.
+SOURCE: https://www.pro-football-reference.com/players/T/TomlLa00.htm
+SOURCE: https://www.pro-football-reference.com/players/S/SmitEm00.htm
+
+BLIND: Marvin Harrison vs Reggie Wayne | NFL WR | all
+STAT: Receptions | 1,102 | 1,070
+STAT: Receiving yards | 14,580 | 14,345
+STAT: Yards per catch | 13.2 | 13.4
+STAT: Super Bowl wins | 1 | 1
+STAT: Receiving TDs | 128 | 82
+WHY: 235 yards and 32 catches apart for their careers, one ring each. Only Harrison is in the Hall of Fame.
+SOURCE: https://www.pro-football-reference.com/players/H/HarrMa00.htm
+SOURCE: https://www.pro-football-reference.com/players/W/WaynRe00.htm
+
+BLIND: Curtis Martin vs Edgerrin James | NFL RB | all
+STAT: Rush yards per game | 83.9 | 82.7
+STAT: Yards per carry | 4.0 | 4.0
+STAT: Rushing TDs | 90 | 80
+STAT: 1st-team All-Pro | 1 | 1
+STAT: Pro Bowls | 5 | 4
+WHY: 1.2 rushing yards a game apart, the same yards per carry, one First-team All-Pro each.
+SOURCE: https://www.pro-football-reference.com/players/M/MartCu00.htm
+SOURCE: https://www.pro-football-reference.com/players/J/JameEd00.htm
+
+BLIND: Larry Bird vs Magic Johnson | NBA Player | all
+STAT: MVPs | 3 | 3
+STAT: All-NBA 1st Team | 9 | 9
+STAT: All-Star selections | 12 | 12
+STAT: Career PER | 23.5 | 24.1
+STAT: Steals per game | 1.7 | 1.9
+WHY: Same MVPs, same All-NBA First Teams, same All-Star picks. Their career PER is 0.6 apart.
+SOURCE: https://www.basketball-reference.com/players/b/birdla01.html
+SOURCE: https://www.basketball-reference.com/players/j/johnsma02.html
+
+BLIND: Tim Duncan vs Shaquille O'Neal | NBA Player | all
+STAT: Rebounds per game | 10.8 | 10.9
+STAT: Blocks per game | 2.2 | 2.3
+STAT: Finals MVPs | 3 | 3
+STAT: All-Star selections | 15 | 15
+STAT: All-NBA selections | 15 | 14
+WHY: A tenth of a rebound and a tenth of a block apart per game, tied on Finals MVPs and All-Star picks.
+SOURCE: https://www.basketball-reference.com/players/d/duncati01.html
+SOURCE: https://www.basketball-reference.com/players/o/onealsh01.html
+
+BLIND: Kareem Abdul-Jabbar vs Shaquille O'Neal | NBA Player | all
+STAT: Points per game | 24.6 | 23.7
+STAT: Rebounds per game | 11.2 | 10.9
+STAT: Blocks per game | 2.6 | 2.3
+STAT: Field goal % | 55.9 | 58.2
+STAT: Finals MVPs | 2 | 3
+WHY: Scoring, rebounding and blocks are each within a point a game. Shaq has the better field goal percentage and one more Finals MVP.
+SOURCE: https://www.basketball-reference.com/players/a/abdulka01.html
+SOURCE: https://www.basketball-reference.com/players/o/onealsh01.html
+
+BLIND: Kobe Bryant vs Tim Duncan | NBA Player | all
+STAT: Championships | 5 | 5
+STAT: All-NBA 1st Team | 11 | 10
+STAT: Finals MVPs | 2 | 3
+STAT: All-Defensive teams | 12 | 15
+STAT: All-Star selections | 18 | 15
+WHY: Five rings each, one apart on All-NBA First Teams and Finals MVPs.
+SOURCE: https://www.basketball-reference.com/players/b/bryanko01.html
+SOURCE: https://www.basketball-reference.com/players/d/duncati01.html
+
+BLIND: Hakeem Olajuwon vs David Robinson | NBA Player | all
+STAT: Points per game | 21.8 | 21.1
+STAT: Rebounds per game | 11.1 | 10.6
+STAT: Blocks per game | 3.1 | 3.0
+STAT: MVPs | 1 | 1
+STAT: Championships | 2 | 2
+WHY: Within a point, half a rebound and a tenth of a block per game, with the same MVPs and the same rings.
+SOURCE: https://www.basketball-reference.com/players/o/olajuha01.html
+SOURCE: https://www.basketball-reference.com/players/r/robinda01.html
+
+BLIND: Willie Mays vs Hank Aaron | MLB Hitter | all
+STAT: Home runs | 660 | 755
+STAT: Hits | 3,293 | 3,771
+STAT: Batting average | .301 | .305
+STAT: OPS+ | 155 | 155
+STAT: WAR (Baseball-Ref) | 156.2 | 143.2
+WHY: Identical career OPS+, batting averages four points apart, and Mays, with 95 fewer home runs, has 13 more WAR than Aaron.
+SOURCE: https://www.baseball-reference.com/players/m/mayswi01.shtml
+SOURCE: https://www.baseball-reference.com/players/a/aaronha01.shtml
+
+BLIND: Barry Bonds vs Babe Ruth | MLB Hitter | all
+STAT: Home runs | 762 | 714
+STAT: On-base % | .444 | .474
+STAT: OPS+ | 182 | 206
+STAT: Batting WAR | 162.8 | 162.3
+STAT: MVPs | 7 | 1
+WHY: Their WAR as hitters is half a win apart over entire careers.
+SOURCE: https://www.baseball-reference.com/players/b/bondsba01.shtml
+SOURCE: https://www.baseball-reference.com/players/r/ruthba01.shtml
+
+BLIND: Mickey Mantle vs Jimmie Foxx | MLB Hitter | all
+STAT: Home runs | 536 | 534
+STAT: Batting average | .298 | .325
+STAT: OPS+ | 172 | 163
+STAT: MVPs | 3 | 3
+STAT: WAR (Baseball-Ref) | 110.3 | 92.7
+WHY: Two home runs apart for a career, three MVPs each.
+SOURCE: https://www.baseball-reference.com/players/m/mantlmi01.shtml
+SOURCE: https://www.baseball-reference.com/players/f/foxxji01.shtml
+
+BLIND: Randy Johnson vs Greg Maddux | MLB Pitcher | all
+STAT: Wins | 303 | 355
+STAT: ERA | 3.29 | 3.16
+STAT: ERA+ | 135 | 132
+STAT: Cy Young awards | 5 | 4
+STAT: WAR (Baseball-Ref) | 101.1 | 106.6
+WHY: ERA+ three points apart, ERA 0.13 apart, one Cy Young apart.
+SOURCE: https://www.baseball-reference.com/players/j/johnsra05.shtml
+SOURCE: https://www.baseball-reference.com/players/m/maddugr01.shtml
+
+BLIND: Nolan Ryan vs Randy Johnson | MLB Pitcher | all
+STAT: Wins | 324 | 303
+STAT: Strikeouts | 5,714 | 4,875
+STAT: ERA | 3.19 | 3.29
+STAT: ERA+ | 112 | 135
+STAT: Cy Young awards | 0 | 5
+WHY: Ryan has more wins, more strikeouts and the lower ERA, and never won a Cy Young. Johnson won five.
+SOURCE: https://www.baseball-reference.com/players/r/ryanno01.shtml
+SOURCE: https://www.baseball-reference.com/players/j/johnsra05.shtml
+
+BLIND: Sandy Koufax vs Johan Santana | MLB Pitcher | all
+STAT: Wins | 165 | 139
+STAT: ERA | 2.76 | 3.20
+STAT: ERA+ | 131 | 136
+STAT: Cy Young awards | 3 | 2
+STAT: WAR (Baseball-Ref) | 48.9 | 51.7
+WHY: Koufax trails Santana on ERA+ and WAR, and leads by one Cy Young.
+SOURCE: https://www.baseball-reference.com/players/k/koufasa01.shtml
+SOURCE: https://www.baseball-reference.com/players/s/santajo02.shtml
+
+# ---------- Matchups ----------
 MATCHUP: Michael Jordan vs LeBron James | NBA Player
 MATCHUP: Patrick Mahomes vs Josh Allen | NFL QB
 MATCHUP: Tom Brady vs Patrick Mahomes | NFL QB
@@ -125,3 +318,11 @@ PLAYER: Diego Maradona | Soccer | Forward | all-time
 PLAYER: Ronaldo Nazario | Soccer | Forward | all-time | wiki: Ronaldo (Brazilian footballer)
 PLAYER: Thierry Henry | Soccer | Forward | all-time
 PLAYER: Johan Cruyff | Soccer | Forward | all-time
+PLAYER: Hakeem Olajuwon | NBA | Player | all-time
+PLAYER: David Robinson | NBA | Player | all-time | wiki: David Robinson (basketball)
+PLAYER: Jimmie Foxx | MLB | Hitter | all-time
+PLAYER: Johan Santana | MLB | Pitcher | all-time
+PLAYER: Marvin Harrison | NFL | WR | all-time | wiki: Marvin Harrison Sr.
+PLAYER: Reggie Wayne | NFL | WR | all-time
+PLAYER: Curtis Martin | NFL | RB | all-time
+PLAYER: Edgerrin James | NFL | RB | all-time
