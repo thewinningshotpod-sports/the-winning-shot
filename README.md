@@ -116,7 +116,9 @@ an empty file hides the strip.
 | Kickoff weather on outdoor games | Open-Meteo | none |
 | Trending Who Better? matchups | Sleeper (most-added players, last 48 hours) + Wikipedia photos | none |
 | Push alerts: picks lock, Grading Night, weekly result | Browser web push (keys made automatically) | none |
-| Newsletter sign-ups and a Grading Night draft | Buttondown | `BUTTONDOWN_API_KEY` (until set, sign-ups go to Netlify Forms) |
+| Newsletter sign-ups | Substack (thewinningshot.substack.com): the form subscribes straight to Substack | none |
+| Substack posts on Stories and the homepage | Substack's public RSS feed (`/api/substack`) | none |
+| Optional Grading Night draft email | Buttondown | `BUTTONDOWN_API_KEY` (only if you ever move off Substack) |
 | LIVE NOW banner and real view counts | YouTube Data API | `YOUTUBE_API_KEY` (optional) |
 | "Hear the pick" links | Chapter timestamps in episode descriptions | none |
 
