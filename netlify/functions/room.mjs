@@ -47,7 +47,7 @@ async function allPlayers(store) {
   const list = [];
   for (let i = 0; i < keys.length; i += 50) {
     const got = await Promise.all(keys.slice(i, i + 50).map((k) => store.get(k, { type: "json" }).catch(() => null)));
-    got.forEach((p, j) => { if (p && p.nick) list.push({ pid: keys[i + j].slice(2), nick: p.nick, picks: p.picks || {}, leagues: p.leagues || [] }); });
+    got.forEach((p, j) => { if (p && p.nick) list.push({ pid: keys[i + j].slice(2), nick: p.nick, picks: p.picks || {}, leagues: p.leagues || [], ref: p.ref || null }); });
   }
   playersCache = { at: Date.now(), list };
   return list;
@@ -73,7 +73,15 @@ export default async (req) => {
         const l = await store.get(`l/${c}`, { type: "json" });
         return l ? { code: c, name: l.name } : null;
       }))).filter(Boolean) : [];
-      return json(p ? { nick: p.nick, picks: p.picks || {}, leagues } : { nick: null, picks: {}, leagues: [] });
+      let refs = 0;
+      if (p) { const mk = cleanNick(p.nick).key; refs = (await allPlayers(store)).filter((x) => x.ref === mk).length; }
+      return json(p ? { nick: p.nick, picks: p.picks || {}, leagues, refs, refKey: cleanNick(p.nick).key } : { nick: null, picks: {}, leagues: [], refs: 0 });
+    }
+    // Who has brought in 3 or more friends (their name gets read on Grading Night).
+    if (url.searchParams.get("refs") != null) {
+      const players = await allPlayers(store), byKey = new Map(players.map((x) => [cleanNick(x.nick).key, x.nick])), n = {};
+      players.forEach((x) => { if (x.ref) n[x.ref] = (n[x.ref] || 0) + 1; });
+      return json({ earned: Object.entries(n).filter(([, c]) => c >= 3).map(([k, c]) => ({ nick: byKey.get(k) || k, friends: c })).sort((a, b) => b.friends - a.friends) }, 200, PUBLIC);
     }
     const league = (url.searchParams.get("league") || "").toUpperCase();
     try {
@@ -109,7 +117,13 @@ export default async (req) => {
       if (oldKey && oldKey !== n.key) await store.delete(`n/${oldKey}`);
     }
     await store.setJSON(`n/${n.key}`, { pid });
+    const isNew = !p;
     p = { ...(p || { th: hash(token), created: new Date().toISOString(), leagues: [], picks: {} }), nick: n.nick };
+    // A friend's invite link (?ref=name) is credited once, when the player is created.
+    if (isNew && body.ref) {
+      const rk = String(body.ref).toLowerCase().replace(/[^a-z0-9]/g, "").slice(0, 18);
+      if (rk && rk !== n.key && (await store.get(`n/${rk}`))) p.ref = rk;
+    }
     await store.setJSON(`p/${pid}`, p);
     playersCache.at = 0;
     return json({ nick: p.nick });

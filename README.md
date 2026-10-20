@@ -128,3 +128,11 @@ Any chapter that names a team (nickname, city or code) links that week's game on
 **Alerts on iPhone:** visitors add the site to their Home Screen first (Share → Add to Home Screen), then turn alerts on from there.
 
 The newsletter draft is never sent automatically. It lands in Buttondown as a draft on Grading Night for the hosts to review, add the week's card image, and send.
+
+## The Daily, streaks, the record, referrals
+
+- **The Daily** (homepage): one blind résumé a day, the same for everyone, rotating through the `BLIND:` blocks in whobetter.txt (Daily No. 1 = Oct 20, 2026). Add blocks to keep it fresh; with 18 it repeats every 18 days. Fans get a daily streak (one missed day forgiven per week) and a spoiler-free result to paste in the group chat.
+- **Picks streak** (Beat the Room): weeks in a row with at least one pick; one missed week forgiven.
+- **The record** (Sheet page): every graded pick since Week 4 — overall, going alone, with the favorite or the underdog, and with or against any team — plus auto-written receipts.
+- **Referrals**: every player gets a personal link (`?ref=name`). Three friends who join with it = their name read on Grading Night. The Grading Night screen lists who earned it; so does `/api/room?refs=1`.
+- **Grading Night live**: the countdown and the grading screen link to https://www.youtube.com/@thewinningshotpod/live during the live window (8:00 to 11:00 PM ET by default). Go live on YouTube at that time.
